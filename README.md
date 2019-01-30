@@ -43,22 +43,18 @@ composer install
 
 ## Getting Started
 
-Please follow the [installation procedure](#installation--usage) and then run the following:
+Please follow the installation procedure and then run the following:
 
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$apiInstance = new Swagger\Client\Api\HoldingsResourcesApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
-);
-$custid = "custid_example"; // string | EBSCO Customer ID
-$format = "format_example"; // string | Download format.
-$count = 56; // int | The maximum number of results to return in the response. Count can not exceed 5000.
-$offset = 56; // int | Page Offset
-$x_api_key = "x_api_key_example"; // string | Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.
+$apiInstance = new Swagger\Client\Api\HoldingsResourcesApi( new GuzzleHttp\Client() );
+$custid = "demo";
+$format = "kbart2";
+$count = 5;
+$offset = 1;
+$x_api_key = "your_key_goes_here";
 
 try {
     $result = $apiInstance->custidHoldingsGet($custid, $format, $count, $offset, $x_api_key);
@@ -66,7 +62,6 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling HoldingsResourcesApi->custidHoldingsGet: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ## Documentation for API Endpoints

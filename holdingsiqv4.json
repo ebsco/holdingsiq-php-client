@@ -1,0 +1,4462 @@
+{
+  "swagger":"2.0",
+  "info":{
+    "version":"1.0.0",
+    "title":"EBSCO HoldingsIQ",
+    "description":"The EBSCO HoldingsIQ service retrieves vendor, package and title related information in JSON format.  The information includes customer selected resources as reflected in the EBSCO Knowledge Base for both EBSCO managed and customer managed resources.",
+    "termsOfService":"",
+    "contact":{
+      "name":"the EBSCO API Team",
+      "url":"http://support.ebsco.com",
+      "email":"support@ebsco.com"
+    },
+    "license":{
+      "name":"Copyright EBSCO",
+      "url":"https://www.ebsco.com/terms-of-use"
+    }
+  },
+  "host":"sandbox.ebsco.io",
+  "basePath":"/rm/rmaccounts",
+  "tags":[
+    {
+      "name":"Vendor Resources"
+    },
+    {
+      "name":"Package Resources"
+    },
+    {
+      "name":"Title Resources"
+    },
+    {
+      "name":"Holdings Resources"
+    },
+    {
+      "name":"Label and Proxy Resources"
+    }
+  ],
+  "schemes":[
+    "https"
+  ],
+  "consumes":[
+    "application/json"
+  ],
+  "produces":[
+    "application/json"
+  ],
+  "paths":{
+    "/{custid}/":{
+      "get":{
+        "tags":[
+          "Label and Proxy Resources"
+        ],
+        "description":"This operation allows you to retrieve the list of all custom field labels and the root proxy.\n\n  **Please Note:**  The last forward slash in the url for this resource is only needed when using the sandbox.  Do not use the last forward slash in the url for the live api.  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"List of all custom labels and the root proxy.  Up to 5 labels can be retrieved in the response.",
+            "schema":{
+              "$ref":"#/definitions/customLabelsProxy"
+            }
+          },
+          "403":{
+            "description":"User is not authorized to access this resource.",
+            "schema":{
+              "$ref":"#/definitions/403error"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      },
+      "put":{
+        "tags":[
+          "Label and Proxy Resources"
+        ],
+        "description":"This operation allows you to create and label up to five custom fields for your Title Details. Specify the field label ID, Display Label Name and indicate whether you’d like the information to display on Publication Finder and/or Full Text Finder. Once the Custom Label field(s) have been created, one can verify it in  Title Details REST end point. Setting the displayLabel to empty string, automatically sets displayOnFullTextFinder and/or displayOnPublicationFinder to false. Not specifying the Custom labels details  for a given custom label ID in the payload will result in setting displayLabel to empty string.\n\n  **Please Note:** The last forward slash in the url for this resource is only needed when using the sandbox.  Do not use the last forward slash in the url for the live api.  Only use one bodyoption below when trying this operation.  If more than one bodyoption is used, the Swagger UI will use the last one in the list for the PUT.  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"bodyoptiona",
+            "in":"body",
+            "description":"JSON payload to update custom labels and proxy.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/customLabels"
+            }
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "204":{
+            "description":"The server has successfully fulfilled the PUT request."
+          },
+          "404":{
+            "description":"Customer not found.",
+            "schema":{
+              "$ref":"#/definitions/404error"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/proxies":{
+      "get":{
+        "tags":[
+          "Label and Proxy Resources"
+        ],
+        "description":"This operation allows you to retrieve the list of all available customer proxies.\n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"List of all available proxies.",
+            "schema":{
+              "$ref":"#/definitions/proxyList"
+            }
+          },
+          "404":{
+            "description":"Customer not found.",
+            "schema":{
+              "$ref":"#/definitions/404error"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/vendors":{
+      "get":{
+        "tags":[
+          "Vendor Resources"
+        ],
+        "description":"This operation allows you to search EPKB by vendor.  It returns a list of vendors that includes customer context and the total number of results.  When searching for vendors without a search parameter, sort options will be by vendor name.  When the search parameter is not null, the default sort is by relevance.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"search",
+            "in":"query",
+            "description":"Search Term - When searching for vendors without a search parameter, sort options will be by vendorname.  When the search parameter is not null, the default sort is by relevance.",
+            "required":false,
+            "type":"string"
+          },
+          {
+            "name":"orderby",
+            "in":"query",
+            "description":"Valid values are relevance and vendorname.  Default is relevance.",
+            "required":true,
+            "type":"string",
+            "enum":[
+              "relevance",
+              "vendorname"
+            ]
+          },
+          {
+            "name":"count",
+            "in":"query",
+            "description":"The maximum number of results to return in the response.",
+            "required":true,
+            "type":"integer",
+            "enum":[
+              "10",
+              "20",
+              "30"
+            ]
+          },
+          {
+            "name":"offset",
+            "in":"query",
+            "description":"Page Offset",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"List of vendors matching the vendor name and the total number vendors found.",
+            "schema":{
+              "$ref":"#/definitions/vendors"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/vendors/{vendorid}":{
+      "get":{
+        "tags":[
+          "Vendor Resources"
+        ],
+        "description":"This operation allows you to retrieve vendor details from EPKB for a specific vendor ID.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Vendor details from EPKB for a specific vendor ID.",
+            "schema":{
+              "$ref":"#/definitions/vendorDetails"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      },
+      "put":{
+        "tags":[
+          "Vendor Resources"
+        ],
+        "description":"This operation allows you to update vendor proxy and token values for a specific vendor ID.  If a vendor does not have a token set up, the JSON payload should have an empty token with a proxy value.  A vendor with **inherited** set to true inherits its proxy from the root proxy.  So, a JSON payload with **inherited** set to true updates the vendor proxy with the root proxy if the root proxy is set.   \n\n  **Please Note:** Only use one bodyoption below when trying this operation.  If more than one bodyoption is used, the Swagger UI will use the last one in the list for the PUT.  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"bodyoptiona",
+            "in":"body",
+            "description":"JSON payload to update a vendor with a proxy.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/updateVendorProxyPayload"
+            }
+          },
+          {
+            "name":"bodyoptionb",
+            "in":"body",
+            "description":"JSON payload to update a vendor with an inherited proxy.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/updateVendorInheritedProxyPayload"
+            }
+          },
+          {
+            "name":"bodyoptionc",
+            "in":"body",
+            "description":"JSON payload to update a vendor with a non-inherited proxy.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/updateVendorNonInheritedProxyPayload"
+            }
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "204":{
+            "description":"The server has successfully fulfilled the PUT request."
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/vendors/{vendorid}/packages":{
+      "get":{
+        "tags":[
+          "Vendor Resources"
+        ],
+        "description":"This operation allows you to retrieve a list of packages from EPKB for a vendor including customer context.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"search",
+            "in":"query",
+            "description":"Keyword search applied to limit the package list results.  The search term is contained in the package name.  When searching for packages without a search parameter, the sort options will be by packagename.  When the search parameter is not null, then the default sort is by relevance.",
+            "required":false,
+            "type":"string"
+          },
+          {
+            "name":"selection",
+            "in":"query",
+            "description":"Limits the result set.  Valid values are all, selected, notselected and orderedthroughebsco.  It is also valid to use 0 for all, 1 for selected, 2 for notselected, or 3 for ordered through EBSCO.  When you filter by all(0), the total results count takes selected and not selected into consideration.",
+            "required":false,
+            "type":"string",
+            "enum":[
+              "all",
+              "selected",
+              "notselected",
+              "orderedthroughebsco"
+            ]
+          },
+          {
+            "name":"contenttype",
+            "in":"query",
+            "description":"Limit by type of package content.  Valid values are all, aggregatedfulltext, abstractandindex, ebook, ejournal, print, unknown and onlinereference.  It is also valid to use 0 for all, 1 for aggregated full text, 2 for abstract and index, 3 for ebook, 4 for ejournal, 5 for print, 6 for unknown or 7 for online reference.",
+            "required":false,
+            "type":"string",
+            "enum":[
+              "all",
+              "aggregatedfulltext",
+              "abstractandindex",
+              "ebook",
+              "ejournal",
+              "print",
+              "unknown",
+              "onlinereference"
+            ]
+          },
+          {
+            "name":"orderby",
+            "in":"query",
+            "description":"Valid values are relevance or packagename.  Default is relevance.",
+            "required":true,
+            "type":"string",
+            "enum":[
+              "relevance",
+              "packagename"
+            ]
+          },
+          {
+            "name":"count",
+            "in":"query",
+            "description":"The maximum number of results to return in the response.",
+            "required":true,
+            "type":"integer",
+            "enum":[
+              "5",
+              "10",
+              "20"
+            ]
+          },
+          {
+            "name":"offset",
+            "in":"query",
+            "description":"Page Offset",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API.  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"List of packages from EPKB for a specific vendor ID and the total number of results.",
+            "schema":{
+              "$ref":"#/definitions/packages"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      },
+      "post":{
+        "tags":[
+          "Package Resources"
+        ],
+        "description":"This operation allows you to create custom packages.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"body",
+            "in":"body",
+            "description":"JSON POST payload.  Specify the packageName in the payload.  Set contentType in the payload to 1 for Agregated Full Text, 2 for Abstract and Index, 3 for Ebook, 4 for E-Journal, 5 for Print, 6 for Unknown or 7 for Online Reference.  Set the custom coverage dates.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/customPackagePayload"
+            }
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Package ID",
+            "schema":{
+              "$ref":"#/definitions/customPackageResponse"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/packages":{
+      "get":{
+        "tags":[
+          "Package Resources"
+        ],
+        "description":"This operation allows you to search for packages and returns a list of packages from EPKB.  The list is not limited to a single vendor ID.  The response will reflect the context of the EBSCO customer ID included in the request.  When searching for packages without a search parameter, the sort options will be by package name.  When the search parameter is not null, then the default sort is by relevance.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"search",
+            "in":"query",
+            "description":"Keyword search that is applied to limit the results to packages from the vendor that have the search term in the package name.",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"selection",
+            "in":"query",
+            "description":"Limits the results.  Valid values are all, selected, notselected, and orderedthroughebsco.  It is also valid to use 0 for all, 1 for selected, 2 for not selected or 3 for ordered through EBSCO.  When you filter by all(0), the total results count takes selected and not selected into consideration.",
+            "required":false,
+            "type":"string",
+            "enum":[
+              "all",
+              "selected",
+              "notselected",
+              "orderedthroughebsco"
+            ]
+          },
+          {
+            "name":"contenttype",
+            "in":"query",
+            "description":"Limits the results by type of package content.  Valid values are all, aggregatedfulltext, abstractandindex, ebook, ejournal, print, unknown and onlinereference.  It is also valid to use 0 for all, 1 for aggregated full text, 2 for abstract and index, 3 for ebook, 4 for ejournal, 5 for print, 6 for unknown or 7 for online reference.",
+            "required":false,
+            "type":"string",
+            "enum":[
+              "all",
+              "aggregatedfulltext",
+              "abstractandindex",
+              "ebook",
+              "ejournal",
+              "print",
+              "unknown",
+              "onlinereference"
+            ]
+          },
+          {
+            "name":"orderby",
+            "in":"query",
+            "description":"Valid values are packagename and relevance. Default is relevance.",
+            "required":true,
+            "type":"string",
+            "enum":[
+              "relevance",
+              "packagename"
+            ]
+          },
+          {
+            "name":"count",
+            "in":"query",
+            "description":"The maximum number of results to return in the response.",
+            "required":true,
+            "type":"integer",
+            "enum":[
+              "5",
+              "10",
+              "20"
+            ]
+          },
+          {
+            "name":"offset",
+            "in":"query",
+            "description":"Page Offset",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"List of packages and the total packages found.",
+            "schema":{
+              "$ref":"#/definitions/packages"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/vendors/{vendorid}/packages/{packageid}":{
+      "get":{
+        "tags":[
+          "Package Resources"
+        ],
+        "description":"This operation allows you to retrieve EPKB information for a specific package.  It returns details in the context of a customer.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"packageid",
+            "in":"path",
+            "description":"Package ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Package details from EPKB for a specific package ID.",
+            "schema":{
+              "$ref":"#/definitions/packageIdDetails"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      },
+      "put":{
+        "tags":[
+          "Package Resources"
+        ],
+        "description":"This operation allows you to update selection and customizations to a package in a customer EPKB account.  A package with inherited set to true inherits its proxy from the root proxy. So, a JSON payload with inherited set to true updates the package proxy with the root proxy if the root proxy is set.  The isSelected payload element is mandatory for managed and custom packages. isSelected, packageName and contentType payload elements are mandatory for the custom package update payload. For both managed and custom packages, removing a package with isSelected set to false in the payload will result in a loss of customization made previously at the package level. Removing a custom package with isSelected set to false in the payload will result in the deletion (hard delete) of the custom package and all associated titles from this custom package.  If the payload contains ONLY isSelected set to true with no other customization fields, the system will remove all previously set customization. \n\n  **Please Note:**  Only use one bodyoption below when trying this operation.  If more than one bodyoption is used, the Swagger UI will use the last one in the list for the PUT.  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"packageid",
+            "in":"path",
+            "description":"Package ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"bodyoptiona",
+            "in":"body",
+            "description":"JSON payload to select the entire package.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/selectPayload"
+            }
+          },
+          {
+            "name":"bodyoptionb",
+            "in":"body",
+            "description":"JSON payload to set custom coverage including hiding titles.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setCustomCoverageIncludingHidePayload"
+            }
+          },
+          {
+            "name":"bodyoptionc",
+            "in":"body",
+            "description":"JSON payload to hide a package.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setHidePayload"
+            }
+          },
+          {
+            "name":"bodyoptiond",
+            "in":"body",
+            "description":"JSON payload to set custom coverage excluding hiding titles.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setCustomCoverageExcludeHidePayload"
+            }
+          },
+          {
+            "name":"bodyoptione",
+            "in":"body",
+            "description":"JSON payload to unselect the entire package.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/unselectPayload"
+            }
+          },
+          {
+            "name":"bodyoptionf",
+            "in":"body",
+            "description":"JSON combined payload.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/packagesCombinedPayload"
+            }
+          },
+          {
+            "name":"bodyoptiong",
+            "in":"body",
+            "description":"JSON payload to set values in a managed package.  **isSelected** is required for a managed package.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setManagedPackagePayload"
+            }
+          },
+          {
+            "name":"bodyoptionh",
+            "in":"body",
+            "description":"JSON payload to set values in a custom package. **isSelected**, **contentType**, and **packageName** are required for a custom package.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setCustomPackagePayload"
+            }
+          },
+          {
+            "name":"bodyoptioni",
+            "in":"body",
+            "description":"JSON payload to update a package with a proxy.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/updatePackageProxyPayload"
+            }
+          },
+          {
+            "name":"bodyoptionj",
+            "in":"body",
+            "description":"JSON payload to update a package with an inherited proxy.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/updatePackageInheritedProxyPayload"
+            }
+          },
+          {
+            "name":"bodyoptionk",
+            "in":"body",
+            "description":"JSON payload to update a package with a proxy.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/updatePackageNonInheritedProxyPayload"
+            }
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "204":{
+            "description":"The server has successfully fulfilled the PUT request."
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/vendors/{vendorid}/packages/{packageid}/titles":{
+      "get":{
+        "tags":[
+          "Package Resources"
+        ],
+        "description":"This operation allows you to search and retrieve a list of titles from EPKB that are part of a specified package.  The response will reflect the context of the EBSCO customer ID included in the request.  When searching for titles without a search parameter, the sort options will be by title name.  When the search parameter is not null, the default sort is by relevance.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"packageid",
+            "in":"path",
+            "description":"Package ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"search",
+            "in":"query",
+            "description":"Keyword search that is applied to limit the results to titles from the package that have the search term in the search field.  When searching for titles without a search parameter, the sort options will be by titlename. When the search parameter is not null, then the default sort is by relevance.",
+            "required":false,
+            "type":"string"
+          },
+          {
+            "name":"searchfield",
+            "in":"query",
+            "description":"Field to search.  Valid values are titlename, publisher, isxn, and subject.  It is also valid to use 0 for title name, 1 for publisher, 2 for isxn or 3 for subject.",
+            "required":true,
+            "type":"string",
+            "enum":[
+              "titlename",
+              "publisher",
+              "isxn",
+              "subject"
+            ]
+          },
+          {
+            "name":"selection",
+            "in":"query",
+            "description":"Limits the results.  Valid values are all, selected, notselected and orderedthroughebsco.  It is also valid to use 0 for all, 1 for selected, 2 for notselected, or 3 for ordered through EBSCO.  When you filter by all(0), the total results count takes selected and not selected into consideration.",
+            "required":false,
+            "type":"string",
+            "enum":[
+              "all",
+              "selected",
+              "notselected",
+              "orderedthroughebsco"
+            ]
+          },
+          {
+            "name":"resourcetype",
+            "in":"query",
+            "description":"Type of resource. Valid values are all, journal, newsletter, report, proceedings, website, newspaper, unspecified, book, bookseries, database, thesisdissertation, streamingaudio, streamingvideo, and audiobook.  It is also valid to use 0 for all, 1 for journal, 2 for newsletter, 3 for report, 4 for proceedings, 5 for website, 6 for newspaper, 7 for unspecified, 8 for book, 9 for book series, 10 for database, 11 for thesis dissertation, 12 for streaming audio, 13 for streaming video, or 14 for audio book.",
+            "required":false,
+            "type":"string",
+            "enum":[
+              "all",
+              "journal",
+              "newsletter",
+              "report",
+              "proceedings",
+              "website",
+              "newspaper",
+              "unspecified",
+              "book",
+              "bookseries",
+              "database",
+              "thesisdissertation",
+              "streamingaudio",
+              "streamingvideo",
+              "audiobook"
+            ]
+          },
+          {
+            "name":"orderby",
+            "in":"query",
+            "description":"Valid values are relevance and titlename.  Default is relevance.",
+            "required":true,
+            "type":"string",
+            "enum":[
+              "relevance",
+              "titlename"
+            ]
+          },
+          {
+            "name":"count",
+            "in":"query",
+            "description":"The maximum number of results to return in the response.",
+            "required":true,
+            "type":"integer",
+            "enum":[
+              "5",
+              "10",
+              "20"
+            ]
+          },
+          {
+            "name":"offset",
+            "in":"query",
+            "description":"Page Offset",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Titles from EPKB for a specific package ID.",
+            "schema":{
+              "$ref":"#/definitions/titlesPackageId"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      },
+      "post":{
+        "tags":[
+          "Title Resources"
+        ],
+        "description":"This operation allows you to create custom titles.  The titleName and pubType elements are required in the custom title payload.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"packageid",
+            "in":"path",
+            "description":"Package ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"body",
+            "in":"body",
+            "description":"JSON POST title details payload.  The titleName and pubType elements are required in the custom title payload.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/customTitlePayload"
+            }
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Title ID",
+            "schema":{
+              "$ref":"#/definitions/customTitleResponse"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/vendors/{vendorid}/packages/{packageid}/titles/{kbid}":{
+      "get":{
+        "tags":[
+          "Package Resources"
+        ],
+        "description":"This operation allows you to retrieve details for a particular package-title from EPKB.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"packageid",
+            "in":"path",
+            "description":"Package ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"kbid",
+            "in":"path",
+            "description":"Title ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Managed Title Response \n\n Package-title from EPKB regardless of the package that it is a part of.",
+            "schema":{
+              "$ref":"#/definitions/titleManaged"
+            }
+          },
+          "200 ":{
+            "description":"Custom Title Response \n\n Package-title from EPKB regardless of the package that it is a part of.",
+            "schema":{
+              "$ref":"#/definitions/titleCustom"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      },
+      "put":{
+        "tags":[
+          "Package Resources"
+        ],
+        "description":"This operation allows you to update selection status, proxy value or coverage customizations for a title within a package in a customer EPKB account.  A title with **inherited** set to true inherits its proxy from the root proxy.  So, a JSON payload with **inherited** set to true updates the title proxy with the root proxy if the root proxy is set.  The isSelected payload element is mandatory for managed and custom titles.  The titleName and pubType payload elements are mandatory for the custom title update payload.  For both managed and custom titles, removing a title with isSelected set to false in the payload will result in a loss of customization made previously at the title level.  Removing a custom title with isSelected set to false in the payload will result in the deletion (hard delete) of the custom title from the custom package.  If the payload contains ONLY isSelected set to true with no other customization fields, the system will remove all previously set customization. \n\n  **Please Note:**  Only use one bodyoption below when trying this operation.  If more than one bodyoption is used, the Swagger UI will use the last one in the list for the PUT.  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"vendorid",
+            "in":"path",
+            "description":"Vendor ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"packageid",
+            "in":"path",
+            "description":"Package ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"kbid",
+            "in":"path",
+            "description":"Title ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"bodyoptiona",
+            "in":"body",
+            "description":"JSON payload to select a package-title.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/selectPayload"
+            }
+          },
+          {
+            "name":"bodyoptionb",
+            "in":"body",
+            "description":"JSON payload to hide a package-title.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setHidePayload"
+            }
+          },
+          {
+            "name":"bodyoptionc",
+            "in":"body",
+            "description":"JSON payload to set custom coverage, coverage statement and custom embargo.  Note: When adding multiple custom coverage date ranges, the most recent date range must be first followed by date ranges in descending order.  If another custom coverage date range is added that is greater than the previously entered date range, the system will show the error message - CoverageList contains a date that exceeds a previous date value.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setCustomCoveragePayload"
+            }
+          },
+          {
+            "name":"bodyoptiond",
+            "in":"body",
+            "description":"JSON payload to un-select a package-title.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/unselectPayload"
+            }
+          },
+          {
+            "name":"bodyoptione",
+            "in":"body",
+            "description":"JSON payload to un-hide a package-title.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/unhidePackageTitlePayload"
+            }
+          },
+          {
+            "name":"bodyoptionf",
+            "in":"body",
+            "description":"JSON payload to set user defined fields.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setUserDefinedFieldsPayload"
+            }
+          },
+          {
+            "name":"bodyoptiong",
+            "in":"body",
+            "description":"JSON combined payload.  Note: When adding multiple custom coverage date ranges, the most recent date range must be first followed by date ranges in descending order.  If another custom coverage date range is added that is greater than the previously entered date range, the system will show the error message - CoverageList contains a date that exceeds a previous date value.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/titlesCombinedPayload"
+            }
+          },
+          {
+            "name":"bodyoptionh",
+            "in":"body",
+            "description":"JSON payload to update the details of a custom title.  Note:  The isSelected, titleName, and pubType payload elements are mandatory.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/customTitleUpdatePayload"
+            }
+          },
+          {
+            "name":"bodyoptioni",
+            "in":"body",
+            "description":"JSON payload to update the proxy value for a custom title.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setProxyPayload"
+            }
+          },
+          {
+            "name":"bodyoptionj",
+            "in":"body",
+            "description":"JSON payload to update the proxy value for a custom title.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setProxyTwoPayload"
+            }
+          },
+          {
+            "name":"bodyoptionk",
+            "in":"body",
+            "description":"JSON payload to update the inherited proxy value for a custom title.",
+            "required":false,
+            "schema":{
+              "$ref":"#/definitions/setProxyInPayload"
+            }
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "204":{
+            "description":"The server has successfully fulfilled the PUT request."
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/titles":{
+      "get":{
+        "tags":[
+          "Title Resources"
+        ],
+        "description":"This operation allows you to search and retrieve a list of titles from EPKB regardless of the package(s) that the titles are a part of.  The response will reflect the context of the EBSCO customer ID included in the request.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"search",
+            "in":"query",
+            "description":"Search Term.  Keyword search that is applied to limit the results to titles that have the search term in the search field.",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"searchfield",
+            "in":"query",
+            "description":"Field to search.  Valid values are titlename, publisher, isxn, and subject.  It is also valid to use 0 for title name, 1 for publisher, 2 for isxn or 3 for subject.",
+            "required":true,
+            "type":"string",
+            "enum":[
+              "titlename",
+              "publisher",
+              "isxn",
+              "subject"
+            ]
+          },
+          {
+            "name":"selection",
+            "in":"query",
+            "description":"Limits the results.  Valid values are all, selected, notselected and orderedthroughebsco.  It is also valid to use 0 for all, 1 for selected, 2 for notselected, or 3 for ordered through EBSCO.  When you filter by all(0), the total results count takes selected and not selected into consideration.",
+            "required":false,
+            "type":"string",
+            "enum":[
+              "all",
+              "selected",
+              "notselected",
+              "orderedthroughebsco"
+            ]
+          },
+          {
+            "name":"resourcetype",
+            "in":"query",
+            "description":"Type of resource. Valid values are all, journal, newsletter, report, proceedings, website, newspaper, unspecified, book, bookseries, database, thesisdissertation, streamingaudio, streamingvideo, and audiobook.  It is also valid to use 0 for all, 1 for journal, 2 for newsletter, 3 for report, 4 for proceedings, 5 for website, 6 for newspaper, 7 for unspecified, 8 for book, 9 for book series, 10 for database, 11 for thesis dissertation, 12 for streaming audio, 13 for streaming video, or 14 for audio book.",
+            "required":false,
+            "type":"string",
+            "enum":[
+              "all",
+              "journal",
+              "newsletter",
+              "report",
+              "proceedings",
+              "website",
+              "newspaper",
+              "unspecified",
+              "book",
+              "bookseries",
+              "database",
+              "thesisdissertation",
+              "streamingaudio",
+              "streamingvideo",
+              "audiobook"
+            ]
+          },
+          {
+            "name":"searchtype",
+            "in":"query",
+            "description":"Type of search. Search types are any, contains, exactmatch, beginswith, proximity, exactphrase and advanced. It is also valid to use 0 for any, 1 for contains, 2 for exactmatch, 3 for beginswith, 4 for proximity, 5 for exactphrase or 6 for advanced.  searchtype is an optional parameter and defaults to contains if not provided.  For more information on the search types, see [Using Search Types](https://developer.ebsco.com/guides/overviewsearch/)",
+            "required":false,
+            "type":"string",
+            "enum":[
+              "any",
+              "contains",
+              "exactmatch",
+              "beginswith",
+              "proximity",
+              "exactphrase",
+              "advanced"
+            ]
+          },
+          {
+            "name":"orderby",
+            "in":"query",
+            "description":"Valid values are relevance or titlename.  Default is relevance.",
+            "required":true,
+            "type":"string",
+            "enum":[
+              "relevance",
+              "titlename"
+            ]
+          },
+          {
+            "name":"count",
+            "in":"query",
+            "description":"The maximum number of results to return in the response.",
+            "required":true,
+            "type":"integer",
+            "enum":[
+              "5",
+              "10",
+              "20"
+            ]
+          },
+          {
+            "name":"offset",
+            "in":"query",
+            "description":"Page Offset",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"List of titles that are part of a specified package.",
+            "schema":{
+              "$ref":"#/definitions/titles"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/titles/{kbid}":{
+      "get":{
+        "tags":[
+          "Title Resources"
+        ],
+        "description":"This operation allows you to retrieve details for a particular title from EPKB regardless of the package that it is a part of.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"kbid",
+            "in":"path",
+            "description":"Title ID",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Managed Title Response \n\n Details for the title.",
+            "schema":{
+              "$ref":"#/definitions/titleManaged"
+            }
+          },
+          "200 ":{
+            "description":"Custom Title Response \n\n Details for the title.",
+            "schema":{
+              "$ref":"#/definitions/titleCustom"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/holdings":{
+      "post":{
+        "tags":[
+          "Holdings Resources"
+        ],
+        "description":"This operation populates holdings data to a staging area.  You must perform this operation before using the GET holdings resources.  Customer holdings will be refreshed each time a POST is complete.  Hidden titles and packages are excluded from the holdings download.  If the customer has made changes since the last POST, another POST needs to be performed before using a GET holdings resource in order to download all of the changes.  If any metadata has changed since the last POST, you do not need to perform another POST in order to see the metadata changes in the GET holdings.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"force",
+            "in":"query",
+            "description":"force is used to force a new request.  force is an optional parameter and defaults to false if not provided.  Set force to true to recreate the holdings snapshot by overwriting the existing snapshot.  force parameter should not be used on a regular basis.  force is only to be used for resolving a stuck POST holdings request.",
+            "required":false,
+            "type":"boolean"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API.  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "202":{
+            "description":"The request to populate holdings has been accepted for processing, but the processing has not been completed."
+          },
+          "409":{
+            "description":"Snapshot is currently in progress.",
+            "schema":{
+              "$ref":"#/definitions/409error"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      },
+      "get":{
+        "tags":[
+          "Holdings Resources"
+        ],
+        "description":"This operation allows you to download customer holdings in KBART2 (JSON) format.  Before using this resource, you need to perform a Holdings Resource POST to populate holdings data to a staging area.  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"format",
+            "in":"query",
+            "description":"Download format.",
+            "required":true,
+            "type":"string",
+            "enum":[
+              "kbart2"
+            ]
+          },
+          {
+            "name":"count",
+            "in":"query",
+            "description":"The maximum number of results to return in the response. Count can not exceed 5000.",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"offset",
+            "in":"query",
+            "description":"Page Offset",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Holdings details.",
+            "schema":{
+              "$ref":"#/definitions/holdingsDetails"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    },
+    "/{custid}/holdings/status":{
+      "get":{
+        "tags":[
+          "Holdings Resources"
+        ],
+        "description":"This operation allows you to retrieve the status of a holdings snapshot.  The response reveals if the holdings snapshot is in progress, completed or has failed.  The status enables you to decide when to download customer holdings (upon completion).  \n\n  **Please Note:**  Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+        "parameters":[
+          {
+            "name":"custid",
+            "in":"path",
+            "description":"EBSCO Customer ID",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"x-api-key",
+            "in":"header",
+            "description":"Unique code assigned by EBSCO to grant you access to this API.  The API key needs to be a header parameter for every operation in order to access this API. Your production API key will not grant you access to the API through the interactive documentation. You will need a sandbox API key to use the interactive documentation.  If you require a sandbox API key, please contact EBSCO customer support.",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Status of the holdings snapshot.",
+            "schema":{
+              "$ref":"#/definitions/holdingsStatus"
+            }
+          },
+          "default":{
+            "description":"Unexpected Error",
+            "schema":{
+              "$ref":"#/definitions/errors"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions":{
+    "errors":{
+      "type":"array",
+      "items":{
+        "$ref":"#/definitions/errorModel"
+      }
+    },
+    "202error":{
+      "type":"object",
+      "required":[
+        "code",
+        "message"
+      ],
+      "properties":{
+        "message":{
+          "type":"string",
+          "description":"The request has been accepted for processing, but the processing has not been completed.",
+          "example":"Request is in Progress"
+        },
+        "code":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error Number",
+          "example":"1010"
+        },
+        "subcode":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error number specific to the underlying API."
+        }
+      }
+    },
+    "409error":{
+      "type":"object",
+      "required":[
+        "code",
+        "message"
+      ],
+      "properties":{
+        "message":{
+          "type":"string",
+          "description":"Snapshot is currently in progress.",
+          "example":"Snapshot in progress"
+        },
+        "code":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error Number",
+          "example":"1010"
+        },
+        "subcode":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error number specific to the underlying API."
+        }
+      }
+    },
+    "404error":{
+      "type":"object",
+      "required":[
+        "code",
+        "message"
+      ],
+      "properties":{
+        "message":{
+          "type":"string",
+          "description":"Customer is not found.",
+          "example":"Customer not found"
+        },
+        "code":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error Number"
+        },
+        "subcode":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error number specific to the underlying API."
+        }
+      }
+    },
+    "403error":{
+      "type":"object",
+      "required":[
+        "code",
+        "message"
+      ],
+      "properties":{
+        "message":{
+          "type":"string",
+          "description":"User is not authorized to access this resource",
+          "example":"User is not authorized to access this resource"
+        },
+        "code":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error Number"
+        },
+        "subcode":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error number specific to the underlying API."
+        }
+      }
+    },
+    "errorModel":{
+      "type":"object",
+      "required":[
+        "code",
+        "message"
+      ],
+      "properties":{
+        "message":{
+          "type":"string",
+          "description":"Text describing the error.",
+          "example":"Invalid APIKEY"
+        },
+        "code":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error Number",
+          "example":"1003"
+        },
+        "subcode":{
+          "type":"integer",
+          "format":"int32",
+          "description":"Error number specific to the underlying API."
+        }
+      }
+    },
+    "vendors":{
+      "type":"object",
+      "required":[
+        "vendorList",
+        "totalResults"
+      ],
+      "description":"List of vendors matching the vendor name and the total number of results found.",
+      "properties":{
+        "vendorList":{
+          "type":"array",
+          "items":{
+            "$ref":"#/definitions/vendor"
+          }
+        },
+        "totalResults":{
+          "type":"integer",
+          "description":"Total number of results found.",
+          "example":5
+        }
+      }
+    },
+    "packages":{
+      "type":"object",
+      "required":[
+        "packagesList",
+        "totalResults"
+      ],
+      "description":"List of packages from EPKB - not limited to a single vendor id - and the total number of results found.",
+      "properties":{
+        "packagesList":{
+          "type":"array",
+          "items":{
+            "$ref":"#/definitions/package"
+          }
+        },
+        "totalResults":{
+          "type":"integer",
+          "description":"Total number of results found.",
+          "example":5
+        }
+      }
+    },
+    "titles":{
+      "type":"object",
+      "required":[
+        "titleList",
+        "totalResults"
+      ],
+      "description":"List of titles regardless of package from EPKB and the total number of results found.",
+      "properties":{
+        "titles":{
+          "type":"array",
+          "items":{
+            "$ref":"#/definitions/titleROP"
+          }
+        },
+        "totalResults":{
+          "type":"integer",
+          "description":"Total number of results found.",
+          "example":5
+        }
+      }
+    },
+    "vendor":{
+      "type":"object",
+      "required":[
+        "vendorId",
+        "vendorName"
+      ],
+      "description":"This object represents data elements that describe a vendor.",
+      "properties":{
+        "vendorId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the provider.  In EPKB, this is 'VendorID'.",
+          "example":19
+        },
+        "vendorName":{
+          "type":"string",
+          "description":"Provider name.  In EPKB, this is the 'VendorName'.",
+          "example":"EBSCO"
+        },
+        "packagesTotal":{
+          "type":"integer",
+          "description":"Package total for this vendor.",
+          "example":611
+        },
+        "packagesSelected":{
+          "type":"integer",
+          "description":"Total number of packages from the vendor that are selected in the customer's account.",
+          "example":30
+        },
+        "isCustomer":{
+          "type":"boolean",
+          "description":"IsCustomer is true if a customer is a vendor.  The customer vendor is used for custom packages.",
+          "example":false
+        },
+        "vendorToken":{
+          "type":"string",
+          "description":"Vendor tokens are variables in content URLs that identify the customer. The vendorToken is the token (text) within the URL that needs to be replaced with a institute-specific value.",
+          "example":"[[galesiteid]]"
+        }
+      }
+    },
+    "vendorDetails":{
+      "type":"object",
+      "required":[
+        "vendorId",
+        "vendorName"
+      ],
+      "description":"This object represents data elements that describe a vendor.",
+      "properties":{
+        "vendorId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the provider.  In EPKB, this is 'VendorID'.",
+          "example":19
+        },
+        "vendorName":{
+          "type":"string",
+          "description":"Provider name.  In EPKB, this is the 'VendorName'.",
+          "example":"EBSCO"
+        },
+        "packagesTotal":{
+          "type":"integer",
+          "description":"Package total for this vendor.",
+          "example":611
+        },
+        "packagesSelected":{
+          "type":"integer",
+          "description":"Total number of packages from the vendor that are selected in the customer's account.",
+          "example":30
+        },
+        "isCustomer":{
+          "type":"boolean",
+          "description":"IsCustomer is true if a customer is a vendor.  The customer vendor is used for custom packages.",
+          "example":false
+        },
+        "proxy":{
+          "description":"Proxy",
+          "$ref":"#/definitions/proxyInfo"
+        },
+        "vendorToken":{
+          "description":"Vendor tokens identify the customer.",
+          "$ref":"#/definitions/tokenInfo"
+        }
+      }
+    },
+    "package":{
+      "type":"object",
+      "required":[
+        "packageId",
+        "packageName"
+      ],
+      "description":"This object represents data elements that describe a vendor package.",
+      "properties":{
+        "packageId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the package.  In EPKB, this is 'PkgID'.",
+          "example":1117849
+        },
+        "packageName":{
+          "type":"string",
+          "description":"Name of the Package. In EPKB, this is 'PkgName'.",
+          "example":"Health & Wellness Resource Center (w/alt health module)"
+        },
+        "isCustom":{
+          "type":"boolean",
+          "description":"isCustom is true if a customer is the vendor.  The customer vendor is used for custom packages.",
+          "example":true
+        },
+        "vendorId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the provider.  In EPKB, this is 'VendorID'.",
+          "example":19
+        },
+        "vendorName":{
+          "type":"string",
+          "description":"Provider name.  In EPKB, this is the 'VendorName'.",
+          "example":"EBSCO"
+        },
+        "titleCount":{
+          "type":"integer",
+          "description":"Numeric value indicating the title count of the package.",
+          "example":1
+        },
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if the packages is selected in a customer's account.",
+          "example":true
+        },
+        "visibilityData":{
+          "$ref":"#/definitions/visibilityInfo"
+        },
+        "selectedCount":{
+          "type":"integer",
+          "description":"Numeric value indicating the selected count of the package.",
+          "example":1
+        },
+        "isTokenNeeded":{
+          "type":"boolean",
+          "description":"Field to indicate if a token is needed",
+          "example":true
+        },
+        "customCoverage":{
+          "$ref":"#/definitions/coverageDates"
+        },
+        "contentType":{
+          "type":"string",
+          "description":"Indicates the content type of the package.",
+          "example":"Abstract"
+        },
+        "packageType":{
+          "type":"string",
+          "description":"Package Type.  Valid values are Selectable, Complete, Variable and Custom.",
+          "example":"Complete"
+        }
+      }
+    },
+    "titleManaged":{
+      "type":"object",
+      "required":[
+        "titleId",
+        "titleName",
+        "pubType"
+      ],
+      "description":"This object represents data elements that describe a title.",
+      "properties":{
+        "description":{
+          "type":"string",
+          "description":"Title Description",
+          "example":"Description Test."
+        },
+        "edition":{
+          "type":"string",
+          "description":"Title Edition",
+          "example":"1"
+        },
+        "isPeerReviewed":{
+          "type":"boolean",
+          "description":"Is this title peer reviewed.",
+          "example":true
+        },
+        "contributorsList":{
+          "type":"array",
+          "description":"Contributors List",
+          "items":{
+            "$ref":"#/definitions/nItem"
+          }
+        },
+        "titleId":{
+          "type":"integer",
+          "description":"Title ID",
+          "example":1157191
+        },
+        "titleName":{
+          "type":"string",
+          "description":"Title Name",
+          "example":"A Tale of Two Cities"
+        },
+        "publisherName":{
+          "type":"string",
+          "description":"Publisher Name",
+          "example":"www.ebsco.com"
+        },
+        "identifiersList":{
+          "type":"array",
+          "description":"Identifiers",
+          "items":{
+            "$ref":"#/definitions/identifier"
+          }
+        },
+        "subjectsList":{
+          "type":"array",
+          "description":"Subjects",
+          "items":{
+            "$ref":"#/definitions/nItem"
+          }
+        },
+        "isTitleCustom":{
+          "type":"boolean",
+          "description":"Is this a custom title owned by the customer.",
+          "example":false
+        },
+        "pubType":{
+          "type":"string",
+          "description":"Publication Type",
+          "example":"Journal"
+        },
+        "customerResourcesList":{
+          "type":"array",
+          "description":"Customer Resources List",
+          "items":{
+            "$ref":"#/definitions/customerResources"
+          }
+        }
+      }
+    },
+    "titleCustom":{
+      "type":"object",
+      "required":[
+        "titleId",
+        "titleName",
+        "pubType"
+      ],
+      "description":"This object represents data elements that describe a custom title.",
+      "properties":{
+        "description":{
+          "type":"string",
+          "description":"Title Description",
+          "example":"Description Test."
+        },
+        "edition":{
+          "type":"string",
+          "description":"Title Edition",
+          "example":"1"
+        },
+        "isPeerReviewed":{
+          "type":"boolean",
+          "description":"Is this title peer reviewed.",
+          "example":false
+        },
+        "contributorsList":{
+          "type":"array",
+          "description":"Contributors List",
+          "items":{
+            "$ref":"#/definitions/contributorID"
+          }
+        },
+        "titleId":{
+          "type":"integer",
+          "description":"Title ID",
+          "example":1157191
+        },
+        "titleName":{
+          "type":"string",
+          "description":"Title Name",
+          "example":"A Tale of Two Cities"
+        },
+        "publisherName":{
+          "type":"string",
+          "description":"Publisher Name",
+          "example":"www.ebsco.com"
+        },
+        "identifiersList":{
+          "type":"array",
+          "description":"Identifiers",
+          "items":{
+            "$ref":"#/definitions/identifier"
+          }
+        },
+        "subjectsList":{
+          "type":"array",
+          "description":"Subjects",
+          "items":{
+            "$ref":"#/definitions/nItem"
+          }
+        },
+        "isTitleCustom":{
+          "type":"boolean",
+          "description":"Is this a custom title owned by the customer.",
+          "example":true
+        },
+        "pubType":{
+          "type":"string",
+          "description":"Publication Type",
+          "example":"Journal"
+        },
+        "customerResourcesList":{
+          "type":"array",
+          "description":"Customer Resources List",
+          "items":{
+            "$ref":"#/definitions/customerResourcesCustom"
+          }
+        }
+      }
+    },
+    "titleROP":{
+      "type":"object",
+      "required":[
+        "titleId",
+        "titleName",
+        "pubType"
+      ],
+      "description":"This object represents data elements that describe a title.",
+      "properties":{
+        "titleId":{
+          "type":"integer",
+          "description":"Title ID",
+          "example":1157191
+        },
+        "titleName":{
+          "type":"string",
+          "description":"Title Name",
+          "example":"A Tale of Two Cities"
+        },
+        "publisherName":{
+          "type":"string",
+          "description":"Publisher Name",
+          "example":"www.ebsco.com"
+        },
+        "identifiersList":{
+          "type":"array",
+          "description":"Identifiers",
+          "items":{
+            "$ref":"#/definitions/identifier"
+          }
+        },
+        "subjectsList":{
+          "type":"array",
+          "description":"Subjects",
+          "items":{
+            "$ref":"#/definitions/nItem"
+          }
+        },
+        "isTitleCustom":{
+          "type":"boolean",
+          "description":"Is this a custom title owned by the customer.",
+          "example":false
+        },
+        "pubType":{
+          "type":"string",
+          "description":"Publication Type",
+          "example":"Journal"
+        },
+        "contributorsList":{
+          "type":"array",
+          "description":"Contributor ID List",
+          "items":{
+            "$ref":"#/definitions/contributorID"
+          }
+        },
+        "customerResourcesList":{
+          "type":"array",
+          "description":"Customer Resources List",
+          "items":{
+            "$ref":"#/definitions/customerResourcesTitleROP"
+          }
+        }
+      }
+    },
+    "packageIdDetails":{
+      "type":"object",
+      "required":[
+        "packageId",
+        "packageName"
+      ],
+      "description":"Package details from EPKB for a specific package ID.",
+      "properties":{
+        "packageId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the package.  In EPKB, this is 'PkgID'.",
+          "example":1117849
+        },
+        "packageName":{
+          "type":"string",
+          "description":"Name of the Package. In EPKB, this is 'PkgName'.",
+          "example":"Health & Wellness Resource Center (w/alt health module)"
+        },
+        "vendorId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the provider.  In EPKB, this is 'VendorID'.",
+          "example":19
+        },
+        "vendorName":{
+          "type":"string",
+          "description":"Provider name.  In EPKB, this is the 'VendorName'.",
+          "example":"EBSCO"
+        },
+        "isCustom":{
+          "type":"boolean",
+          "description":"IsCustom is true if a customer is the vendor.  The customer vendor is used for custom packages.",
+          "example":true
+        },
+        "titleCount":{
+          "type":"integer",
+          "description":"Numeric value indicating the title count of the package.",
+          "example":1
+        },
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if the packages is selected in a customer's account.",
+          "example":true
+        },
+        "selectedCount":{
+          "type":"integer",
+          "description":"Numeric value indicating the number of titles in packages selected in the customer account.",
+          "example":1
+        },
+        "contentType":{
+          "type":"string",
+          "description":"Indicates the content type of the package.",
+          "example":"Abstract"
+        },
+        "visibilityData":{
+          "$ref":"#/definitions/visibilityInfo"
+        },
+        "customCoverage":{
+          "$ref":"#/definitions/coverageDates"
+        },
+        "isTokenNeeded":{
+          "type":"boolean",
+          "description":"Field to indicate if a token is needed",
+          "example":true
+        },
+        "allowEbscoToAddTitles":{
+          "type":"boolean",
+          "description":"Indicates if EBSCO is allowed to add titles.  If the package type is custom, then allowEbscoToAddTitles will always be set to false.",
+          "example":true
+        },
+        "packageType":{
+          "type":"string",
+          "description":"Package Type. Valid values are Selectable, Complete, Variable and Custom.",
+          "example":"Complete"
+        },
+        "proxy":{
+          "$ref":"#/definitions/proxyInfoIn"
+        },
+        "packageToken":{
+          "description":"Package tokens identify the customer.",
+          "$ref":"#/definitions/tokenInfo"
+        }
+      }
+    },
+    "customerResources":{
+      "type":"object",
+      "required":[
+        "packageId",
+        "packageName",
+        "packageType",
+        "proxy"
+      ],
+      "description":"This object represents data elements that describe customer resources information.",
+      "properties":{
+        "titleId":{
+          "type":"integer",
+          "description":"Title ID",
+          "example":1157191
+        },
+        "packageId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the package.  In EPKB, this is 'PkgID'.",
+          "example":1117849
+        },
+        "packageName":{
+          "type":"string",
+          "description":"Name of the Package. In EPKB, this is 'PkgName'.",
+          "example":"Health & Wellness Resource Center (w/alt health module)"
+        },
+        "packageType":{
+          "type":"string",
+          "description":"Package Type. Valid values are Selectable, Complete, Variable and Custom.",
+          "example":"Complete"
+        },
+        "proxy":{
+          "description":"Proxy",
+          "$ref":"#/definitions/proxyInfo"
+        },
+        "isPackageCustom":{
+          "type":"boolean",
+          "description":"Is the Package Custom.",
+          "example":false
+        },
+        "vendorId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the provider.  In EPKB, this is 'VendorID'.",
+          "example":19
+        },
+        "vendorName":{
+          "type":"string",
+          "description":"Provider name.  In EPKB, this is the 'VendorName'.",
+          "example":"EBSCO"
+        },
+        "locationId":{
+          "type":"integer",
+          "description":"Location ID",
+          "example":123456789
+        },
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":false
+        },
+        "isTokenNeeded":{
+          "type":"boolean",
+          "description":"Field to indicate if a token is needed",
+          "example":false
+        },
+        "visibilityData":{
+          "$ref":"#/definitions/visibilityInfo"
+        },
+        "managedCoverageList":{
+          "type":"array",
+          "description":"Managed Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/nItem"
+          }
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"Issues on or after 6/1/1992"
+        },
+        "managedEmbargoPeriod":{
+          "description":"Managed Embargo Period",
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "url":{
+          "type":"string",
+          "description":"Package URL",
+          "example":"http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=27h"
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"string1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"string2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"string3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"string4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"string5"
+        }
+      }
+    },
+    "customerResourcesCustom":{
+      "type":"object",
+      "required":[
+        "packageId",
+        "packageName",
+        "packageType",
+        "proxy"
+      ],
+      "description":"This object represents data elements that describe customer resources information.",
+      "properties":{
+        "titleId":{
+          "type":"integer",
+          "description":"Title ID",
+          "example":1157191
+        },
+        "packageId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the package.  In EPKB, this is 'PkgID'.",
+          "example":1117849
+        },
+        "packageName":{
+          "type":"string",
+          "description":"Name of the Package. In EPKB, this is 'PkgName'.",
+          "example":"Health & Wellness Resource Center (w/alt health module)"
+        },
+        "packageType":{
+          "type":"string",
+          "description":"Package Type. Valid values are Selectable, Complete, Variable and Custom.",
+          "example":"Complete"
+        },
+        "proxy":{
+          "description":"Proxy",
+          "$ref":"#/definitions/proxyInfo"
+        },
+        "isPackageCustom":{
+          "type":"boolean",
+          "description":"Is the Package Custom.",
+          "example":true
+        },
+        "vendorId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the provider.  In EPKB, this is 'VendorID'.",
+          "example":19
+        },
+        "vendorName":{
+          "type":"string",
+          "description":"Provider name.  In EPKB, this is the 'VendorName'.",
+          "example":"EBSCO"
+        },
+        "locationId":{
+          "type":"integer",
+          "description":"Location ID",
+          "example":123456789
+        },
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "isTokenNeeded":{
+          "type":"boolean",
+          "description":"Field to indicate if a token is needed",
+          "example":false
+        },
+        "visibilityData":{
+          "$ref":"#/definitions/visibilityInfo"
+        },
+        "managedCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/nItem"
+          }
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"Issues on or after 6/1/1992"
+        },
+        "managedEmbargoPeriod":{
+          "type":"object",
+          "description":"Null Managed Embargo Period"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "url":{
+          "type":"string",
+          "description":"Package URL",
+          "example":"http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=27h"
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"string1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"string2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"string3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"string4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"string5"
+        }
+      }
+    },
+    "customerResourcesTitleROP":{
+      "type":"object",
+      "required":[
+        "packageId",
+        "packageName",
+        "packageType"
+      ],
+      "description":"This object represents data elements that describe customer resources information.",
+      "properties":{
+        "titleId":{
+          "type":"integer",
+          "description":"Title ID",
+          "example":1157191
+        },
+        "packageId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the package.  In EPKB, this is 'PkgID'.",
+          "example":1117849
+        },
+        "packageName":{
+          "type":"string",
+          "description":"Name of the Package. In EPKB, this is 'PkgName'.",
+          "example":"Health & Wellness Resource Center (w/alt health module)"
+        },
+        "packageType":{
+          "type":"string",
+          "description":"Package Type. Valid values are Selectable, Complete, Variable and Custom.",
+          "example":"Complete"
+        },
+        "isPackageCustom":{
+          "type":"boolean",
+          "description":"Is the Package Custom.",
+          "example":false
+        },
+        "vendorId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the provider.  In EPKB, this is 'VendorID'.",
+          "example":19
+        },
+        "vendorName":{
+          "type":"string",
+          "description":"Provider name.  In EPKB, this is the 'VendorName'.",
+          "example":"EBSCO"
+        },
+        "locationId":{
+          "type":"integer",
+          "description":"Location ID",
+          "example":123456789
+        },
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":false
+        },
+        "isTokenNeeded":{
+          "type":"boolean",
+          "description":"Field to indicate if a token is needed",
+          "example":false
+        },
+        "visibilityData":{
+          "$ref":"#/definitions/visibilityInfo"
+        },
+        "managedCoverageList":{
+          "type":"array",
+          "description":"Managed Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/nItem"
+          }
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"Issues on or after 6/1/1992"
+        },
+        "managedEmbargoPeriod":{
+          "description":"Managed Embargo Period",
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "url":{
+          "type":"string",
+          "description":"Package URL",
+          "example":"http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=27h"
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"string1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"string2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"string3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"string4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"string5"
+        }
+      }
+    },
+    "coverageDates":{
+      "type":"object",
+      "required":[
+        "beginCoverage",
+        "endCoverage"
+      ],
+      "description":"Dates of Coverage",
+      "properties":{
+        "beginCoverage":{
+          "type":"string",
+          "description":"Coverage Start Date",
+          "example":"2003-01-01"
+        },
+        "endCoverage":{
+          "type":"string",
+          "description":"Coverage End Date",
+          "example":"2003-12-12"
+        }
+      }
+    },
+    "identifier":{
+      "type":"object",
+      "description":"Identifier",
+      "properties":{
+        "id":{
+          "type":"string",
+          "description":"Identifier Value",
+          "example":1
+        },
+        "source":{
+          "type":"string",
+          "description":"Resource Identifier",
+          "example":"AtoZ"
+        },
+        "subtype":{
+          "type":"integer",
+          "enum":[
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "description":"Sub-type for the indentifier.  This is used by only some identifiers to designate Print, Online, etc.  Empty=0, Print=1, Online=2, Preceding=3, Succeeding=4, Regional=5, Linking=6 and Invalid=7",
+          "example":1
+        },
+        "type":{
+          "type":"integer",
+          "enum":[
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "description":"The type of identifier.  ISSN=0, ISBN=1, TSDID=2, SPID=3, EjsJournaID=4, NewsbankID=5, ZDBID=6, EPBookID=7, Mid=8, or BHM=9",
+          "example":1
+        }
+      }
+    },
+    "subj":{
+      "type":"object",
+      "description":"Subject",
+      "properties":{
+        "type":{
+          "type":"string",
+          "enum":[
+            "BISAC",
+            "TLI"
+          ],
+          "description":"The type of subject.  Valid values are BISAC and TLI.",
+          "example":"BISAC"
+        },
+        "subject":{
+          "type":"string",
+          "description":"Subject",
+          "example":"PHILOSOPHY / Movements / Critical Theory"
+        }
+      }
+    },
+    "nItem":{
+      "type":"object",
+      "description":"Empty Item"
+    },
+    "embargoPeriod":{
+      "type":"object",
+      "required":[
+        "embargoUnit",
+        "embargoValue"
+      ],
+      "description":"Embargo Period",
+      "properties":{
+        "embargoUnit":{
+          "type":"string",
+          "description":"The unit of time to use for the embargo - Days, Weeks, Months or Years.",
+          "example":"Days",
+          "enum":[
+            "Days",
+            "Weeks",
+            "Months",
+            "Years"
+          ]
+        },
+        "embargoValue":{
+          "type":"integer",
+          "description":"The embargo value (number of embargoUnits).  A Null value means there is no embargo.",
+          "example":"1"
+        }
+      }
+    },
+    "selectPayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements that describe the payload to select a package or package-title.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        }
+      }
+    },
+    "setCustomCoverageIncludingHidePayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements that describe the payload to set custom coverage including hiding titles.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if the packages is selected in a customer's account.",
+          "example":true
+        },
+        "customCoverage":{
+          "$ref":"#/definitions/coverageDates"
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if a token is needed",
+          "example":true
+        }
+      }
+    },
+    "setHidePayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements to hide a package or a package-title.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if titles are hidden.",
+          "example":true
+        }
+      }
+    },
+    "setUserDefinedFieldsPayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements to set user defined fields.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"string1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"string2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"string3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"string4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"string5"
+        }
+      }
+    },
+    "setCustomCoverageExcludeHidePayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements to set custom coverage excluding hiding titles.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "customCoverage":{
+          "$ref":"#/definitions/coverageDates"
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if titles are hidden.",
+          "example":false
+        }
+      }
+    },
+    "packagesCombinedPayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents all of the data elements for customization combined.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "customCoverage":{
+          "$ref":"#/definitions/coverageDates"
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if titles are hidden.",
+          "example":false
+        }
+      }
+    },
+    "unselectPayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements that describe the payload to unselect an entire package or package-title.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":false
+        }
+      }
+    },
+    "unhidePackageTitlePayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents the payload to un-hide a package-title.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if titles are hidden.",
+          "example":false
+        }
+      }
+    },
+    "titlesCombinedPayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements to set custom coverage, coverage statement and custom embargo.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if titles are hidden.",
+          "example":false
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"string1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"string2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"string3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"string4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"string5"
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"2009 - 2009"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        }
+      }
+    },
+    "setCustomCoveragePayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements to set custom coverage, coverage statement and custom embargo.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"2009 - 2009"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        }
+      }
+    },
+    "titlesPackageId":{
+      "type":"object",
+      "required":[
+        "titleList",
+        "totalResults"
+      ],
+      "description":"List of titles regardless of package from EPKB and the total number of results found.",
+      "properties":{
+        "titles":{
+          "type":"array",
+          "items":{
+            "$ref":"#/definitions/titlePackageId"
+          }
+        },
+        "totalResults":{
+          "type":"integer",
+          "description":"Total number of results found.",
+          "example":5
+        }
+      }
+    },
+    "titlePackageId":{
+      "type":"object",
+      "required":[
+        "titleId",
+        "titleName"
+      ],
+      "description":"This object represents data elements that describe a title.",
+      "properties":{
+        "titleId":{
+          "type":"integer",
+          "description":"Title ID",
+          "example":1157191
+        },
+        "titleName":{
+          "type":"string",
+          "description":"Title Name",
+          "example":"A Tale of Two Cities"
+        },
+        "publisherName":{
+          "type":"string",
+          "description":"Publisher Name",
+          "example":"www.ebsco.com"
+        },
+        "identifiersList":{
+          "type":"array",
+          "description":"Identifiers",
+          "items":{
+            "$ref":"#/definitions/identifier"
+          }
+        },
+        "subjectsList":{
+          "type":"array",
+          "description":"Subjects",
+          "items":{
+            "$ref":"#/definitions/subj"
+          }
+        },
+        "isTitleCustom":{
+          "type":"boolean",
+          "description":"Is this a custom title owned by the customer.",
+          "example":true
+        },
+        "pubType":{
+          "type":"string",
+          "description":"Type of publication. Valid values are journal, newsletter, report, proceedings, website, newspaper, unspecified, book, bookseries, database, thesisdissertation, streamingaudio, streamingvideo, and audiobook.",
+          "example":"Book"
+        },
+        "customerResourcesList":{
+          "type":"array",
+          "description":"Customer Resources List",
+          "items":{
+            "$ref":"#/definitions/customerResourcesPackageId"
+          }
+        }
+      }
+    },
+    "customerResourcesPackageId":{
+      "type":"object",
+      "required":[
+        "titleId",
+        "packageType"
+      ],
+      "description":"This object represents data elements that describe customer resources information.",
+      "properties":{
+        "titleId":{
+          "type":"integer",
+          "description":"Title ID",
+          "example":1157191
+        },
+        "packageId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the package.  In EPKB, this is 'PkgID'.",
+          "example":3964
+        },
+        "packageName":{
+          "type":"string",
+          "description":"Name of the Package. In EPKB, this is 'PkgName'.",
+          "example":"EBSCO Business Basics"
+        },
+        "packageType":{
+          "type":"string",
+          "description":"Package Type. Valid values are Selectable, Complete, Variable and Custom.",
+          "example":"Complete"
+        },
+        "vendorId":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the provider.  In EPKB, this is 'VendorID'.",
+          "example":19
+        },
+        "vendorName":{
+          "type":"string",
+          "description":"Provider name.  In EPKB, this is the 'VendorName'.",
+          "example":"Bureau van Dijk Electronic Publishing"
+        },
+        "isPackageCustom":{
+          "type":"boolean",
+          "description":"Is the Package Custom.",
+          "example":false
+        },
+        "url":{
+          "type":"string",
+          "description":"Package URL",
+          "example":"http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=27h"
+        },
+        "isTokenNeeded":{
+          "type":"boolean",
+          "description":"Field to indicate if a token is needed",
+          "example":false
+        },
+        "locationId":{
+          "type":"integer",
+          "description":"Location ID",
+          "example":123456789
+        },
+        "managedCoverageList":{
+          "type":"array",
+          "description":"Managed Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"Issues on or after 6/1/1992"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "managedEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "visibilityData":{
+          "$ref":"#/definitions/visibilityInfo"
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"string1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"string2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"string3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"string4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"string5"
+        }
+      }
+    },
+    "visibilityInfo":{
+      "type":"object",
+      "required":[
+        "isHidden"
+      ],
+      "description":"Visibility",
+      "properties":{
+        "isHidden":{
+          "type":"boolean",
+          "description":"Is Hidden",
+          "example":true
+        },
+        "reason":{
+          "type":"string",
+          "description":"Reason",
+          "example":"Hidden by Customer"
+        }
+      }
+    },
+    "customPackagePayload":{
+      "type":"object",
+      "description":"Custom Package Payload",
+      "properties":{
+        "packageName":{
+          "type":"string",
+          "description":"Package Name",
+          "example":"Library Package 1"
+        },
+        "contentType":{
+          "type":"integer",
+          "description":"Content Type. Valid values are 1 for Agregated Full Text, 2 for Abstract and Index, 3 for Ebook, 4 for E-Journal, 5 for Print, 6 for Unknown or 7 for Online Reference.",
+          "example":3
+        },
+        "customCoverage":{
+          "$ref":"#/definitions/coverageDates"
+        }
+      }
+    },
+    "customPackageResponse":{
+      "type":"object",
+      "description":"Custom Package ID",
+      "properties":{
+        "packageId":{
+          "type":"integer",
+          "description":"Package ID",
+          "example":2035215
+        }
+      }
+    },
+    "identifierCustom":{
+      "type":"object",
+      "description":"Identifier",
+      "properties":{
+        "id":{
+          "type":"string",
+          "description":"Identifier Value",
+          "example":"1234"
+        },
+        "subtype":{
+          "type":"integer",
+          "enum":[
+            1,
+            2
+          ],
+          "description":"Subtype for the identifier.  Valid values are 1 for Print and 2 for Online.",
+          "example":1
+        },
+        "type":{
+          "type":"integer",
+          "enum":[
+            0,
+            1
+          ],
+          "description":"Type of identifier.  Valid values are 0 for ISSN and 1 for ISBN.",
+          "example":1
+        }
+      }
+    },
+    "contributorID":{
+      "type":"object",
+      "description":"Contributor ID",
+      "properties":{
+        "type":{
+          "type":"string",
+          "description":"Type of contributor. Valid values are Author, Illustrator, and Editor.",
+          "example":"Editor"
+        },
+        "contributor":{
+          "type":"string",
+          "description":"Contributor Name",
+          "example":"Jon Doe"
+        }
+      }
+    },
+    "customTitlePayload":{
+      "type":"object",
+      "description":"Custom Title Payload",
+      "required":[
+        "titleName",
+        "pubType",
+        "publisherName",
+        "description"
+      ],
+      "properties":{
+        "titleName":{
+          "type":"string",
+          "description":"Title Name",
+          "example":"custom-title-74"
+        },
+        "pubType":{
+          "type":"string",
+          "description":"Type of publication. Valid values are journal, newsletter, report, proceedings, website, newspaper, unspecified, book, bookseries, database, thesisdissertation, streamingaudio, streamingvideo, and audiobook.",
+          "example":"Book"
+        },
+        "publisherName":{
+          "type":"string",
+          "description":"Publisher Name",
+          "example":"EBSCO Publishing"
+        },
+        "isPeerReviewed":{
+          "type":"boolean",
+          "description":"Field to indicate if title is peer reviewed.",
+          "example":false
+        },
+        "edition":{
+          "type":"string",
+          "description":"Title Edition",
+          "example":"1"
+        },
+        "description":{
+          "type":"string",
+          "description":"Description",
+          "example":"description-test"
+        },
+        "identifiersList":{
+          "type":"array",
+          "description":"Identifiers",
+          "items":{
+            "$ref":"#/definitions/identifierCustom"
+          }
+        },
+        "contributorsList":{
+          "type":"array",
+          "description":"Contributor ID List",
+          "items":{
+            "$ref":"#/definitions/contributorID"
+          }
+        },
+        "url":{
+          "type":"string",
+          "description":"URL",
+          "example":"http://www.ebsco.com"
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"Issues on or after 6/1/1992"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"String1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"String2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"String3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"String4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"String5"
+        }
+      }
+    },
+    "customTitleResponse":{
+      "type":"object",
+      "description":"Custom Title ID",
+      "properties":{
+        "titleId":{
+          "type":"integer",
+          "description":"Title ID",
+          "example":2035215
+        }
+      }
+    },
+    "customTitleUpdatePayload":{
+      "type":"object",
+      "description":"Custom Title Payload",
+      "required":[
+        "isSelected",
+        "titleName",
+        "pubType"
+      ],
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Field to indicate if title is selected.",
+          "example":true
+        },
+        "titleName":{
+          "type":"string",
+          "description":"Title Name",
+          "example":"custom-title-74"
+        },
+        "pubType":{
+          "type":"string",
+          "description":"Type of publication. Valid values are journal, newsletter, report, proceedings, website, newspaper, unspecified, book, bookseries, database, thesisdissertation, streamingaudio, streamingvideo, and audiobook.",
+          "example":"Book"
+        },
+        "publisherName":{
+          "type":"string",
+          "description":"Publisher Name",
+          "example":"EBSCO Publishing"
+        },
+        "isPeerReviewed":{
+          "type":"boolean",
+          "description":"Field to indicate if title is peer reviewed.",
+          "example":false
+        },
+        "edition":{
+          "type":"string",
+          "description":"Title Edition",
+          "example":"1"
+        },
+        "description":{
+          "type":"string",
+          "description":"Description",
+          "example":"description-test"
+        },
+        "url":{
+          "type":"string",
+          "description":"URL",
+          "example":"http://www.ebsco.com"
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if title is hidden.",
+          "example":false
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"Issues on or after 6/1/1992"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"String1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"String2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"String3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"String4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"String5"
+        }
+      }
+    },
+    "holdingsStatus":{
+      "type":"object",
+      "description":"Holdings Status",
+      "required":[
+        "created",
+        "status"
+      ],
+      "properties":{
+        "status":{
+          "type":"string",
+          "description":"Status. Valid values are InProgress, Completed or Failed.",
+          "example":"Completed"
+        },
+        "created":{
+          "type":"string",
+          "description":"Date Time Stamp",
+          "example":"1999-12-31 23:59:59"
+        },
+        "totalCount":{
+          "type":"integer",
+          "description":"Total Count.  Note: Only available for Completed.",
+          "example":123
+        }
+      }
+    },
+    "holding":{
+      "type":"object",
+      "description":"Holding",
+      "required":[
+        "publication_title",
+        "print_identifier",
+        "online_identifier",
+        "date_first_issue_online",
+        "num_first_vol_online",
+        "num_first_issue_online",
+        "date_last_issue_online",
+        "num_last_vol_online",
+        "num_last_issue_online",
+        "title_url",
+        "first_author",
+        "title_id",
+        "embargo_info",
+        "coverage_depth",
+        "notes",
+        "publisher_name",
+        "publication_type",
+        "date_monograph_published_print",
+        "date_monograph_published_online",
+        "monograph_volume",
+        "monograph_edition",
+        "first_editor",
+        "parent_publication_title_id",
+        "preceding_publication_title_id",
+        "access_type",
+        "package_name",
+        "package_id",
+        "vendor_name",
+        "vendor_id",
+        "resource_type"
+      ],
+      "properties":{
+        "publication_title":{
+          "type":"string",
+          "description":"Title of the serial or monograph being represented.  Conference proceedings serial title should be entered as a serial title, while conference proceeding volume titles should be entered as a monograph title.",
+          "example":"Chronicle of Higher Education"
+        },
+        "print_identifier":{
+          "type":"string",
+          "description":"ISSN or ISBN of the print version of the work.  Note: If the item is a book and has both an ISBN and ISSN, use ISBN.",
+          "example":"0009-5982"
+        },
+        "online_identifier":{
+          "type":"string",
+          "description":"ISSN or ISBN of the online version of work. Note:  If item is a book and has both an ISBN and ISSN, use the ISBN.",
+          "example":"1931-1362"
+        },
+        "date_first_issue_online":{
+          "type":"string",
+          "description":"The publication date of the earliest serial issue available online in the format of yyyy-mm-dd. Applicable only to serials.",
+          "example":"1959-01-01"
+        },
+        "num_first_vol_online":{
+          "type":"string",
+          "description":"The volume number of the earliest serial issue available online. Applicable only to serials.",
+          "example":"1"
+        },
+        "num_first_issue_online":{
+          "type":"string",
+          "description":"The issue number of the earliest serial issue available online. Applicable only to serials.",
+          "example":"1"
+        },
+        "date_last_issue_online":{
+          "type":"string",
+          "description":"Date of the latest serial issue available online. Leave blank if coverage is to present. Applicable only to serials.",
+          "example":"1975-12-31"
+        },
+        "num_last_vol_online":{
+          "type":"string",
+          "description":"The volume number of the latest serial issue available online. Leave blank if coverage is to present. Applicable only to serials.",
+          "example":"23"
+        },
+        "num_last_issue_online":{
+          "type":"string",
+          "description":"The issue number of the latest serial issue available online. Leave blank if coverage is to present. Applicable only to serials.",
+          "example":"19"
+        },
+        "title_url":{
+          "type":"string",
+          "description":"Title-level URL. Applicable to both monographs and serials. For conference proceeding, the title_url for the series and the title_url for each volume should be different.",
+          "example":"http://chronicle.com/section/Archives/39/"
+        },
+        "first_author":{
+          "type":"string",
+          "description":"First author of the monograph. Applicable only to monographs.",
+          "example":"Benson"
+        },
+        "title_id":{
+          "type":"string",
+          "description":"The unique identifier for the title. This is the report provider's proprietary identifier.",
+          "example":"17482"
+        },
+        "embargo_info":{
+          "type":"string",
+          "description":"Embargo information as a coded string following rules in section 6.6.14 of the KBART recommended practice (i.e. 'P1Y' means an embargo is period of 1 year.)",
+          "example":"P14D"
+        },
+        "coverage_depth":{
+          "type":"string",
+          "description":"Coverage depth is defined in 6.6.15 of the KBART recommended practice. Multiple coverage depths can be specified with a semicolon to delimit values.",
+          "example":"fulltext"
+        },
+        "notes":{
+          "type":"string",
+          "description":"Free text field to describe the specifics of the coverage policy.",
+          "example":"Excludes book reviews."
+        },
+        "publisher_name":{
+          "type":"string",
+          "description":"Name of the publisher of the work. Not to be confused with the name of the hosting platform.",
+          "example":"Ubiquity Press"
+        },
+        "publication_type":{
+          "type":"string",
+          "description":"Serial or Monograph. Use 'serial' for journals, book series and conference proceeding series. Use 'monograph' for books and individual conference proceeding volumes.",
+          "example":"serial"
+        },
+        "date_monograph_published_print":{
+          "type":"string",
+          "description":"Date the monograph was first published in print. Applies to monographs only.",
+          "example":"2013-05-15"
+        },
+        "date_monograph_published_online":{
+          "type":"string",
+          "description":"Date the monograph was first published online. Applies to monographs only.",
+          "example":"2013-05-24"
+        },
+        "monograph_volume":{
+          "type":"string",
+          "description":"Number of the particular volume of the monograph. Applicable to ebooks and conference proceedings. For conference proceedings, use the volume within the conference proceedings series.",
+          "example":"3"
+        },
+        "monograph_edition":{
+          "type":"string",
+          "description":"Edition of the monograph.",
+          "example":"1"
+        },
+        "first_editor":{
+          "type":"string",
+          "description":"First editor. Applicable to monographs only.",
+          "example":"Took"
+        },
+        "parent_publication_title_id":{
+          "type":"string",
+          "description":"Title identifier of the parent publication. For a conference proceeding, this would be the title_id of the overall conference proceeding series.",
+          "example":"2041"
+        },
+        "preceding_publication_title_id":{
+          "type":"string",
+          "description":"The title identifier of any preceding publication title for serials and conference proceeding serials.  The publisher's proprietary identifier should be used where it exists."
+        },
+        "access_type":{
+          "type":"string",
+          "description":"Indicates if the content in the journal is F-Free, P-Paid, H-Hybrid, PF-Paid then Free after embargo period.  The default is P-Paid.",
+          "example":"P"
+        },
+        "package_name":{
+          "type":"string",
+          "description":"Name of the package or full text database this title is part of. This should match the name of the same package as it appears in the KBARTManifest.",
+          "example":"Applied Science & Technology Source"
+        },
+        "package_id":{
+          "type":"string",
+          "description":"The provider's identifier for the package or full text database this title is part of. This should match the package_id of the same package as it appears in the KBARTManifest.",
+          "example":"6605"
+        },
+        "vendor_name":{
+          "type":"string",
+          "description":"Provider Name",
+          "example":"ABC-CLIO"
+        },
+        "vendor_id":{
+          "type":"integer",
+          "description":"EBSCO KB's unique identifier for the provider.",
+          "example":583
+        },
+        "resource_type":{
+          "type":"string",
+          "description":"EBSCO's Resource_Type in textual form.",
+          "example":"Book"
+        }
+      }
+    },
+    "holdingsDetails":{
+      "type":"object",
+      "description":"Holdings Details",
+      "required":[
+        "offset",
+        "format",
+        "holdings"
+      ],
+      "properties":{
+        "offset":{
+          "type":"integer",
+          "description":"Page Offset",
+          "example":1
+        },
+        "format":{
+          "type":"string",
+          "description":"Format",
+          "example":"KBART2"
+        },
+        "holdings":{
+          "type":"array",
+          "description":"Holdings List",
+          "items":{
+            "$ref":"#/definitions/holding"
+          }
+        }
+      }
+    },
+    "proxyInfoIn":{
+      "type":"object",
+      "description":"Proxy",
+      "required":[
+        "id",
+        "inherited"
+      ],
+      "properties":{
+        "id":{
+          "type":"string",
+          "description":"Proxy ID",
+          "example":""
+        },
+        "inherited":{
+          "type":"boolean",
+          "description":"Field to indicate if the proxy is inherited.",
+          "example":true
+        }
+      }
+    },
+    "proxyWithURL":{
+      "type":"object",
+      "description":"Proxy",
+      "required":[
+        "id"
+      ],
+      "properties":{
+        "id":{
+          "type":"string",
+          "description":"Proxy ID",
+          "example":""
+        },
+        "name":{
+          "type":"string",
+          "description":"Proxy Name",
+          "example":"EZ_proxy"
+        },
+        "urlMask":{
+          "type":"string",
+          "description":"URL mask",
+          "example":"url"
+        }
+      }
+    },
+    "proxyInfo":{
+      "type":"object",
+      "description":"Proxy",
+      "required":[
+        "id",
+        "inherited"
+      ],
+      "properties":{
+        "id":{
+          "type":"string",
+          "description":"Proxy ID",
+          "example":"EZ_proxy"
+        },
+        "inherited":{
+          "type":"boolean",
+          "description":"Field to indicate if the proxy is inherited.",
+          "example":false
+        }
+      }
+    },
+    "updateVendorProxyPayload":{
+      "type":"object",
+      "description":"JSON payload to update a vendor with a proxy.",
+      "required":[
+        "proxy",
+        "vendorToken"
+      ],
+      "properties":{
+        "proxy":{
+          "$ref":"#/definitions/proxyDetails"
+        },
+        "vendorToken":{
+          "$ref":"#/definitions/tokenDetails"
+        }
+      }
+    },
+    "updateVendorInheritedProxyPayload":{
+      "type":"object",
+      "description":"JSON payload to update a vendor with an inherited proxy.",
+      "required":[
+        "proxy",
+        "vendorToken"
+      ],
+      "properties":{
+        "proxy":{
+          "$ref":"#/definitions/proxyInfoIn"
+        }
+      }
+    },
+    "updateVendorNonInheritedProxyPayload":{
+      "type":"object",
+      "description":"JSON payload to update a vendor with an non-inherited proxy.",
+      "required":[
+        "proxy",
+        "vendorToken"
+      ],
+      "properties":{
+        "proxy":{
+          "$ref":"#/definitions/proxyInfo"
+        },
+        "vendorToken":{
+          "$ref":"#/definitions/tokenDetails"
+        }
+      }
+    },
+    "tokenInfo":{
+      "type":"object",
+      "description":"Token Information",
+      "required":[
+        "factName"
+      ],
+      "properties":{
+        "factName":{
+          "type":"string",
+          "description":"Tokens are variables in content URLs that identify the customer. The token is text within the URL that needs to be replaced with an institute-specific value.",
+          "example":"galesiteid"
+        },
+        "helpText":{
+          "type":"string",
+          "description":"Help Text",
+          "example":"<ul><li>Enter your Gale<sup></sup> site ID in the space provided below. The site ID may contain a combination of alpha/numeric characters, varying in length. <blockquote><p> Example: The site ID immediately follows /itweb/ in a URL. The site ID in the following URL is …………….</ul>"
+        },
+        "prompt":{
+          "type":"string",
+          "description":"Prompt",
+          "example":"/itweb/"
+        },
+        "value":{
+          "type":"string",
+          "description":"Value",
+          "example":"1234567"
+        }
+      }
+    },
+    "proxyDetails":{
+      "type":"object",
+      "description":"Proxy ID",
+      "properties":{
+        "id":{
+          "type":"string",
+          "description":"Proxy ID",
+          "example":"EZ_proxy"
+        }
+      }
+    },
+    "tokenDetails":{
+      "type":"object",
+      "description":"Token",
+      "properties":{
+        "value":{
+          "type":"string",
+          "description":"Token Value",
+          "example":"myValue"
+        }
+      }
+    },
+    "setProxyPayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements to update a proxy value for a title.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "titleName":{
+          "type":"string",
+          "description":"Title Name",
+          "example":"custom-title-74"
+        },
+        "pubType":{
+          "type":"string",
+          "description":"Type of publication. Valid values are journal, newsletter, report, proceedings, website, newspaper, unspecified, book, bookseries, database, thesisdissertation, streamingaudio, streamingvideo, and audiobook.",
+          "example":"Book"
+        },
+        "publisherName":{
+          "type":"string",
+          "description":"Publisher Name",
+          "example":"EBSCO Publishing"
+        },
+        "isPeerReviewed":{
+          "type":"boolean",
+          "description":"Field to indicate if title is peer reviewed.",
+          "example":false
+        },
+        "edition":{
+          "type":"string",
+          "description":"Title Edition",
+          "example":"1"
+        },
+        "description":{
+          "type":"string",
+          "description":"Description",
+          "example":"description-test"
+        },
+        "url":{
+          "type":"string",
+          "description":"URL",
+          "example":"http://www.ebsco.com"
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if title is hidden.",
+          "example":false
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"Issues on or after 6/1/1992"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"String1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"String2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"String3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"String4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"String5"
+        },
+        "proxy":{
+          "$ref":"#/definitions/proxyDetails"
+        }
+      }
+    },
+    "setProxyTwoPayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements to update a proxy value for a title.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "titleName":{
+          "type":"string",
+          "description":"Title Name",
+          "example":"custom-title-74"
+        },
+        "pubType":{
+          "type":"string",
+          "description":"Type of publication. Valid values are journal, newsletter, report, proceedings, website, newspaper, unspecified, book, bookseries, database, thesisdissertation, streamingaudio, streamingvideo, and audiobook.",
+          "example":"Book"
+        },
+        "publisherName":{
+          "type":"string",
+          "description":"Publisher Name",
+          "example":"EBSCO Publishing"
+        },
+        "isPeerReviewed":{
+          "type":"boolean",
+          "description":"Field to indicate if title is peer reviewed.",
+          "example":false
+        },
+        "edition":{
+          "type":"string",
+          "description":"Title Edition",
+          "example":"1"
+        },
+        "description":{
+          "type":"string",
+          "description":"Description",
+          "example":"description-test"
+        },
+        "url":{
+          "type":"string",
+          "description":"URL",
+          "example":"http://www.ebsco.com"
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if title is hidden.",
+          "example":false
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"Issues on or after 6/1/1992"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"String1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"String2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"String3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"String4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"String5"
+        },
+        "proxy":{
+          "$ref":"#/definitions/proxyInfo"
+        }
+      }
+    },
+    "setProxyInPayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements to update a proxy value for a title.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if selected in a customer's account.",
+          "example":true
+        },
+        "titleName":{
+          "type":"string",
+          "description":"Title Name",
+          "example":"custom-title-74"
+        },
+        "pubType":{
+          "type":"string",
+          "description":"Type of publication. Valid values are journal, newsletter, report, proceedings, website, newspaper, unspecified, book, bookseries, database, thesisdissertation, streamingaudio, streamingvideo, and audiobook.",
+          "example":"Book"
+        },
+        "publisherName":{
+          "type":"string",
+          "description":"Publisher Name",
+          "example":"EBSCO Publishing"
+        },
+        "isPeerReviewed":{
+          "type":"boolean",
+          "description":"Field to indicate if title is peer reviewed.",
+          "example":false
+        },
+        "edition":{
+          "type":"string",
+          "description":"Title Edition",
+          "example":"1"
+        },
+        "description":{
+          "type":"string",
+          "description":"Description",
+          "example":"description-test"
+        },
+        "url":{
+          "type":"string",
+          "description":"URL",
+          "example":"http://www.ebsco.com"
+        },
+        "customCoverageList":{
+          "type":"array",
+          "description":"Custom Coverage List",
+          "items":{
+            "$ref":"#/definitions/coverageDates"
+          }
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if title is hidden.",
+          "example":false
+        },
+        "coverageStatement":{
+          "type":"string",
+          "description":"Coverage Statement",
+          "example":"Issues on or after 6/1/1992"
+        },
+        "customEmbargoPeriod":{
+          "$ref":"#/definitions/embargoPeriod"
+        },
+        "userDefinedField1":{
+          "type":"string",
+          "description":"User Defined Field 1",
+          "example":"String1"
+        },
+        "userDefinedField2":{
+          "type":"string",
+          "description":"User Defined Field 2",
+          "example":"String2"
+        },
+        "userDefinedField3":{
+          "type":"string",
+          "description":"User Defined Field 3",
+          "example":"String3"
+        },
+        "userDefinedField4":{
+          "type":"string",
+          "description":"User Defined Field 4",
+          "example":"String4"
+        },
+        "userDefinedField5":{
+          "type":"string",
+          "description":"User Defined Field 5",
+          "example":"String5"
+        },
+        "proxy":{
+          "$ref":"#/definitions/proxyInfoIn"
+        }
+      }
+    },
+    "setManagedPackagePayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements that describe the payload to update values for a managed package.",
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if the packages is selected in a customer's account.",
+          "example":true
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if title is hidden.",
+          "example":false
+        },
+        "allowEbscoToAddTitles":{
+          "type":"boolean",
+          "description":"Indicates if EBSCO is allowed to add titles.  If the package type is custom, then allowEbscoToAddTitles will always be set to false.",
+          "example":true
+        },
+        "customCoverage":{
+          "$ref":"#/definitions/coverageDates"
+        },
+        "proxy":{
+          "$ref":"#/definitions/proxyInfo"
+        },
+        "packageToken":{
+          "$ref":"#/definitions/tokenDetails"
+        }
+      }
+    },
+    "setCustomPackagePayload":{
+      "type":"object",
+      "required":[
+        "isSelected"
+      ],
+      "description":"This object represents data elements that describe the payload to update values for a custom package.",
+      "properties":{
+        "packageName":{
+          "type":"string",
+          "description":"Package Name",
+          "example":"Library Package 1"
+        },
+        "contentType":{
+          "type":"integer",
+          "description":"Content Type. Valid values are 1 for Agregated Full Text, 2 for Abstract and Index, 3 for Ebook, 4 for E-Journal, 5 for Print, 6 for Unknown or 7 for Online Reference.",
+          "example":3
+        },
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if the packages is selected in a customer's account.",
+          "example":true
+        },
+        "isHidden":{
+          "type":"boolean",
+          "description":"Field to indicate if title is hidden.",
+          "example":false
+        },
+        "customCoverage":{
+          "$ref":"#/definitions/coverageDates"
+        },
+        "proxy":{
+          "$ref":"#/definitions/proxyInfo"
+        }
+      }
+    },
+    "updatePackageProxyPayload":{
+      "type":"object",
+      "description":"JSON payload to update a package with a proxy.",
+      "required":[
+        "proxy",
+        "packageToken"
+      ],
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if the packages is selected in a customer's account.",
+          "example":true
+        },
+        "proxy":{
+          "$ref":"#/definitions/proxyDetails"
+        },
+        "packageToken":{
+          "$ref":"#/definitions/tokenDetails"
+        }
+      }
+    },
+    "updatePackageInheritedProxyPayload":{
+      "type":"object",
+      "description":"JSON payload to update a package with an inherited proxy.",
+      "required":[
+        "proxy",
+        "packageToken"
+      ],
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if the packages is selected in a customer's account.",
+          "example":true
+        },
+        "proxy":{
+          "$ref":"#/definitions/proxyInfoIn"
+        },
+        "packageToken":{
+          "$ref":"#/definitions/tokenDetails"
+        }
+      }
+    },
+    "updatePackageNonInheritedProxyPayload":{
+      "type":"object",
+      "description":"JSON payload to update a package with an non-inherited proxy.",
+      "required":[
+        "proxy",
+        "packageToken"
+      ],
+      "properties":{
+        "isSelected":{
+          "type":"boolean",
+          "description":"Indicates if the packages is selected in a customer's account.",
+          "example":true
+        },
+        "proxy":{
+          "$ref":"#/definitions/proxyInfo"
+        },
+        "packageToken":{
+          "$ref":"#/definitions/tokenDetails"
+        }
+      }
+    },
+    "labelid":{
+      "type":"object",
+      "description":"Custom Label",
+      "required":[
+        "id",
+        "displayLabel",
+        "displayOnFullTextFinder",
+        "displayOnPublicationFinder"
+      ],
+      "properties":{
+        "id":{
+          "type":"string",
+          "description":"Display Label ID",
+          "example":"1"
+        },
+        "displayLabel":{
+          "type":"string",
+          "description":"Custom field display Label Name",
+          "example":"this label is UDF1"
+        },
+        "displayOnFullTextFinder":{
+          "type":"boolean",
+          "description":"Indicates if displayed on Full Text Finder.",
+          "example":false
+        },
+        "displayOnPublicationFinder":{
+          "type":"boolean",
+          "description":"Indicates if displayed on Publication Finder.",
+          "example":true
+        }
+      }
+    },
+    "label":{
+      "type":"object",
+      "description":"Custom Label",
+      "required":[
+        "id",
+        "displayLabel",
+        "displayOnFullTextFinder",
+        "displayOnPublicationFinder"
+      ],
+      "properties":{
+        "id":{
+          "type":"integer",
+          "description":"Display Label ID",
+          "example":1
+        },
+        "displayLabel":{
+          "type":"string",
+          "description":"Custom field display Label Name",
+          "example":"this label is UDF1"
+        },
+        "displayOnFullTextFinder":{
+          "type":"boolean",
+          "description":"Indicates if displayed on Full Text Finder.",
+          "example":false
+        },
+        "displayOnPublicationFinder":{
+          "type":"boolean",
+          "description":"Indicates if displayed on Publication Finder.",
+          "example":true
+        }
+      }
+    },
+    "customLabels":{
+      "type":"object",
+      "description":"List of all custom labels and root proxy.",
+      "required":[
+        "proxy"
+      ],
+      "properties":{
+        "proxy":{
+          "$ref":"#/definitions/proxyDetails"
+        },
+        "labels":{
+          "type":"array",
+          "items":{
+            "$ref":"#/definitions/labelid"
+          }
+        }
+      }
+    },
+    "customLabelsProxy":{
+      "type":"object",
+      "description":"List of all custom labels and root proxy.",
+      "required":[
+        "proxy"
+      ],
+      "properties":{
+        "proxy":{
+          "$ref":"#/definitions/proxyDetails"
+        },
+        "vendorId":{
+          "type":"string",
+          "description":"Vendor ID",
+          "example":19
+        },
+        "ftfTokens":{
+          "type":"array",
+          "items":{
+            "$ref":"#/definitions/CustomerToken"
+          }
+        },
+        "labels":{
+          "type":"array",
+          "items":{
+            "$ref":"#/definitions/label"
+          }
+        }
+      }
+    },
+    "CustomerToken":{
+      "type":"object",
+      "properties":{
+        "key":{
+          "type":"string",
+          "description":"Key",
+          "example":"CCC.Password"
+        },
+        "shouldShowOneResourcePerLinkSource":{
+          "type":"boolean",
+          "description":"Indicates if should show one resource per link source.",
+          "example":true
+        },
+        "targetID":{
+          "type":"string",
+          "description":"Target ID",
+          "example":"19"
+        },
+        "token":{
+          "type":"string",
+          "description":"Token",
+          "example":1
+        }
+      }
+    },
+    "proxyList":{
+      "type":"object",
+      "description":"List of all customer proxies.",
+      "required":[
+        "proxy"
+      ],
+      "properties":{
+        "proxies":{
+          "type":"array",
+          "items":{
+            "$ref":"#/definitions/proxyWithURL"
+          }
+        }
+      }
+    }
+  }
+}
