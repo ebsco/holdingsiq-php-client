@@ -158,10 +158,10 @@ class EmbargoPeriod implements ModelInterface, ArrayAccess
         return self::$swaggerModelName;
     }
 
-    const EMBARGO_UNIT_DAYS = 'Days';
-const EMBARGO_UNIT_WEEKS = 'Weeks';
-const EMBARGO_UNIT_MONTHS = 'Months';
-const EMBARGO_UNIT_YEARS = 'Years';
+    const EMBARGO_UNIT_DAYS = 'days';
+const EMBARGO_UNIT_WEEKS = 'weeks';
+const EMBARGO_UNIT_MONTHS = 'months';
+const EMBARGO_UNIT_YEARS = 'years';
 
     /**
      * Gets allowable values of the enum
@@ -211,8 +211,8 @@ self::EMBARGO_UNIT_YEARS,        ];
         $allowedValues = $this->getEmbargoUnitAllowableValues();
         if (!in_array($this->container['embargo_unit'], $allowedValues)) {
             $invalidProperties[] = sprintf(
-                "invalid value for 'embargo_unit', must be one of '%s'",
-                implode("', '", $allowedValues)
+                "invalid value for 'embargo_unit', must be one of '%s' (%s)",
+                implode("', '", $allowedValues, $this->container['embargo_unit'])
             );
         }
 
@@ -268,8 +268,8 @@ self::EMBARGO_UNIT_YEARS,        ];
         if (!in_array($embargo_unit, $allowedValues)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value for 'embargo_unit', must be one of '%s'",
-                    implode("', '", $allowedValues)
+                    "Invalid value for 'embargo_unit', must be one of '%s' (%s)",
+                    implode("', '", $allowedValues), $embargo_unit
                 )
             );
         }

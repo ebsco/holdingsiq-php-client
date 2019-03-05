@@ -57,7 +57,7 @@ class Vendors implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'vendor_list' => '\Swagger\Client\Model\Vendor[]',
+        'vendors' => '\Swagger\Client\Model\Vendor[]',
 'total_results' => 'int'    ];
 
     /**
@@ -66,7 +66,7 @@ class Vendors implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'vendor_list' => null,
+        'vendors' => null,
 'total_results' => null    ];
 
     /**
@@ -96,7 +96,7 @@ class Vendors implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'vendor_list' => 'vendorList',
+        'vendors' => 'vendors',
 'total_results' => 'totalResults'    ];
 
     /**
@@ -105,7 +105,7 @@ class Vendors implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'vendor_list' => 'setVendorList',
+        'vendors' => 'setVendors',
 'total_results' => 'setTotalResults'    ];
 
     /**
@@ -114,7 +114,7 @@ class Vendors implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'vendor_list' => 'getVendorList',
+        'vendors' => 'getVendors',
 'total_results' => 'getTotalResults'    ];
 
     /**
@@ -175,7 +175,7 @@ class Vendors implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['vendor_list'] = isset($data['vendor_list']) ? $data['vendor_list'] : null;
+        $this->container['vendors'] = isset($data['vendors']) ? $data['vendors'] : null;
         $this->container['total_results'] = isset($data['total_results']) ? $data['total_results'] : null;
     }
 
@@ -188,8 +188,8 @@ class Vendors implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['vendor_list'] === null) {
-            $invalidProperties[] = "'vendor_list' can't be null";
+        if ($this->container['vendors'] === null) {
+            $invalidProperties[] = "'vendors' can't be null";
         }
         if ($this->container['total_results'] === null) {
             $invalidProperties[] = "'total_results' can't be null";
@@ -206,7 +206,7 @@ class Vendors implements ModelInterface, ArrayAccess
     public function valid()
     {
 
-        if ($this->container['vendor_list'] === null) {
+        if ($this->container['vendors'] === null) {
             return false;
         }
         if ($this->container['total_results'] === null) {
@@ -217,25 +217,25 @@ class Vendors implements ModelInterface, ArrayAccess
 
 
     /**
-     * Gets vendor_list
+     * Gets vendors
      *
      * @return \Swagger\Client\Model\Vendor[]
      */
-    public function getVendorList()
+    public function getVendors()
     {
-        return $this->container['vendor_list'];
+        return $this->container['vendors'];
     }
 
     /**
-     * Sets vendor_list
+     * Sets vendors
      *
-     * @param \Swagger\Client\Model\Vendor[] $vendor_list vendor_list
+     * @param \Swagger\Client\Model\Vendor[] $vendors vendors
      *
      * @return $this
      */
-    public function setVendorList($vendor_list)
+    public function setVendors($vendors)
     {
-        $this->container['vendor_list'] = $vendor_list;
+        $this->container['vendors'] = $vendors;
 
         return $this;
     }

@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "name": "hiq",
+  "builds": [
+    { "src": "example/*.php", "use": "@now/php" },
+    { "src": "example/php-clients/packages/*.php", "use": "@now/php" },
+    { "src": "example/php-clients/titles/*.php", "use": "@now/php" },
+    { "src": "example/php-clients/vendors/*.php", "use": "@now/php" },
+    { "src": "example/php-includes/*.php", "use": "@now/php" },
+    { "src": "lib/*.php", "use": "@now/php" },
+    { "src": "lib/Api/*.php", "use": "@now/php" },
+    { "src": "lib/Model/*.php", "use": "@now/php" },
+    { "src": "example/js/*.js", "use": "@now/static" }
+  ],
+  "alias": "ebsco-hiq"
+}

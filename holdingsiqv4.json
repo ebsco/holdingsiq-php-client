@@ -1722,12 +1722,12 @@
     "vendors":{
       "type":"object",
       "required":[
-        "vendorList",
+        "vendors",
         "totalResults"
       ],
       "description":"List of vendors matching the vendor name and the total number of results found.",
       "properties":{
-        "vendorList":{
+        "vendors":{
           "type":"array",
           "items":{
             "$ref":"#/definitions/vendor"
@@ -2713,13 +2713,13 @@
       "properties":{
         "embargoUnit":{
           "type":"string",
-          "description":"The unit of time to use for the embargo - Days, Weeks, Months or Years.",
+          "description":"The unit of time to use for the embargo - days, weeks, months or years.",
           "example":"Days",
           "enum":[
-            "Days",
-            "Weeks",
-            "Months",
-            "Years"
+            "days",
+            "weeks",
+            "months",
+            "years"
           ]
         },
         "embargoValue":{
