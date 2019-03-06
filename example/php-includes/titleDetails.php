@@ -1,7 +1,7 @@
 <?php ?>
 
 <!-- TITLE DETAILS -->
-<div id="titleDetails" style="display: none; height: 100%;" class="ui attached segment">
+<div id="titleDetails" style="border: none; display: none; height: 100%;" class="ui attached segment">
     <h2 id="titleDetailName" class="ui top left aligned header"></h2>
     <div id="titleDetailAccordians" style="display: none" class="ui accordion">
         <div class="active title">

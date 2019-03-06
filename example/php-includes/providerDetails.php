@@ -1,7 +1,7 @@
 <?php ?>
 
 <!-- VENDOR DETAILS -->
-<div id="vendorDetails" style="display: none; height: 100%;" class="ui attached segment">
+<div id="vendorDetails" style="display: none; border: none;" class="ui attached segment">
     <h2 id="vendorDetailName" class="ui top left aligned header"></h2>
     <div id="vendorDetailAccordians" style="display: none" class="ui accordion">
         <div class="active title">

@@ -1,7 +1,7 @@
 <?php ?>
 
 <!-- PACKAGE DETAILS -->
-<div id="packageDetails" style="display: none; height: 100%;" class="ui attached segment">
+<div id="packageDetails" style="border: none; display: none; height: 100%;" class="ui attached segment">
     <h2 id="packageDetailName" class="ui top left aligned header"></h2>
     <div id="packageDetailAccordians" style="display: none" class="ui accordion">
         <div class="active title">

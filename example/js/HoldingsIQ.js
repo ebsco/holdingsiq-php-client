@@ -391,7 +391,7 @@ function HoldingsIQ() {
         var selection = $("input[name='titleSelection']:checked").val() || 'all';
         var resourcetype = $("input[name='titlePublicationType']:checked").val() || 'all';
         var searchfield = $("input[name='titleSearchField']:checked").val() || 'titlename';
-        var count = 50;
+        var count = 20;
         var offset = 1;
         var url = `php-clients/titles/getTitles.php?q=${query}&orderby=${orderby}&count=${count}&offset=${offset}&selection=${selection}&resourcetype=${resourcetype}&searchfield=${searchfield}`;
         (function() {
@@ -399,26 +399,46 @@ function HoldingsIQ() {
                 .done(function( data ) {
                     var result_count = data.totalResults;
                     result_count = numberWithCommas(result_count);
-                    var result_text = result_count + " titles found:";
-                    if (result_count === 1) result_text = result_count + " title found:";
-                    if (result_count === 0) result_text = "No titles found.";
+                    // var result_text = result_count + " titles found:";
+                    // if (result_count === 1) result_text = result_count + " title found:";
+                    // if (result_count === 0) result_text = "No titles found.";
                     // $("#totalTitleResults").text(result_text);
                     $("#titleResultsHeading").text("Titles ("+result_count+")");
-                    $("#titleResultsList").empty();
-                    $.each( data.titles, function( i, title ) {
-                        var result_item =
-                            "<div class=\"item left aligned\">\n" +
-                            "   <div class=\"content\">\n" +
-                            "       <a onclick='hiq.getTitleDetails(" + title.titleId + ");' class=\"header\">" + title.titleName + "</a>\n" +
-                            "       <div class=\"description\">" + title.pubType + " - " + title.publisherName + "</div>\n" +
-                            "   </div>\n" +
-                            "</div>";
-                        $("#titleResultsList").append(result_item);
-                    });
-                    $("#resultsLoader").removeClass("active");
-                    $("#titleResults").show();
+                    // $("#titleResultsList").empty();
+                    // $.each( data.titles, function( i, title ) {
+                    //     var result_item =
+                    //         "<div class=\"item left aligned\">\n" +
+                    //         "   <div class=\"content\">\n" +
+                    //         "       <a onclick='hiq.getTitleDetails(" + title.titleId + ");' class=\"header\">" + title.titleName + "</a>\n" +
+                    //         "       <div class=\"description\">" + title.pubType + " - " + title.publisherName + "</div>\n" +
+                    //         "   </div>\n" +
+                    //         "</div>";
+                    //     $("#titleResultsList").append(result_item);
+                    // });
+                    // $("#resultsLoader").removeClass("active");
+                    // $("#titleResults").show();
                 });
         })();
+
+        // paginated datatable
+        var datatablesUrl = `php-clients/titles/getTitlesDatatable.php?q=${query}&orderby=${orderby}&count=${count}&offset=${offset}&selection=${selection}&resourcetype=${resourcetype}&searchfield=${searchfield}`;
+        $("#titleDatatable").DataTable().destroy();
+        $('#titleDatatable').DataTable( {
+            "processing": true,
+            "serverSide": true,
+            "searching": false,
+            "ordering": false,
+            "info": false,
+            "lengthChange": false,
+            "pageLength": 20,
+            "paging": true,
+            "ajax": datatablesUrl
+        } );
+        $('#titleDatatable_paginate').css("position", "absolute");
+        $('#titleDatatable_paginate').css("left", "-200px");
+        $("#resultsLoader").removeClass("active");
+        $('#titleDatatable').show();
+
     };
 
     HoldingsIQ.prototype.getTitleDetails = function(tid) {
