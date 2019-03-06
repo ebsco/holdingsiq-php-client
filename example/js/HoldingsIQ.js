@@ -180,29 +180,50 @@ function HoldingsIQ() {
                 .done(function( data ) {
                     var result_count = data.totalResults;
                     result_count = numberWithCommas(result_count);
-                    var result_text = result_count + " packages found:";
-                    if (result_count === 1) result_text = result_count + " package found:";
-                    if (result_count === 0) result_text = "No packages found.";
+                    // var result_text = result_count + " packages found:";
+                    // if (result_count === 1) result_text = result_count + " package found:";
+                    // if (result_count === 0) result_text = "No packages found.";
                     // $("#totalPackageResults").text(result_text);
                     $("#packageResultsHeading").text("Packages ("+result_count+")");
-                    $("#packageResultsList").empty();
-                    $.each( data.packagesList, function( i, package ) {
-                        var selectedText = "Not selected";
-                        if (package.isSelected) { selectedText = "Selected" };
-                        var result_item =
-                            "<div class=\"item left aligned\">\n" +
-                            "   <div class=\"content\">\n" +
-                            "       <a onclick='hiq.getPackageDetails(" + package.vendorId + "," + package.packageId+ ");' class=\"header\">" + package.packageName + "</a>\n" +
-                            "       <div class=\"description\">" + package.vendorName + "</div>\n" +
-                            "       <div class=\"description\">" + selectedText + "</div>\n" +
-                            "   </div>\n" +
-                            "</div>";
-                        $("#packageResultsList").append(result_item);
-                    });
-                    $("#resultsLoader").removeClass("active");
-                    $("#packageResults").show();
+                    // $("#packageResultsList").empty();
+                    // $.each( data.packagesList, function( i, package ) {
+                    //     var selectedText = "Not selected";
+                    //     if (package.isSelected) { selectedText = "Selected" };
+                    //     var result_item =
+                    //         "<div class=\"item left aligned\">\n" +
+                    //         "   <div class=\"content\">\n" +
+                    //         "       <a onclick='hiq.getPackageDetails(" + package.vendorId + "," + package.packageId+ ");' class=\"header\">" + package.packageName + "</a>\n" +
+                    //         "       <div class=\"description\">" + package.vendorName + "</div>\n" +
+                    //         "       <div class=\"description\">" + selectedText + "</div>\n" +
+                    //         "   </div>\n" +
+                    //         "</div>";
+                    //     $("#packageResultsList").append(result_item);
+                    // });
+                    // $("#resultsLoader").removeClass("active");
+                    // $("#packageResults").show();
                 });
         })();
+
+        // paginated datatable
+        var datatablesUrl = `php-clients/packages/getPackagesDatatable.php?q=${query}&orderby=${orderby}&count=${count}&offset=${offset}&selection=${selection}&contenttype=${contenttype}`;
+        $("#packageDatatable").DataTable().destroy();
+        $('#packageDatatable').DataTable( {
+            "processing": true,
+            "serverSide": true,
+            "searching": false,
+            "ordering": false,
+            "info": false,
+            "lengthChange": false,
+            "pageLength": 20,
+            "paging": true,
+            "ajax": datatablesUrl
+        } );
+        $('#packageDatatable_paginate').css("position", "absolute");
+        $('#packageDatatable_paginate').css("left", "-200px");
+        $("#resultsLoader").removeClass("active");
+        $("#packageResults").show();
+        $('#packageDatatable').show();
+
     };
 
     HoldingsIQ.prototype.getPackageDetails = function(vid, pid) {
