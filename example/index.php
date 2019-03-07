@@ -43,47 +43,32 @@
     <div class="column">
         <h3 class="ui top attached center aligned header">
             <span id="vendorResultsHeading">Providers</span>
-            <span id="packageResultsHeading" style="display: none">Packages</span>
+            <span id="packageResultsHeading" style="display: none">
+                <span id="packageResultsText">Packages</span>
+                <button onclick="hiq.showNewCustomPackage();" class="mini ui right floated primary button">+ New</button>
+            </span>
             <span id="titleResultsHeading" style="display: none">Titles</span>
         </h3>
         <div id="resultsLoader" class="ui loader"></div>
+
         <!-- PROVIDER -->
-        <div id="vendorResults" style="display: none; border: none;" class="ui attached segment">
-            <div id="totalVendorResults"></div>
-            <div id="vendorResultsList" class="ui relaxed divided list"></div>
-        </div>
+        <?php
+        include('php-includes/providerResults.php');
+        ?>
+
         <!-- PACKAGE -->
-        <div id="packageResults" style="display: none; border: none;" class="ui attached segment">
-<!--            <div id="totalPackageResults"></div>-->
-<!--            <div id="packageResultsList" class="ui relaxed divided list"></div>-->
-            <table id="packageDatatable" class="ui celled table" style="display: none; width:100%">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Publisher</th>
-                    <th>Selected</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+        <?php
+        include('php-includes/packageResults.php');
+        ?>
+        <?php
+        include('php-includes/newCustomPackage.php');
+        ?>
+
         <!-- TITLE -->
-        <div id="titleResults" style="display: none; border: none;" class="ui attached segment">
-<!--            <div id="totalTitleResults"></div>-->
-<!--            <div id="titleResultsList" class="ui relaxed divided list"></div>-->
-            <table id="titleDatatable" class="ui celled table" style="display: none; width:100%">
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Pub type</th>
-                    <th>Publisher</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+        <?php
+        include('php-includes/titleResults.php');
+        ?>
+
     </div>
 
     <!-- DETAILS -->

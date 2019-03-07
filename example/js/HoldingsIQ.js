@@ -16,6 +16,9 @@ function HoldingsIQ() {
         $("#packageResults").hide();
         $("#packageDetails").hide();
         $("#packageResultsHeading").hide();
+        $("#newCustomPackage").hide();
+        $("#newCustomPackageSuccess").hide();
+
 
         $("#titleSearchForm").hide();
         $("#titleResults").hide();
@@ -184,7 +187,7 @@ function HoldingsIQ() {
                     // if (result_count === 1) result_text = result_count + " package found:";
                     // if (result_count === 0) result_text = "No packages found.";
                     // $("#totalPackageResults").text(result_text);
-                    $("#packageResultsHeading").text("Packages ("+result_count+")");
+                    $("#packageResultsText").text("Packages ("+result_count+")");
                     // $("#packageResultsList").empty();
                     // $.each( data.packagesList, function( i, package ) {
                     //     var selectedText = "Not selected";
@@ -375,6 +378,31 @@ function HoldingsIQ() {
         })();
     };
 
+    HoldingsIQ.prototype.showNewCustomPackage = function() {
+        $("#newCustomPackage").show();
+        $("#newCustomPackageSuccess").hide();
+    };
+
+    HoldingsIQ.prototype.submitNewCustomPackage = function() {
+        var name = $("#customPackageName").val() || null;
+        var contentType = $("#customPackageContentType").val() || null;
+        var packageId = null;
+        var vendorId = null;
+        $("#newCustomPackage").addClass("loading");
+        var url = `php-clients/packages/createCustomPackage.php?name=${name}&contentType=${contentType}`;
+        var self = this;
+        (function() {
+            $.getJSON(url)
+                .done(function( data ) {
+                    packageId = data.packageId;
+                    vendorId = data.vendorId;
+                    self.getPackageDetails(vendorId, packageId);
+                    $("#newCustomPackage").removeClass("loading");
+                    $("#newCustomPackage").hide();
+                    $("#newCustomPackageSuccess").show();
+                });
+        })();
+    };
 
     // ===============================================================================================================
     //                                              TITLES
@@ -384,6 +412,8 @@ function HoldingsIQ() {
         $("#packageResults").hide();
         $("#packageDetails").hide();
         $("#packageResultsHeading").hide();
+        $("#newCustomPackage").hide();
+        $("#newCustomPackageSuccess").hide();
 
         $("#vendorSearchForm").hide();
         $("#vendorResults").hide();
