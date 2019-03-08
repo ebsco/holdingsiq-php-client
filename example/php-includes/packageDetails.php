@@ -36,7 +36,7 @@
             Coverage settings
         </div>
         <div class="active content">
-            <div style="margin-left: 25px;" id="packageCoverage" class="ui relaxed divided list">
+            <div style="margin-left: 25px;" id="packageDetailCoverage" class="ui relaxed divided list">
                 <!-- packages will go here... -->
             </div>
         </div>

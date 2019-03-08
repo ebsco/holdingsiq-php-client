@@ -6,3 +6,5 @@ vendor/
 \.vagrant/
 
 \.DS_Store
+
+example/ebsco-demo\.ini

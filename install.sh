@@ -15,7 +15,7 @@ xdebug.remote_port = 9000
 xdebug.remote_mode = \"req\"
 xdebug.var_display_max_children = 512
 xdebug.var_display_max_data = 1024
-xdebug.remote_host = \"192.168.30.10\"
+xdebug.remote_host = \"192.168.33.10\"
 xdebug.idekey = \"SCOTCHDEBUG\"
 xdebug.var_display_max_depth = 10" >> /etc/php/7.0/mods-available/xdebug.ini
 

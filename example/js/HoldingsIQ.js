@@ -166,6 +166,8 @@ function HoldingsIQ() {
 
     HoldingsIQ.prototype.getPackages = function() {
 
+        $("#newCustomPackage").hide();
+        $("#newCustomPackageSuccess").hide();
         $("#packageDetails").hide();
         $("#packageResults").hide();
         $("#resultsLoader").addClass("active");
@@ -235,6 +237,7 @@ function HoldingsIQ() {
         (function () {
             $.getJSON("php-clients/packages/getPackageDetails.php?vid=" + vid + "&pid=" + pid)
                 .done(function (data) {
+
 
                     $("#packageDetailName").text(data.packageName);
 
@@ -312,6 +315,8 @@ function HoldingsIQ() {
                     $("#packageSettings").append(show_titles);
                     $("#packageSettings").append(auto_select_titles);
                     $("#packageSettings").append(proxy);
+
+
                     if (typeof data.vendorToken !== 'undefined') {
                         var tokenPrompt = (typeof data.vendorToken.prompt !== 'undefined') ? data.vendorToken.prompt + ":" : "";
                         var tokenValue = (typeof data.vendorToken.value !== 'undefined') ? data.vendorToken.value : "";
@@ -323,8 +328,8 @@ function HoldingsIQ() {
                             "</div>";
                         $("#packageSettings").append(token);
                     }
-
-                    $("#packageCoverage").empty();
+                    // custom coverage
+                     $("#packageDetailCoverage").empty();
                     var no_custom_coverage =
                         "<div class=\"item left aligned\">\n" +
                         "   <div class=\"content\">\n" +
@@ -344,11 +349,12 @@ function HoldingsIQ() {
                             "       <div>Custom end coverage: <strong>" + data.customCoverage.endCoverage + "</strong></div>\n" +
                             "   </div>\n" +
                             "</div>";
-                        $("#packageCoverage").append(custom_begin_coverage);
-                        $("#packageCoverage").append(custom_end_coverage);
+                        $("#packageDetailCoverage").append(custom_begin_coverage);
+                        $("#packageDetailCoverage").append(custom_end_coverage);
                     } else {
-                        $("#packageCoverage").append(no_custom_coverage);
+                        $("#packageDetailCoverage").append(no_custom_coverage);
                     }
+
                 });
         })();
         this.getPackageTitles(vid, pid);
@@ -381,28 +387,102 @@ function HoldingsIQ() {
     HoldingsIQ.prototype.showNewCustomPackage = function() {
         $("#newCustomPackage").show();
         $("#newCustomPackageSuccess").hide();
+        $("#packageDatatable_wrapper").hide();
     };
 
     HoldingsIQ.prototype.submitNewCustomPackage = function() {
         var name = $("#customPackageName").val() || null;
         var contentType = $("#customPackageContentType").val() || null;
+        var dateRanges = $('div[name="packageDateRange"]');
+        //console.log('dateRanges', dateRanges);
+
+        var dateRangeArray = [];
+        for (var i=0; i < dateRanges.length; i++) {
+            var range = dateRanges[i];
+            var start = range.querySelectorAll('[name=customPackageStartDate]')[0].value;
+            var end = range.querySelectorAll('[name=customPackageEndDate]')[0].value;
+            dateRangeArray.push('{ "beginCoverage": "' + start + '", "endCoverage": "' + end + '" }')
+        }
+        var dateRangeJson = "[" + dateRangeArray.join(", ") + "]";
+        var jsonRequest = '{ "packageName": "' + name + '", "contentType": "' + contentType + '", "customCoverage": ' + dateRangeJson + ' }';
+        var requestBody = encodeURIComponent(jsonRequest);
+
         var packageId = null;
         var vendorId = null;
         $("#newCustomPackage").addClass("loading");
-        var url = `php-clients/packages/createCustomPackage.php?name=${name}&contentType=${contentType}`;
+        var url = `php-clients/packages/createCustomPackage.php?body=${requestBody}`;
         var self = this;
         (function() {
             $.getJSON(url)
                 .done(function( data ) {
+                    // show details of new package
                     packageId = data.packageId;
                     vendorId = data.vendorId;
                     self.getPackageDetails(vendorId, packageId);
+                    // remove form, loading, show success message
                     $("#newCustomPackage").removeClass("loading");
                     $("#newCustomPackage").hide();
+                    self.resetCustomPackageForm();
                     $("#newCustomPackageSuccess").show();
                 });
         })();
     };
+
+    HoldingsIQ.prototype.cancelNewCustomPackage = function() {
+        this.resetCustomPackageForm();
+        $("#newCustomPackage").removeClass("loading");
+        $("#newCustomPackage").hide();
+        $("#packageDetails").show();
+    };
+
+    HoldingsIQ.prototype.resetCustomPackageForm = function() {
+        $("#customPackageName").val('');
+        $("#customPackageContentTypeDropdown").dropdown('clear');
+        $('input[name="customPackageStartDate"]').val('');
+        $('input[name="customPackageEndDate"]').val('');
+    };
+
+    HoldingsIQ.prototype.addNewCustomPackageDateRange = function() {
+
+        var rangeInput =
+            '           <div style="margin-top: 12px;" class="field">\n' +
+            '            <div name="packageDateRange" class="two fields">\n' +
+            '                <div class="field">\n' +
+            '                    <div class="ui calendar" id="rangestart">\n' +
+            '                        <div class="ui input left icon">\n' +
+            '                            <i class="calendar icon"></i>\n' +
+            '                            <input name="customPackageStartDate" type="text" placeholder="Start date">\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '                <div class="field">\n' +
+            '                    <div class="ui calendar" id="rangeend">\n' +
+            '                        <div class="ui input left icon">\n' +
+            '                            <i class="calendar icon"></i>\n' +
+            '                            <input name="customPackageEndDate" type="text" placeholder="End date">\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '              <div class="circular ui icon button" onclick="$(this).parent().parent().remove();"><i class="trash alternate outline icon"></i></div>\n' +
+            '              </div>\n' +
+            '            </div>';
+
+        $("#packageCoverage").append(rangeInput);
+        $('.ui.calendar').calendar({
+            type: 'date',
+            formatter: {
+                date: function (date, settings) {
+                    if (!date) return '';
+                    var day = ('0' + date.getDate()).slice(-2);
+                    var month = ('0' + (date.getMonth()+1)).slice(-2);
+                    var year = date.getFullYear();
+                    return year + '-' + month + '-' + day;
+                }
+            }
+        });
+
+    };
+
 
     // ===============================================================================================================
     //                                              TITLES

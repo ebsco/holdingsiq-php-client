@@ -3,18 +3,19 @@
 <form id="newCustomPackage"
       class="ui form"
       style="display: none"
-      action="javascript:void(0)"
-      onsubmit="return hiq.submitNewCustomPackage(this);">
+      action="javascript:void(0)">
     <div class="ui medium header">New custom package</div>
     <div class="field required">
         <label>Name</label>
-        <input id="customPackageName" type="text" name="first-name" placeholder="Custom package name">
+        <input id="customPackageName" name="customPackageName" type="text" placeholder="Enter your custom package name here...">
     </div>
+
     <div class="field">
-        <div class="ui selection dropdown">
-            <input id="customPackageContentType" type="hidden" name="gender">
+        <label>Content type</label>
+        <div id="customPackageContentTypeDropdown" class="ui selection dropdown">
+            <input id="customPackageContentType" type="hidden" name="contentType">
             <i class="dropdown icon"></i>
-            <div class="default text">Content type</div>
+            <div class="default text">Select the content type...</div>
             <div class="menu">
                 <div class="item" data-value="1">Aggregated Full Text</div>
                 <div class="item" data-value="2">Abstract and Index</div>
@@ -26,8 +27,15 @@
             </div>
         </div>
     </div>
+
+    <div id="packageCoverage" class="field">
+        <label>Coverage settings</label>
+        <div class="ui basic button" onclick="hiq.addNewCustomPackageDateRange();">+ Add date range</div>
+    </div>
+
     <div class="field">
         <button class="ui button" type="submit">Save</button>
+        <div class="ui button" onclick="hiq.cancelNewCustomPackage();">Cancel</div>
     </div>
 </form>
 
@@ -35,3 +43,23 @@
     <div class="header">Custom Package Created</div>
     <p>Your custom package has been created.</p>
 </div>
+
+<script>
+    $('#newCustomPackage')
+        .form({
+            fields: {
+                customPackageName: {
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Please enter a package name'
+                        }
+                    ]
+                }
+            },
+            onSuccess: function(event, fields) {
+                hiq.submitNewCustomPackage();
+                event.preventDefault();
+            }
+        });
+</script>

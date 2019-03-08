@@ -2,11 +2,13 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <link rel='stylesheet prefetch' href='https://cdn.datatables.net/1.10.19/css/dataTables.semanticui.min.css'>
+<link rel="stylesheet" href="js/calendar.min.css" />
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.semanticui.min.js"></script>
+<script type="text/javascript" src="js/calendar.min.js"></script>
 <script src="js/HoldingsIQ.js"></script>
 <script>
     const hiq = new HoldingsIQ();
@@ -45,7 +47,7 @@
             <span id="vendorResultsHeading">Providers</span>
             <span id="packageResultsHeading" style="display: none">
                 <span id="packageResultsText">Packages</span>
-                <button onclick="hiq.showNewCustomPackage();" class="mini ui right floated primary button">+ New</button>
+                <button style="margin-top: -3px;" onclick="hiq.showNewCustomPackage();" class="mini ui right floated primary button">+ New</button>
             </span>
             <span id="titleResultsHeading" style="display: none">Titles</span>
         </h3>
@@ -122,6 +124,10 @@
 
        // init dropdowns
        $('.ui.dropdown').dropdown();
+
+       $('.ui.calendar').calendar({
+           type: 'date'
+       });
 
    });
 
