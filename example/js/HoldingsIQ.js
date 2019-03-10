@@ -11,6 +11,7 @@ function HoldingsIQ() {
         $("#vendorResults").show();
         $("#vendorDetails").show();
         $("#vendorResultsHeading").show();
+        $("#vendorDetailsHeading").show();
 
         $("#packageSearchForm").hide();
         $("#packageResults").hide();
@@ -18,12 +19,14 @@ function HoldingsIQ() {
         $("#packageResultsHeading").hide();
         $("#newCustomPackage").hide();
         $("#newCustomPackageSuccess").hide();
-
+        $("#packageDetailsHeading").hide();
+        $("#deleteCustomPackageSuccess").hide();
 
         $("#titleSearchForm").hide();
         $("#titleResults").hide();
         $("#titleDetails").hide();
         $("#titleResultsHeading").hide();
+        $("#titleDetailsHeading").hide();
     };
 
     HoldingsIQ.prototype.getVendors = function() {
@@ -152,16 +155,20 @@ function HoldingsIQ() {
         $("#packageResults").show();
         $("#packageDetails").show();
         $("#packageResultsHeading").show();
+        $("#packageDetailsHeading").show();
+        $("#packageDatatable_wrapper").show();
 
         $("#vendorSearchForm").hide();
         $("#vendorResults").hide();
         $("#vendorDetails").hide();
         $("#vendorResultsHeading").hide();
+        $("#vendorDetailsHeading").hide();
 
         $("#titleSearchForm").hide();
         $("#titleResults").hide();
         $("#titleDetails").hide();
         $("#titleResultsHeading").hide();
+        $("#titleDetailsHeading").hide();
     };
 
     HoldingsIQ.prototype.getPackages = function() {
@@ -233,6 +240,7 @@ function HoldingsIQ() {
 
     HoldingsIQ.prototype.getPackageDetails = function(vid, pid) {
         $("#packageDetails").hide();
+        $("#deleteCustomPackageSuccess").hide();
         $("#detailsLoader").addClass("active");
         (function () {
             $.getJSON("php-clients/packages/getPackageDetails.php?vid=" + vid + "&pid=" + pid)
@@ -283,11 +291,15 @@ function HoldingsIQ() {
                         "       <div>Package type: <strong>" + data.packageType + "</strong></div>\n" +
                         "   </div>\n" +
                         "</div>";
+                    var package_id =
+                        "<div style='display: none;' id='currentPackageId'>" + data.packageId + "</div>\n";
+
                     $("#packageInformation").append(provider);
                     $("#packageInformation").append(titles_selected);
                     $("#packageInformation").append(total_titles);
                     $("#packageInformation").append(content_type);
                     $("#packageInformation").append(package_type);
+                    $("#packageInformation").append(package_id);
 
                     $("#packageSettings").empty();
                     var showTitlesText = "Yes";
@@ -329,7 +341,7 @@ function HoldingsIQ() {
                         $("#packageSettings").append(token);
                     }
                     // custom coverage
-                     $("#packageDetailCoverage").empty();
+                    $("#packageDetailCoverage").empty();
                     var no_custom_coverage =
                         "<div class=\"item left aligned\">\n" +
                         "   <div class=\"content\">\n" +
@@ -353,6 +365,15 @@ function HoldingsIQ() {
                         $("#packageDetailCoverage").append(custom_end_coverage);
                     } else {
                         $("#packageDetailCoverage").append(no_custom_coverage);
+                    }
+
+                    // show or hide delete & edit custom package button?
+                    if( data.packageType === 'Custom') {
+                        $("#deleteCustomPackageButton").show();
+                        $("#editCustomPackageButton").show();
+                    } else {
+                        $("#deleteCustomPackageButton").hide();
+                        $("#editCustomPackageButton").hide();
                     }
 
                 });
@@ -388,6 +409,18 @@ function HoldingsIQ() {
         $("#newCustomPackage").show();
         $("#newCustomPackageSuccess").hide();
         $("#packageDatatable_wrapper").hide();
+        $('.ui.calendar').calendar({
+            type: 'date',
+            formatter: {
+                date: function (date, settings) {
+                    if (!date) return '';
+                    var day = ('0' + date.getDate()).slice(-2);
+                    var month = ('0' + (date.getMonth()+1)).slice(-2);
+                    var year = date.getFullYear();
+                    return year + '-' + month + '-' + day;
+                }
+            }
+        });
     };
 
     HoldingsIQ.prototype.submitNewCustomPackage = function() {
@@ -433,6 +466,9 @@ function HoldingsIQ() {
         $("#newCustomPackage").removeClass("loading");
         $("#newCustomPackage").hide();
         $("#packageDetails").show();
+        $("#packageResults").show();
+        $('#packageDatatable').show();
+        $("#packageDatatable_wrapper").show();
     };
 
     HoldingsIQ.prototype.resetCustomPackageForm = function() {
@@ -463,7 +499,7 @@ function HoldingsIQ() {
             '                        </div>\n' +
             '                    </div>\n' +
             '                </div>\n' +
-            '              <div class="circular ui icon button" onclick="$(this).parent().parent().remove();"><i class="trash alternate outline icon"></i></div>\n' +
+            '              <!-- <div class="circular ui icon button" onclick="$(this).parent().parent().remove();"><i class="trash alternate outline icon"></i></div> -->\n' +
             '              </div>\n' +
             '            </div>';
 
@@ -483,6 +519,33 @@ function HoldingsIQ() {
 
     };
 
+    HoldingsIQ.prototype.deleteCustomPackage = function() {
+        var pid =  $("#currentPackageId").text();
+        console.log('current pid', pid);
+        var url = `php-clients/packages/deleteCustomPackage.php?packageId=${pid}`;
+        // $("#packageDetails").hide();
+        $("#detailsLoader").addClass("active");
+        (function() {
+            $.getJSON(url)
+                .done(function( data ) {
+                    console.log('delete package', data);
+                    $("#detailsLoader").removeClass("active");
+                    // show success message, hide edit-delete buttons
+                    $("#deleteCustomPackageSuccess").show();
+                    $("#deleteCustomPackageButton").hide();
+                    $("#editCustomPackageButton").hide();
+                    // empty all of the details
+                    var deletedPackageTitle = '<h2><s>' + $("#packageDetailName").text() + '</s></h2>';
+                    $("#packageDetailName").empty().append(deletedPackageTitle);
+                    $("#packageHoldingStatus").empty();
+                    $("#packageInformation").empty();
+                    $("#packageSettings").empty();
+                    $("#packageDetailCoverage").empty();
+                    $("#packageTitlesList").empty();
+                });
+        })();
+    };
+
 
     // ===============================================================================================================
     //                                              TITLES
@@ -494,16 +557,20 @@ function HoldingsIQ() {
         $("#packageResultsHeading").hide();
         $("#newCustomPackage").hide();
         $("#newCustomPackageSuccess").hide();
+        $("#packageDetailsHeading").hide();
+        $("#deleteCustomPackageSuccess").hide();
 
         $("#vendorSearchForm").hide();
         $("#vendorResults").hide();
         $("#vendorDetails").hide();
         $("#vendorResultsHeading").hide();
+        $("#vendorDetailsHeading").hide();
 
         $("#titleSearchForm").show();
         $("#titleResults").show();
         $("#titleDetails").show();
         $("#titleResultsHeading").show();
+        $("#titleDetailsHeading").show();
     };
 
     HoldingsIQ.prototype.getTitles = function() {

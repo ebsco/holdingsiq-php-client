@@ -30,7 +30,25 @@
 
     <div id="packageCoverage" class="field">
         <label>Coverage settings</label>
-        <div class="ui basic button" onclick="hiq.addNewCustomPackageDateRange();">+ Add date range</div>
+        <!-- <div class="ui basic button" onclick="hiq.addNewCustomPackageDateRange();">+ Add date range</div> -->
+        <div name="packageDateRange" class="two fields">
+            <div class="field">
+                <div class="ui calendar" id="rangestart">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input name="customPackageStartDate" type="text" placeholder="Start date">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui calendar" id="rangeend">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input name="customPackageEndDate" type="text" placeholder="End date">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="field">

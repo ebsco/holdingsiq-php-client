@@ -2,7 +2,14 @@
 
 <!-- PACKAGE DETAILS -->
 <div id="packageDetails" style="border: none; display: none; height: 100%;" class="ui attached segment">
+
+    <div id="deleteCustomPackageSuccess" style="display: none;" class="ui error message">
+        <div class="header">Custom Package Deleted</div>
+        <p>The custom package has been deleted.</p>
+    </div>
+
     <h2 id="packageDetailName" class="ui top left aligned header"></h2>
+
     <div id="packageDetailAccordians" style="display: none" class="ui accordion">
         <div class="active title">
             <i class="dropdown icon"></i>
@@ -51,3 +58,4 @@
         </div>
     </div>
 </div>
+

@@ -47,7 +47,12 @@
             <span id="vendorResultsHeading">Providers</span>
             <span id="packageResultsHeading" style="display: none">
                 <span id="packageResultsText">Packages</span>
-                <button style="margin-top: -3px;" onclick="hiq.showNewCustomPackage();" class="mini ui right floated primary button">+ New</button>
+                <button style="margin-top: -3px;"
+                        onclick="hiq.showNewCustomPackage();"
+                        class="mini ui right floated primary button">
+                    <i class="plus icon"></i>
+                    New
+                </button>
             </span>
             <span id="titleResultsHeading" style="display: none">Titles</span>
         </h3>
@@ -75,7 +80,27 @@
 
     <!-- DETAILS -->
     <div class="column">
-        <h3 class="ui top attached center aligned header">Details</h3>
+        <h3 class="ui top attached center aligned header">
+            <span id="vendorDetailsHeading">Provider Details</span>
+            <span id="packageDetailsHeading" style="display: none">
+                <span id="packageDetailsText">Package Details</span>
+                <button id="deleteCustomPackageButton"
+                        style="display: none; margin-top: -3px;"
+                        onclick="hiq.deleteCustomPackage();"
+                        class="mini ui right floated red button">
+                    <i class="x icon"></i>
+                    Delete
+                </button>
+                <button id="editCustomPackageButton"
+                        style="display: none; margin-top: -3px;"
+                        onclick="hiq.showEditCustomPackage();"
+                        class="mini ui right floated blue button">
+                    <i class="pencil alternate icon"></i>
+                    Edit
+                </button>
+             </span>
+            <span id="titleDetailsHeading" style="display: none">Title Details</span>
+        </h3>
         <div id="detailsLoader" class="ui loader"></div>
         <!-- PROVIDER -->
         <?php
