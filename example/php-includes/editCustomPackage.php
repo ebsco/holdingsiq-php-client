@@ -1,19 +1,18 @@
 <?php ?>
 
-<form id="newCustomPackage"
+<form id="editCustomPackage"
       class="ui form"
-      style="display: none"
+      style="margin-top: 35px; display: none"
       action="javascript:void(0)">
-    <div class="ui medium header">New custom package</div>
     <div class="field required">
         <label>Package name</label>
-        <input id="customPackageName" name="customPackageName" type="text" placeholder="Enter your custom package name here...">
+        <input id="editCustomPackageName" name="editCustomPackageName" type="text" placeholder="Enter your custom package name here...">
     </div>
 
     <div class="field">
         <label>Content type</label>
-        <div id="customPackageContentTypeDropdown" class="ui selection dropdown">
-            <input id="customPackageContentType" type="hidden" name="contentType">
+        <div id="editCustomPackageContentTypeDropdown" class="ui selection dropdown">
+            <input id="editCustomPackageContentType" type="hidden" name="contentType">
             <i class="dropdown icon"></i>
             <div class="default text">Select the content type...</div>
             <div class="menu">
@@ -28,15 +27,33 @@
         </div>
     </div>
 
-    <div id="packageCoverage" class="field">
+    <div class="field">
+        <label>Package settings</label>
+        <div style="margin-left: 25px" class="ui form">
+            <!-- hiding selected since unchecking it will delete a custom package! -->
+            <div style="display: none;" class="inline field">
+                <div class="ui toggle checkbox">
+                    <label>Selected</label>
+                    <input id="editPackageSelectedCheckbox" type="checkbox" tabindex="0" class="hidden">
+                </div>
+            </div>
+            <div class="inline field">
+                <div class="ui toggle checkbox">
+                    <label>Show titles to patrons</label>
+                    <input id="editPackageShowTitlesCheckbox" type="checkbox" tabindex="0" class="hidden">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editPackageCoverage" class="field">
         <label>Coverage settings</label>
-        <!-- <div class="ui basic button" onclick="hiq.addNewCustomPackageDateRange();">+ Add date range</div> -->
-        <div name="packageDateRange" class="two fields">
+        <div name="editPackageDateRange" class="two fields">
             <div class="field">
                 <div class="ui calendar" id="rangestart">
                     <div class="ui input left icon">
                         <i class="calendar icon"></i>
-                        <input name="customPackageStartDate" type="text" placeholder="Start date">
+                        <input id="editCustomPackageStartDate" name="editCustomPackageStartDate" type="text" placeholder="Start date">
                     </div>
                 </div>
             </div>
@@ -44,7 +61,7 @@
                 <div class="ui calendar" id="rangeend">
                     <div class="ui input left icon">
                         <i class="calendar icon"></i>
-                        <input name="customPackageEndDate" type="text" placeholder="End date">
+                        <input id="editCustomPackageEndDate" name="editCustomPackageEndDate" type="text" placeholder="End date">
                     </div>
                 </div>
             </div>
@@ -53,17 +70,17 @@
 
     <div class="field">
         <button class="ui button" type="submit">Save</button>
-        <div class="ui button" onclick="hiq.cancelNewCustomPackage();">Cancel</div>
+        <div class="ui button" onclick="hiq.cancelEditCustomPackage();">Cancel</div>
     </div>
 </form>
 
-<div id="newCustomPackageSuccess" style="display: none;" class="ui success message">
-    <div class="header">Custom Package Created</div>
-    <p>Your custom package has been created.</p>
+<div id="editCustomPackageSuccess" style="display: none;" class="ui success message">
+    <div class="header">Custom Package Modified</div>
+    <p>Your custom package has been modified.</p>
 </div>
 
 <script>
-    $('#newCustomPackage')
+    $('#editCustomPackage')
         .form({
             fields: {
                 customPackageName: {
@@ -76,7 +93,7 @@
                 }
             },
             onSuccess: function(event, fields) {
-                hiq.submitNewCustomPackage();
+                hiq.submitEditCustomPackage();
                 event.preventDefault();
             }
         });

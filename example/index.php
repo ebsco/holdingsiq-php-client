@@ -154,6 +154,10 @@
            type: 'date'
        });
 
+       $('.ui.toggle.checkbox')
+           .checkbox()
+       ;
+
    });
 
 </script>
