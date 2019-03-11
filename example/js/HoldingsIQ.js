@@ -412,18 +412,28 @@ function HoldingsIQ() {
             $.getJSON("php-clients/packages/getPackageTitles.php?vid=" + vid + "&pid=" + pid)
                 .done(function (data) {
                     $("#packageTitlesList").empty();
-                    $.each( data.titles, function( i, title ) {
-                        var selectedText = "Not selected";
-                        if (title.isSelected) { selectedText = "Selected"; }
+                    if (data.totalResults > 0) {
+                        $.each( data.titles, function( i, title ) {
+                            var selectedText = "Not selected";
+                            if (title.isSelected) { selectedText = "Selected"; }
+                            var result_item =
+                                "<div class=\"item left aligned\">\n" +
+                                "   <div class=\"content\">\n" +
+                                "       <a onclick='' class=\"header\">" + title.titleName + "</a>\n" +
+                                "       <div class=\"description\">" + selectedText + "</div>\n" +
+                                "   </div>\n" +
+                                "</div>";
+                            $("#packageTitlesList").append(result_item);
+                        });
+                    } else {
                         var result_item =
                             "<div class=\"item left aligned\">\n" +
                             "   <div class=\"content\">\n" +
-                            "       <a onclick='' class=\"header\">" + title.titleName + "</a>\n" +
-                            "       <div class=\"description\">" + selectedText + "</div>\n" +
+                            "       <div class=\"description\">No titles found.</div>\n" +
                             "   </div>\n" +
                             "</div>";
                         $("#packageTitlesList").append(result_item);
-                    });
+                    }
                     $("#detailsLoader").removeClass("active");
                     $("#packageDetailAccordians").show();
                     $("#packageDetails").show();
