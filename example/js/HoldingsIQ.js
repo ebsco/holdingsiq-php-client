@@ -45,16 +45,27 @@ function HoldingsIQ() {
                     // $("#totalVendorResults").text(result_text);
                     $("#vendorResultsHeading").text("Providers ("+result_count+")");
                     $("#vendorResultsList").empty();
-                    $.each( data.vendors, function( i, vendor ) {
+                    if (data.totalResults > 0) {
+                        $.each( data.vendors, function( i, vendor ) {
+                            var result_item =
+                                "<div class=\"item left aligned\">\n" +
+                                "   <div class=\"content\">\n" +
+                                "       <a onclick='hiq.getVendorDetails(" + vendor.vendorId + ");' class=\"header\">" + vendor.vendorName + "</a>\n" +
+                                "       <div class=\"description\">" + vendor.packagesSelected + "/" + vendor.packagesTotal + " Packages</div>\n" +
+                                "   </div>\n" +
+                                "</div>";
+                            $("#vendorResultsList").append(result_item);
+                        });
+                    } else {
                         var result_item =
                             "<div class=\"item left aligned\">\n" +
                             "   <div class=\"content\">\n" +
-                            "       <a onclick='hiq.getVendorDetails(" + vendor.vendorId + ");' class=\"header\">" + vendor.vendorName + "</a>\n" +
-                            "       <div class=\"description\">" + vendor.packagesSelected + "/" + vendor.packagesTotal + " Packages</div>\n" +
+                            "       <div class=\"description\">No Providers found.</div>\n" +
                             "   </div>\n" +
                             "</div>";
                         $("#vendorResultsList").append(result_item);
-                    });
+                    }
+
                     $("#resultsLoader").removeClass("active");
                     $("#vendorResults").show();
                 });
@@ -199,49 +210,45 @@ function HoldingsIQ() {
                 .done(function( data ) {
                     var result_count = data.totalResults;
                     result_count = numberWithCommas(result_count);
-                    // var result_text = result_count + " packages found:";
-                    // if (result_count === 1) result_text = result_count + " package found:";
-                    // if (result_count === 0) result_text = "No packages found.";
-                    // $("#totalPackageResults").text(result_text);
                     $("#packageResultsText").text("Packages ("+result_count+")");
-                    // $("#packageResultsList").empty();
-                    // $.each( data.packagesList, function( i, package ) {
-                    //     var selectedText = "Not selected";
-                    //     if (package.isSelected) { selectedText = "Selected" };
-                    //     var result_item =
-                    //         "<div class=\"item left aligned\">\n" +
-                    //         "   <div class=\"content\">\n" +
-                    //         "       <a onclick='hiq.getPackageDetails(" + package.vendorId + "," + package.packageId+ ");' class=\"header\">" + package.packageName + "</a>\n" +
-                    //         "       <div class=\"description\">" + package.vendorName + "</div>\n" +
-                    //         "       <div class=\"description\">" + selectedText + "</div>\n" +
-                    //         "   </div>\n" +
-                    //         "</div>";
-                    //     $("#packageResultsList").append(result_item);
-                    // });
-                    // $("#resultsLoader").removeClass("active");
-                    // $("#packageResults").show();
+
+                    if (data.totalResults > 0) {
+                        $("#packagesNotFound").remove();
+                        // paginated datatable
+                        var datatablesUrl = `php-clients/packages/getPackagesDatatable.php?q=${query}&orderby=${orderby}&count=${count}&offset=${offset}&selection=${selection}&contenttype=${contenttype}`;
+                        $("#packageDatatable").DataTable().destroy();
+                        $('#packageDatatable').DataTable( {
+                            "processing": true,
+                            "serverSide": true,
+                            "searching": false,
+                            "ordering": false,
+                            "info": false,
+                            "lengthChange": false,
+                            "pageLength": 20,
+                            "paging": true,
+                            "ajax": datatablesUrl
+                        } );
+                        $('#packageDatatable_paginate').css("position", "absolute");
+                        $('#packageDatatable_paginate').css("left", "-200px");
+                        $("#resultsLoader").removeClass("active");
+                        $("#packageResults").show();
+                        $('#packageDatatable').show();
+                    } else {
+                        $('#packageDatatable').hide();
+                        $('#packageDatatable_paginate').hide();
+                        var result_item =
+                            "<div id=\"packagesNotFound\" class=\"item left aligned\">\n" +
+                            "   <div class=\"content\">\n" +
+                            "       <div class=\"description\">No Packages found.</div>\n" +
+                            "   </div>\n" +
+                            "</div>";
+                        $("#packagesNotFound").remove();
+                        $("#packageResults").append(result_item);
+                        $("#resultsLoader").removeClass("active");
+                        $("#packageResults").show();
+                    }
                 });
         })();
-
-        // paginated datatable
-        var datatablesUrl = `php-clients/packages/getPackagesDatatable.php?q=${query}&orderby=${orderby}&count=${count}&offset=${offset}&selection=${selection}&contenttype=${contenttype}`;
-        $("#packageDatatable").DataTable().destroy();
-        $('#packageDatatable').DataTable( {
-            "processing": true,
-            "serverSide": true,
-            "searching": false,
-            "ordering": false,
-            "info": false,
-            "lengthChange": false,
-            "pageLength": 20,
-            "paging": true,
-            "ajax": datatablesUrl
-        } );
-        $('#packageDatatable_paginate').css("position", "absolute");
-        $('#packageDatatable_paginate').css("left", "-200px");
-        $("#resultsLoader").removeClass("active");
-        $("#packageResults").show();
-        $('#packageDatatable').show();
 
     };
 
@@ -695,45 +702,44 @@ function HoldingsIQ() {
                 .done(function( data ) {
                     var result_count = data.totalResults;
                     result_count = numberWithCommas(result_count);
-                    // var result_text = result_count + " titles found:";
-                    // if (result_count === 1) result_text = result_count + " title found:";
-                    // if (result_count === 0) result_text = "No titles found.";
-                    // $("#totalTitleResults").text(result_text);
                     $("#titleResultsHeading").text("Titles ("+result_count+")");
-                    // $("#titleResultsList").empty();
-                    // $.each( data.titles, function( i, title ) {
-                    //     var result_item =
-                    //         "<div class=\"item left aligned\">\n" +
-                    //         "   <div class=\"content\">\n" +
-                    //         "       <a onclick='hiq.getTitleDetails(" + title.titleId + ");' class=\"header\">" + title.titleName + "</a>\n" +
-                    //         "       <div class=\"description\">" + title.pubType + " - " + title.publisherName + "</div>\n" +
-                    //         "   </div>\n" +
-                    //         "</div>";
-                    //     $("#titleResultsList").append(result_item);
-                    // });
-                    // $("#resultsLoader").removeClass("active");
-                    // $("#titleResults").show();
+                    if (data.totalResults > 0) {
+                        $("#titlesNotFound").remove();
+                        // paginated datatable
+                        var datatablesUrl = `php-clients/titles/getTitlesDatatable.php?q=${query}&orderby=${orderby}&count=${count}&offset=${offset}&selection=${selection}&resourcetype=${resourcetype}&searchfield=${searchfield}`;
+                        $("#titleDatatable").DataTable().destroy();
+                        $('#titleDatatable').DataTable( {
+                            "processing": true,
+                            "serverSide": true,
+                            "searching": false,
+                            "ordering": false,
+                            "info": false,
+                            "lengthChange": false,
+                            "pageLength": 20,
+                            "paging": true,
+                            "ajax": datatablesUrl
+                        } );
+                        $('#titleDatatable_paginate').css("position", "absolute");
+                        $('#titleDatatable_paginate').css("left", "-200px");
+                        $("#resultsLoader").removeClass("active");
+                        $('#titleDatatable').show();
+                    } else {
+                        $('#titleDatatable').hide();
+                        $('#titleDatatable_paginate').hide();
+                        $("#titlesNotFound").remove();
+                        var result_item =
+                            "<div id=\"titlesNotFound\" class=\"item left aligned\">\n" +
+                            "   <div class=\"content\">\n" +
+                            "       <div class=\"description\">No titles found.</div>\n" +
+                            "   </div>\n" +
+                            "</div>";
+                        $("#titleResults").append(result_item);
+                    }
+                    $("#resultsLoader").removeClass("active");
+                    $("#titleResults").show();
                 });
         })();
 
-        // paginated datatable
-        var datatablesUrl = `php-clients/titles/getTitlesDatatable.php?q=${query}&orderby=${orderby}&count=${count}&offset=${offset}&selection=${selection}&resourcetype=${resourcetype}&searchfield=${searchfield}`;
-        $("#titleDatatable").DataTable().destroy();
-        $('#titleDatatable').DataTable( {
-            "processing": true,
-            "serverSide": true,
-            "searching": false,
-            "ordering": false,
-            "info": false,
-            "lengthChange": false,
-            "pageLength": 20,
-            "paging": true,
-            "ajax": datatablesUrl
-        } );
-        $('#titleDatatable_paginate').css("position", "absolute");
-        $('#titleDatatable_paginate').css("left", "-200px");
-        $("#resultsLoader").removeClass("active");
-        $('#titleDatatable').show();
 
     };
 
