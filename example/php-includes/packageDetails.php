@@ -6,6 +6,10 @@
     include('editCustomPackage.php');
     ?>
 
+    <?php
+    include('confirmDeleteCustomPackage.php');
+    ?>
+
     <!-- PACKAGE DETAILS -->
     <div id="packageDetails" style="border: none; display: none; height: 100%;" class="ui attached segment">
 

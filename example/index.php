@@ -86,7 +86,7 @@
                 <span id="packageDetailsText">Package Details</span>
                 <button id="deleteCustomPackageButton"
                         style="display: none; margin-top: -3px;"
-                        onclick="hiq.deleteCustomPackage();"
+                        onclick="hiq.confirmDeleteCustomPackage();"
                         class="mini ui right floated red button">
                     <i class="x icon"></i>
                     Delete
@@ -156,6 +156,10 @@
 
        $('.ui.toggle.checkbox')
            .checkbox()
+       ;
+
+       $('.ui.modal')
+           .modal()
        ;
 
    });

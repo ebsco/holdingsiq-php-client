@@ -562,11 +562,14 @@ function HoldingsIQ() {
 
     };
 
+    HoldingsIQ.prototype.confirmDeleteCustomPackage = function() {
+        $("#confirmDeleteCustomPackage").modal('setting', 'closable', false).modal('show');
+    };
+
     HoldingsIQ.prototype.deleteCustomPackage = function() {
         var pid =  $("#currentPackageId").text();
-        console.log('current pid', pid);
+        //console.log('current pid', pid);
         var url = `php-clients/packages/deleteCustomPackage.php?packageId=${pid}`;
-        // $("#packageDetails").hide();
         $("#detailsLoader").addClass("active");
         (function() {
             $.getJSON(url)
