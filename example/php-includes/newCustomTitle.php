@@ -36,7 +36,7 @@
             </div>
 
             <!-- publication type -->
-            <div class="field">
+            <div class="field required">
                 <label>Publication type</label>
                 <div id="customTitlePublicationTypeDropdown" class="ui selection dropdown">
                     <input id="customTitlePublicationType" type="hidden" name="publicationType">
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <!-- package todo: generate dynamically -->
+            <!-- package -->
             <div class="field required">
                 <label>Package</label>
                 <div id="customTitlePackageDropdown" class="ui selection dropdown">

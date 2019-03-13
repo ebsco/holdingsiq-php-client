@@ -280,6 +280,17 @@ function HoldingsIQ() {
                         "</div>";
                     $("#packageHoldingStatus").append(holding_status);
 
+                    // display add to holdings button if not currently selected
+                    if (!data.isSelected) {
+                        var selectButton = "<button id=\"selectPackageButton\"\n" +
+                            "                        onclick=\"hiq.selectPackage(" + vid + ", " + pid + ");\"\n" +
+                            "                        class=\"mini ui blue button\">\n" +
+                            "                    <i class=\"check icon\"></i>\n" +
+                            "                    Add to holdings\n" +
+                            "                </button>\n";
+                        $("#packageHoldingStatus").append(selectButton);
+                    }
+
                     // set isSelected in edit form
                     $("#editPackageSelectedCheckbox").prop('checked', data.isSelected);
 
@@ -402,9 +413,11 @@ function HoldingsIQ() {
 
                     // show or hide delete & edit custom package button?
                     if( data.packageType === 'Custom') {
+                        $("#selectPackageButton").hide();
                         $("#deleteCustomPackageButton").show();
                         $("#editCustomPackageButton").show();
                     } else {
+                        $("#selectPackageButton").show();
                         $("#deleteCustomPackageButton").hide();
                         $("#editCustomPackageButton").hide();
                     }
@@ -635,6 +648,22 @@ function HoldingsIQ() {
         $("#editCustomPackageSuccess").hide();
     };
 
+    HoldingsIQ.prototype.selectPackage = function(vid, pid) {
+        $("#editCustomPackage").addClass("loading");
+        var url = `php-clients/packages/selectPackage.php?packageId=${pid}&vendorId=${vid}`;
+        var self = this;
+        (function() {
+            $.getJSON(url)
+                .done(function( data ) {
+                    // show details of new package
+                    packageId = data.packageId;
+                    vendorId = data.vendorId;
+                    self.getPackageDetails(vendorId, packageId);
+                });
+        })();
+    };
+
+
     // ===============================================================================================================
     //                                              TITLES
     // ===============================================================================================================
@@ -819,31 +848,16 @@ function HoldingsIQ() {
     HoldingsIQ.prototype.showNewCustomTitle = function() {
 
         $("#newCustomTitleModal").modal('show');
-
         $("#newCustomTitle").addClass("loading");
-        $("#newCustomTitleSuccess").hide();
-        $("#titleDatatable_wrapper").hide();
-        $('.ui.calendar').calendar({
-            type: 'date',
-            formatter: {
-                date: function (date, settings) {
-                    if (!date) return '';
-                    var day = ('0' + date.getDate()).slice(-2);
-                    var month = ('0' + (date.getMonth()+1)).slice(-2);
-                    var year = date.getFullYear();
-                    return year + '-' + month + '-' + day;
-                }
-            }
-        });
         // populate list of packages
-        // todo: find out if this can be any selected package or just custom packages created by customer
+        // note: only applies to custom packages created by customer, so don't pass a vendor id (no vendor id = customer)
         var url = `php-clients/vendors/getVendorPackages.php`;
         (function() {
             $.getJSON(url)
                 .done(function( data ) {
                     $("#customTitlePackageDropdownSelect").empty();
                     $.each(data.packagesList, function(i, package) {
-                        $("#customTitlePackageDropdownSelect").append('<div class="item" data-value="' + package.vendorId + '-' + package.packageId + '">' + package.packageName + '</div>');
+                        $("#customTitlePackageDropdownSelect").append('<div class="item" data-value="' + package.packageId + '">' + package.packageName + '</div>');
                     });
                     $("#newCustomTitle").removeClass("loading");
                 });
@@ -853,14 +867,52 @@ function HoldingsIQ() {
     HoldingsIQ.prototype.cancelNewCustomTitle = function() {
         this.resetCustomPackageForm();
         $("#newCustomTitle").removeClass("loading");
-        $("#newCustomTitle").hide();
-        $("#titleDetails").show();
-        $("#titleResults").show();
-        $('#titleDatatable').show();
-        $("#titleDatatable_wrapper").show();
+        $("#newCustomTitleModal").modal('hide');
     };
 
+    HoldingsIQ.prototype.submitNewCustomTitle = function() {
 
+        var name = $("#customTitleName").val() || null;
+        var packageId = $("#customTitlePackage").val() || null;
+        var pubType = $("#customTitlePublicationType").val() || null;
+
+        // var dateRanges = $('div[name="packageDateRange"]');
+        // var dateRangeArray = [];
+        // for (var i=0; i < dateRanges.length; i++) {
+        //     var range = dateRanges[i];
+        //     var start = range.querySelectorAll('[name=customPackageStartDate]')[0].value;
+        //     var end = range.querySelectorAll('[name=customPackageEndDate]')[0].value;
+        //     dateRangeArray.push('{ "beginCoverage": "' + start + '", "endCoverage": "' + end + '" }')
+        // }
+        // var dateRangeJson = "[" + dateRangeArray.join(", ") + "]";
+
+        var jsonRequest = '{ "titleName": "' + name + '", "packageId": ' + packageId + ', "pubType": "' + pubType + '" }';
+
+        console.log('new title json', jsonRequest);
+
+        var requestBody = encodeURIComponent(jsonRequest);
+
+        var packageId = null;
+        var vendorId = null;
+        $("#newCustomTitle").addClass("loading");
+        var url = `php-clients/titles/createCustomTitle.php?body=${requestBody}`;
+        var self = this;
+        (function() {
+            $.getJSON(url)
+                .done(function( data ) {
+                    console.log('new title response', data);
+
+                    // // show details of new package
+                    // packageId = data.packageId;
+                    // vendorId = data.vendorId;
+                    // self.getPackageDetails(vendorId, packageId);
+                    // // remove form, loading, show success message
+                    // $("#newCustomPackage").removeClass("loading");
+                    // self.resetCustomPackageForm();
+                    // $("#newCustomPackageSuccess").show();
+                });
+        })();
+    };
 
 
     // UTILS
