@@ -182,7 +182,7 @@ function HoldingsIQ() {
         // results column
         $("#packageResults").hide();
         $("#packageResultsHeading").hide();
-        $("#newCustomPackage").hide();
+        // $("#newCustomPackage").hide();
         $("#newCustomPackageSuccess").hide();
         // details column
         $("#packageDetailsColumn").hide();
@@ -191,7 +191,7 @@ function HoldingsIQ() {
 
     HoldingsIQ.prototype.getPackages = function() {
 
-        $("#newCustomPackage").hide();
+        // $("#newCustomPackage").hide();
         $("#newCustomPackageSuccess").hide();
         $("#packageDetails").hide();
         $("#packageResults").hide();
@@ -202,7 +202,7 @@ function HoldingsIQ() {
         var orderby = $("input[name='packagesort']:checked").val() || 'relevance';
         var selection = $("input[name='packageSelection']:checked").val() || 'all';
         var contenttype = $("input[name='packageContentType']:checked").val() || 'all';
-        var count = 50;
+        var count = 20;
         var offset = 1;
         var url = `php-clients/packages/getPackages.php?q=${query}&orderby=${orderby}&count=${count}&offset=${offset}&selection=${selection}&contenttype=${contenttype}`;
         (function() {
@@ -449,21 +449,13 @@ function HoldingsIQ() {
     };
 
     HoldingsIQ.prototype.showNewCustomPackage = function() {
-        $("#newCustomPackage").show();
+
+        $("#newCustomPackageModal").modal('show');
+        // $("#newCustomPackage").show();
+
         $("#newCustomPackageSuccess").hide();
-        $("#packageDatatable_wrapper").hide();
-        $('.ui.calendar').calendar({
-            type: 'date',
-            formatter: {
-                date: function (date, settings) {
-                    if (!date) return '';
-                    var day = ('0' + date.getDate()).slice(-2);
-                    var month = ('0' + (date.getMonth()+1)).slice(-2);
-                    var year = date.getFullYear();
-                    return year + '-' + month + '-' + day;
-                }
-            }
-        });
+        // $("#packageDatatable_wrapper").hide();
+
     };
 
     HoldingsIQ.prototype.submitNewCustomPackage = function() {
@@ -497,7 +489,7 @@ function HoldingsIQ() {
                     self.getPackageDetails(vendorId, packageId);
                     // remove form, loading, show success message
                     $("#newCustomPackage").removeClass("loading");
-                    $("#newCustomPackage").hide();
+                    // $("#newCustomPackage").hide();
                     self.resetCustomPackageForm();
                     $("#newCustomPackageSuccess").show();
                 });
@@ -507,7 +499,8 @@ function HoldingsIQ() {
     HoldingsIQ.prototype.cancelNewCustomPackage = function() {
         this.resetCustomPackageForm();
         $("#newCustomPackage").removeClass("loading");
-        $("#newCustomPackage").hide();
+        // $("#newCustomPackage").hide();
+        $("#newCustomPackageModal").modal('hide');
         $("#packageDetails").show();
         $("#packageResults").show();
         $('#packageDatatable').show();
@@ -593,24 +586,9 @@ function HoldingsIQ() {
     };
 
     HoldingsIQ.prototype.showEditCustomPackage = function() {
+        $("#editCustomPackageModal").modal('show');
         $("#editCustomPackage").show();
         $("#editCustomPackageSuccess").hide();
-        $("#packageDetails").hide();
-        // hide buttons on header
-        $("#deleteCustomPackageButton").hide();
-        $("#editCustomPackageButton").hide();
-        $('.ui.calendar').calendar({
-            type: 'date',
-            formatter: {
-                date: function (date, settings) {
-                    if (!date) return '';
-                    var day = ('0' + date.getDate()).slice(-2);
-                    var month = ('0' + (date.getMonth()+1)).slice(-2);
-                    var year = date.getFullYear();
-                    return year + '-' + month + '-' + day;
-                }
-            }
-        });
     };
 
     HoldingsIQ.prototype.submitEditCustomPackage = function() {
@@ -653,12 +631,8 @@ function HoldingsIQ() {
 
     HoldingsIQ.prototype.cancelEditCustomPackage = function() {
         this.resetCustomPackageForm();
-        $("#packageDetails").show();
-        $("#editCustomPackage").hide();
+        $("#editCustomPackageModal").modal('hide');
         $("#editCustomPackageSuccess").hide();
-        // show the buttons on header again
-        $("#deleteCustomPackageButton").show();
-        $("#editCustomPackageButton").show();
     };
 
     // ===============================================================================================================
@@ -705,7 +679,7 @@ function HoldingsIQ() {
                 .done(function( data ) {
                     var result_count = data.totalResults;
                     result_count = numberWithCommas(result_count);
-                    $("#titleResultsHeading").text("Titles ("+result_count+")");
+                    $("#titleResultsText").text("Titles ("+result_count+")");
                     if (data.totalResults > 0) {
                         $("#titlesNotFound").remove();
                         // paginated datatable
@@ -841,6 +815,55 @@ function HoldingsIQ() {
                 });
         })();
     };
+
+    HoldingsIQ.prototype.showNewCustomTitle = function() {
+
+        $("#newCustomTitleModal").modal('show');
+
+        $("#newCustomTitle").addClass("loading");
+        $("#newCustomTitleSuccess").hide();
+        $("#titleDatatable_wrapper").hide();
+        $('.ui.calendar').calendar({
+            type: 'date',
+            formatter: {
+                date: function (date, settings) {
+                    if (!date) return '';
+                    var day = ('0' + date.getDate()).slice(-2);
+                    var month = ('0' + (date.getMonth()+1)).slice(-2);
+                    var year = date.getFullYear();
+                    return year + '-' + month + '-' + day;
+                }
+            }
+        });
+        // populate list of packages
+        // todo: find out if this can be any selected package or just custom packages created by customer
+        var url = `php-clients/vendors/getVendorPackages.php`;
+        (function() {
+            $.getJSON(url)
+                .done(function( data ) {
+                    $("#customTitlePackageDropdownSelect").empty();
+                    $.each(data.packagesList, function(i, package) {
+                        $("#customTitlePackageDropdownSelect").append('<div class="item" data-value="' + package.vendorId + '-' + package.packageId + '">' + package.packageName + '</div>');
+                    });
+                    $("#newCustomTitle").removeClass("loading");
+                });
+        })();
+    };
+
+    HoldingsIQ.prototype.cancelNewCustomTitle = function() {
+        this.resetCustomPackageForm();
+        $("#newCustomTitle").removeClass("loading");
+        $("#newCustomTitle").hide();
+        $("#titleDetails").show();
+        $("#titleResults").show();
+        $('#titleDatatable').show();
+        $("#titleDatatable_wrapper").show();
+    };
+
+
+
+
+    // UTILS
 
     // function to add commas to long numbers
     function numberWithCommas(x) {

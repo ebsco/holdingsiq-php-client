@@ -45,6 +45,7 @@
     <div class="column">
         <h3 class="ui top attached center aligned header">
             <span id="vendorResultsHeading">Providers</span>
+            <!-- new custom package button -->
             <span id="packageResultsHeading" style="display: none">
                 <span id="packageResultsText">Packages</span>
                 <button style="margin-top: -3px;"
@@ -54,7 +55,16 @@
                     New
                 </button>
             </span>
-            <span id="titleResultsHeading" style="display: none">Titles</span>
+            <!-- new custom title button -->
+            <span id="titleResultsHeading" style="display: none">
+                <span id="titleResultsText">Titles</span>
+                <button style="margin-top: -3px;"
+                        onclick="hiq.showNewCustomTitle();"
+                        class="mini ui right floated primary button">
+                    <i class="plus icon"></i>
+                    New
+                </button>
+            </span>
         </h3>
         <div id="resultsLoader" class="ui loader"></div>
 
@@ -74,6 +84,8 @@
         <!-- TITLE -->
         <?php
         include('php-includes/titleResults.php');
+        ?><?php
+        include('php-includes/newCustomTitle.php');
         ?>
 
     </div>
@@ -161,6 +173,19 @@
        $('.ui.modal')
            .modal()
        ;
+
+       $('.ui.calendar').calendar({
+           type: 'date',
+           formatter: {
+               date: function (date, settings) {
+                   if (!date) return '';
+                   var day = ('0' + date.getDate()).slice(-2);
+                   var month = ('0' + (date.getMonth()+1)).slice(-2);
+                   var year = date.getFullYear();
+                   return year + '-' + month + '-' + day;
+               }
+           }
+       });
 
    });
 

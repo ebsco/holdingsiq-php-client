@@ -23,7 +23,13 @@ try {
     $result = $apiInstance->custidVendorsVendoridPackagesGet($vendorid, $custid, $orderby, $count, $offset, $x_api_key, $search, $selection, $contenttype);
     header('Access-Control-Allow-Origin: *');
     header('Content-type: application/json');
-    echo $result;
+    $obj = json_decode($result);
+    $options = [];
+    foreach ($obj->packagesList as $key=>$value) {
+        array_push($options, "<option value=\"" . $my_vendor_id . "-" . $value->packageId . "\">" . $value->packageName . "</option>");
+    }
+    echo join("\n", $options);
+
 } catch (Exception $e) {
     echo 'Error calling VendorResourcesApi->custidVendorsVendoridPackagesGet: ', $e->getMessage(), PHP_EOL;
 }

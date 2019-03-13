@@ -14,7 +14,7 @@ $count = (isset($_REQUEST['count'])) ? $_REQUEST['count'] : 100;
 $selection = (isset($_REQUEST['selection'])) ? $_REQUEST['selection'] : "all";
 $resourcetype = (isset($_REQUEST['resourcetype'])) ? $_REQUEST['resourcetype'] : "all";
 
-// use datatables params if they exits
+// use datatables params (start & length) if they exits
 $count = 20;
 if (isset($_REQUEST['length'])) {
     $count = $_REQUEST['length'];
@@ -25,7 +25,7 @@ $offset = (isset($_REQUEST['start'])) ? $_REQUEST['start'] : 1;
 if ($offset < 1) {
     $offset = 1;
 } else {
-    $offset = $offset/$count;
+    $offset = ($offset/$count) + 1;
 }
 
 

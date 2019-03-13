@@ -2,8 +2,9 @@
 
 <div id="packageDetailsColumn">
 
+    <!-- modals for create/edit/delete -->
     <?php
-    include('editCustomPackage.php');
+    include('editCustomPackageModal.php');
     ?>
 
     <?php
@@ -13,10 +14,22 @@
     <!-- PACKAGE DETAILS -->
     <div id="packageDetails" style="border: none; display: none; height: 100%;" class="ui attached segment">
 
+        <!-- form success/fail messages -->
         <div id="deleteCustomPackageSuccess" style="display: none;" class="ui error message">
             <div class="header">Custom Package Deleted</div>
             <p>The custom package has been deleted.</p>
         </div>
+
+        <div id="newCustomPackageSuccess" style="display: none;" class="ui success message">
+            <div class="header">Custom Package Created</div>
+            <p>Your custom package has been created.</p>
+        </div>
+
+        <div id="editCustomPackageSuccess" style="display: none;" class="ui success message">
+            <div class="header">Custom Package Modified</div>
+            <p>Your custom package has been modified.</p>
+        </div>
+
 
         <h2 id="packageDetailName" class="ui top left aligned header"></h2>
         <div id="packageDetailId" style="display: none;"></div>
