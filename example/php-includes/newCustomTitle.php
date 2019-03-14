@@ -83,51 +83,27 @@
                 </div>
             </div>
 
-            <!-- identifiers -->
-            <div id="titleIdentifiers" class="field">
-                <label>Identifiers</label>
-                <div name="titleIdentifierPair" class="two fields">
-                    <div class="field">
-                        <label>Type</label>
-                        <div class="ui" id="identifierType">
-                            <div class="ui input left icon">
-                                <input name="customTitleIdentifierType" type="text" placeholder="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>ID</label>
-                        <div class="ui calendar" id="identifierValue">
-                            <div class="ui input left icon">
-                                <input name="customTitleIdentifier" type="text" placeholder="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- contributors -->
+            <div class="field">
+                <label>Contributors</label>
+                <div id="titleContribList"></div>
+                <div class="ui basic button" onclick="hiq.addNewCustomTitleContrib();">+ Add contributor</div>
             </div>
 
-            <!-- contributors -->
-            <div id="titleContribs" class="field">
-                <label>Contributors</label>
-                <div name="titleContribPair" class="two fields">
-                    <div class="field">
-                        <label>Type</label>
-                        <div class="ui" id="contribType">
-                            <div class="ui input left icon">
-                                <input name="customTitleContribType" type="text" placeholder="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Name</label>
-                        <div class="ui calendar" id="contribName">
-                            <div class="ui input left icon">
-                                <input name="customTitleContribName" type="text" placeholder="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- date ranges -->
+            <div class="field">
+                <label>Coverage settings</label>
+                <div id="titleCoverage"></div>
+                <div class="ui basic button" onclick="hiq.addNewCustomTitleDateRange();">+ Add date range</div>
             </div>
+
+            <!-- identifiers -->
+            <div class="field">
+                <label>Identifiers</label>
+                <div id="titleIdentList"></div>
+                <div class="ui basic button" onclick="hiq.addNewCustomTitleIdent();">+ Add identifier</div>
+            </div>
+
 
             <div class="content">
                 <div class="ui divider"></div>

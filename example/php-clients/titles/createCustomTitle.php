@@ -5,7 +5,6 @@ require_once '../../../lib/Api/TitleResourcesApi.php';
 
 $apiInstance = new Swagger\Client\Api\TitleResourcesApi(new GuzzleHttp\Client());
 $body = new \Swagger\Client\Model\CustomTitlePayload();
-$coverageDates = new \Swagger\Client\Model\CoverageDates();
 
 // ebsco holdingsIQ credentials
 $ebsco = parse_ini_file('../../ebsco.ini');
@@ -23,13 +22,16 @@ $packageid = $json->{'packageId'};
 $body->setTitleName($json->{'titleName'});
 $body->setPubType($json->{'pubType'});
 
-//// set customCoverage
-//$dateRanges = $json->{'customCoverage'};
-//foreach ($dateRanges as $range) {
-//    $coverageDates->setBeginCoverage($range->{'beginCoverage'});
-//    $coverageDates->setEndCoverage($range->{'endCoverage'});
-//}
-//$body->setCustomCoverage($coverageDates);
+// set customCoverage dates
+$customCoverageList = [];
+$dateRanges = $json->{'customCoverageList'};
+foreach ($dateRanges as $range) {
+    $coverageDates = new \Swagger\Client\Model\CoverageDates();
+    $coverageDates->setBeginCoverage($range->{'beginCoverage'});
+    $coverageDates->setEndCoverage($range->{'endCoverage'});
+    array_push($customCoverageList, $coverageDates);
+}
+$body->setCustomCoverageList($customCoverageList);
 
 try {
     $result = $apiInstance->custidVendorsVendoridPackagesPackageidTitlesPost($custid, $vendorid, $packageid, $x_api_key, $body);

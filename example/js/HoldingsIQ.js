@@ -876,24 +876,21 @@ function HoldingsIQ() {
         var packageId = $("#customTitlePackage").val() || null;
         var pubType = $("#customTitlePublicationType").val() || null;
 
-        // var dateRanges = $('div[name="packageDateRange"]');
-        // var dateRangeArray = [];
-        // for (var i=0; i < dateRanges.length; i++) {
-        //     var range = dateRanges[i];
-        //     var start = range.querySelectorAll('[name=customPackageStartDate]')[0].value;
-        //     var end = range.querySelectorAll('[name=customPackageEndDate]')[0].value;
-        //     dateRangeArray.push('{ "beginCoverage": "' + start + '", "endCoverage": "' + end + '" }')
-        // }
-        // var dateRangeJson = "[" + dateRangeArray.join(", ") + "]";
+        var dateRanges = $('div[name="titleDateRange"]');
+        var dateRangeArray = [];
+        for (var i=0; i < dateRanges.length; i++) {
+            var range = dateRanges[i];
+            var start = range.querySelectorAll('[name=customTitleStartDate]')[0].value;
+            var end = range.querySelectorAll('[name=customTitleEndDate]')[0].value;
+            dateRangeArray.push('{ "beginCoverage": "' + start + '", "endCoverage": "' + end + '" }')
+        }
+        var dateRangeJson = " \"customCoverageList\": [" + dateRangeArray.join(", ") + "]";
 
-        var jsonRequest = '{ "titleName": "' + name + '", "packageId": ' + packageId + ', "pubType": "' + pubType + '" }';
+        var jsonRequest = '{ "titleName": "' + name + '", "packageId": ' + packageId + ', "pubType": "' + pubType + '", ' + dateRangeJson + ' }';
 
         console.log('new title json', jsonRequest);
 
         var requestBody = encodeURIComponent(jsonRequest);
-
-        var packageId = null;
-        var vendorId = null;
         $("#newCustomTitle").addClass("loading");
         var url = `php-clients/titles/createCustomTitle.php?body=${requestBody}`;
         var self = this;
@@ -914,6 +911,97 @@ function HoldingsIQ() {
         })();
     };
 
+    HoldingsIQ.prototype.addNewCustomTitleDateRange = function() {
+        var rangeInput =
+            '           <div style="margin-top: 12px;" class="field">\n' +
+            '            <div name="titleDateRange" class="two fields">\n' +
+            '                <div class="field">\n' +
+            '                    <div class="ui calendar" id="rangestart">\n' +
+            '                        <div class="ui input left icon">\n' +
+            '                            <i class="calendar icon"></i>\n' +
+            '                            <input name="customTitleStartDate" type="text" placeholder="Start date">\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '                <div class="field">\n' +
+            '                    <div class="ui calendar" id="rangeend">\n' +
+            '                        <div class="ui input left icon">\n' +
+            '                            <i class="calendar icon"></i>\n' +
+            '                            <input name="customTitleEndDate" type="text" placeholder="End date">\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '              <div class="circular ui icon button" onclick="$(this).parent().parent().remove();"><i class="trash alternate outline icon"></i></div>\n' +
+            '              </div>\n' +
+            '            </div>';
+        $("#titleCoverage").append(rangeInput);
+        $('.ui.calendar').calendar({
+            type: 'date',
+            formatter: {
+                date: function (date, settings) {
+                    if (!date) return '';
+                    var day = ('0' + date.getDate()).slice(-2);
+                    var month = ('0' + (date.getMonth()+1)).slice(-2);
+                    var year = date.getFullYear();
+                    return year + '-' + month + '-' + day;
+                }
+            }
+        });
+    };
+
+    HoldingsIQ.prototype.addNewCustomTitleContrib = function() {
+        var contribInput =
+            '           <div style="margin-top: 12px;" class="field">\n' +
+            '            <div name="titleContrib" class="two fields">\n' +
+            '                <div class="field">\n' +
+            '                   <div id="customTitleContribDropdown" class="ui selection dropdown">\n' +
+            '                       <input id="customTitleContrib" type="hidden" name="contributorType">\n' +
+            '                       <i class="dropdown icon"></i>\n' +
+            '                       <div class="default text">Select the contributor type...</div>\n' +
+            '                       <div class="menu">\n' +
+            '                           <div class="item" data-value="author">Author</div>\n' +
+            '                           <div class="item" data-value="editor">Editor</div>\n' +
+            '                           <div class="item" data-value="illustrator">Illustrator</div>\n' +
+            '                       </div>\n' +
+            '                   </div>\n' +
+            '               </div>\n' +
+            '               <div class="field">\n' +
+            '                   <input id="customTitleContribName" name="customTitleContribName" type="text" placeholder="Enter name here...">\n' +
+            '               </div>\n' +
+            '              <div class="circular ui icon button" onclick="$(this).parent().parent().remove();"><i class="trash alternate outline icon"></i></div>\n' +
+            '              </div>\n' +
+            '            </div>';
+        $("#titleContribList").append(contribInput);
+        $('.ui.dropdown').dropdown();
+    };
+
+    HoldingsIQ.prototype.addNewCustomTitleIdent = function() {
+        var identInput =
+            '           <div style="margin-top: 12px;" class="field">\n' +
+            '            <div name="titleIdent" class="two fields">\n' +
+            '                <div class="field">\n' +
+            '                   <div id="customTitleIdentDropdown" class="ui selection dropdown">\n' +
+            '                       <input id="customTitleIdent" type="hidden" name="identifierType">\n' +
+            '                       <i class="dropdown icon"></i>\n' +
+            '                       <div class="default text">Select the identifier type...</div>\n' +
+            '                       <div class="menu">\n' +
+            '                           <div class="item" data-value="0">ISSN (Online)</div>\n' +
+            '                           <div class="item" data-value="1">ISSN (Print)</div>\n' +
+            '                           <div class="item" data-value="2">ISBN (Online)</div>\n' +
+            '                           <div class="item" data-value="3">ISBN (Print)</div>\n' +
+            '                       </div>\n' +
+            '                   </div>\n' +
+            '               </div>\n' +
+            '               <div class="field">\n' +
+            '                   <input id="customTitleIdentifierValue" name="customTitleIdentifierValue" type="text" placeholder="Enter identifier here...">\n' +
+            '               </div>\n' +
+            '              <div class="circular ui icon button" onclick="$(this).parent().parent().remove();"><i class="trash alternate outline icon"></i></div>\n' +
+            '              </div>\n' +
+            '            </div>';
+        $("#titleIdentList").append(identInput);
+        $('.ui.dropdown').dropdown();
+
+    };
 
     // UTILS
 
