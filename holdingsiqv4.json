@@ -2716,10 +2716,10 @@
           "description":"The unit of time to use for the embargo - days, weeks, months or years.",
           "example":"Days",
           "enum":[
-            "days",
-            "weeks",
-            "months",
-            "years"
+            "Days",
+            "Weeks",
+            "Months",
+            "Years"
           ]
         },
         "embargoValue":{

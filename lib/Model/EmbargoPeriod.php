@@ -158,10 +158,10 @@ class EmbargoPeriod implements ModelInterface, ArrayAccess
         return self::$swaggerModelName;
     }
 
-    const EMBARGO_UNIT_DAYS = 'days';
-const EMBARGO_UNIT_WEEKS = 'weeks';
-const EMBARGO_UNIT_MONTHS = 'months';
-const EMBARGO_UNIT_YEARS = 'years';
+    const EMBARGO_UNIT_DAYS = 'Days';
+const EMBARGO_UNIT_WEEKS = 'Weeks';
+const EMBARGO_UNIT_MONTHS = 'Months';
+const EMBARGO_UNIT_YEARS = 'Years';
 
     /**
      * Gets allowable values of the enum
