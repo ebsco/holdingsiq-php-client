@@ -43,20 +43,20 @@
                     <i class="dropdown icon"></i>
                     <div class="default text">Select the publication type...</div>
                     <div class="menu">
-                        <div class="item" data-value="Audio Book">Audio Book</div>
-                        <div class="item" data-value="Book">Book</div>
-                        <div class="item" data-value="Book Series">Book Series</div>
-                        <div class="item" data-value="Database">Database</div>
-                        <div class="item" data-value="Journal">Journal</div>
-                        <div class="item" data-value="Newsletter">Newsletter</div>
-                        <div class="item" data-value="Newspaper">Newspaper</div>
-                        <div class="item" data-value="Proceedings">Proceedings</div>
-                        <div class="item" data-value="Report">Report</div>
-                        <div class="item" data-value="Streaming Audio">Streaming Audio</div>
-                        <div class="item" data-value="Streaming Video">Streaming Video</div>
-                        <div class="item" data-value="Thesis/Disertation">Thesis & Dissertation</div>
-                        <div class="item" data-value="Unspecified">Unspecified</div>
-                        <div class="item" data-value="Web Site">Website</div>
+                        <div class="item" data-value="audiobook">Audio Book</div>
+                        <div class="item" data-value="book">Book</div>
+                        <div class="item" data-value="bookseries">Book Series</div>
+                        <div class="item" data-value="database">Database</div>
+                        <div class="item" data-value="journal">Journal</div>
+                        <div class="item" data-value="newsletter">Newsletter</div>
+                        <div class="item" data-value="newspaper">Newspaper</div>
+                        <div class="item" data-value="proceedings">Proceedings</div>
+                        <div class="item" data-value="report">Report</div>
+                        <div class="item" data-value="streamingaudio">Streaming Audio</div>
+                        <div class="item" data-value="streamingvideo">Streaming Video</div>
+                        <div class="item" data-value="thesisdissertation">Thesis & Dissertation</div>
+                        <div class="item" data-value="unspecified">Unspecified</div>
+                        <div class="item" data-value="website">Website</div>
 
                     </div>
                 </div>
@@ -148,9 +148,4 @@
             }
         });
 </script>
-
-<div id="newCustomTitleSuccess" style="display: none;" class="ui success message">
-    <div class="header">Custom Title Created</div>
-    <p>Your custom title has been created.</p>
-</div>
 

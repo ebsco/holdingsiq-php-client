@@ -46,7 +46,9 @@ try {
     $titles = [];
     foreach ($obj->titles as $key=>$value) {
         $index = $key+1;
-        array_push($titles, "[\"<a onclick='hiq.getTitleDetails(" . $value->titleId . ");' style='cursor: pointer;'>" .$value->titleName . "</a>\", \"" . $value->pubType . "\", \"" . $value->publisherName . "\"]");
+        $optional_publisher = "";
+        if (isset ($value->publisherName)) { $optional_publisher = $value->publisherName; }
+        array_push($titles, "[\"<a onclick='hiq.getTitleDetails(" . $value->titleId . ");' style='cursor: pointer;'>" .$value->titleName . "</a>\", \"" . $value->pubType . "\", \"" . $optional_publisher . "\"]");
     }
     echo "{ \"recordsTotal\": ". $obj->totalResults . ", \"recordsFiltered\": " . $obj->totalResults . ", \"data\": [" . join(',', $titles) . "] }";
 

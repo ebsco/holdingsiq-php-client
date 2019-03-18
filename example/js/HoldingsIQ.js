@@ -17,7 +17,7 @@ function HoldingsIQ() {
 
         $("#titleSearchForm").hide();
         $("#titleResults").hide();
-        $("#titleDetails").hide();
+        $("#titleDetailsColumn").hide();
         $("#titleResultsHeading").hide();
         $("#titleDetailsHeading").hide();
     };
@@ -170,7 +170,7 @@ function HoldingsIQ() {
 
         $("#titleSearchForm").hide();
         $("#titleResults").hide();
-        $("#titleDetails").hide();
+        $("#titleDetailsColumn").hide();
         $("#titleResultsHeading").hide();
         $("#titleDetailsHeading").hide();
     };
@@ -910,11 +910,7 @@ function HoldingsIQ() {
             identArray.push('{ "type": "' + type + '", "subtype": "' + subtype + '", "id": "' + identValue + '" }')
         }
         var identJson = " \"identifiersList\": [" + identArray.join(", ") + "]";
-
-
         var jsonRequest = '{ "titleName": "' + name + '", "packageId": ' + packageId + ', "pubType": "' + pubType + '", ' + dateRangeJson + ', ' + contribJson + ', ' + identJson + ' }';
-
-        console.log('new title json', jsonRequest);
 
         var requestBody = encodeURIComponent(jsonRequest);
         $("#newCustomTitle").addClass("loading");
@@ -923,16 +919,12 @@ function HoldingsIQ() {
         (function() {
             $.getJSON(url)
                 .done(function( data ) {
-                    console.log('new title response', data);
-
-                    // // show details of new package
-                    // packageId = data.packageId;
-                    // vendorId = data.vendorId;
-                    // self.getPackageDetails(vendorId, packageId);
-                    // // remove form, loading, show success message
-                    // $("#newCustomPackage").removeClass("loading");
-                    // self.resetCustomPackageForm();
-                    // $("#newCustomPackageSuccess").show();
+                    // show details of new title
+                    self.getTitleDetails(data.titleId);
+                    // remove form, loading, show success message
+                    $("#newCustomTitle").removeClass("loading");
+                    // todo: self.resetCustomTitleForm();
+                    $("#newCustomTitleSuccess").show();
                 });
         })();
     };
@@ -1011,10 +1003,10 @@ function HoldingsIQ() {
             '                       <i class="dropdown icon"></i>\n' +
             '                       <div class="default text">Select the identifier type...</div>\n' +
             '                       <div class="menu">\n' +
-            '                           <div class="item" data-value="ISSN-Online">ISSN-Online</div>\n' +
-            '                           <div class="item" data-value="ISSN-Print">ISSN-Print</div>\n' +
-            '                           <div class="item" data-value="ISBN-Online">ISBN-Online</div>\n' +
-            '                           <div class="item" data-value="ISBN-Print">ISBN-Print</div>\n' +
+            '                           <div class="item" data-value="0-2">ISSN-Online</div>\n' +
+            '                           <div class="item" data-value="0-1">ISSN-Print</div>\n' +
+            '                           <div class="item" data-value="1-2">ISBN-Online</div>\n' +
+            '                           <div class="item" data-value="1-1">ISBN-Print</div>\n' +
             '                       </div>\n' +
             '                   </div>\n' +
             '               </div>\n' +
