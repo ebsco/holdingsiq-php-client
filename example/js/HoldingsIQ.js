@@ -876,6 +876,7 @@ function HoldingsIQ() {
         var packageId = $("#customTitlePackage").val() || null;
         var pubType = $("#customTitlePublicationType").val() || null;
 
+        // COVERAGE DATES
         var dateRanges = $('div[name="titleDateRange"]');
         var dateRangeArray = [];
         for (var i=0; i < dateRanges.length; i++) {
@@ -886,7 +887,32 @@ function HoldingsIQ() {
         }
         var dateRangeJson = " \"customCoverageList\": [" + dateRangeArray.join(", ") + "]";
 
-        var jsonRequest = '{ "titleName": "' + name + '", "packageId": ' + packageId + ', "pubType": "' + pubType + '", ' + dateRangeJson + ' }';
+        // CONTRIBUTORS
+        var contribs = $('div[name="titleContrib"]');
+        var contribArray = [];
+        for (var i=0; i < contribs.length; i++) {
+            var contrib = contribs[i];
+            var contribType = contrib.querySelectorAll('[name=contributorType]')[0].value;
+            var contribName = contrib.querySelectorAll('[name=contributorName]')[0].value;
+            contribArray.push('{ "type": "' + contribType + '", "contributor": "' + contribName + '" }')
+        }
+        var contribJson = " \"contributorsList\": [" + contribArray.join(", ") + "]";
+
+        // IDENTIFIERS
+        var idents = $('div[name="titleIdent"]');
+        var identArray = [];
+        for (var i=0; i < idents.length; i++) {
+            var ident = idents[i];
+            var identTypeCombined = ident.querySelectorAll('[name=identifierType]')[0].value;
+            var type = identTypeCombined.split('-')[0];
+            var subtype = identTypeCombined.split('-')[1];
+            var identValue = ident.querySelectorAll('[name=identifierValue]')[0].value;
+            identArray.push('{ "type": "' + type + '", "subtype": "' + subtype + '", "id": "' + identValue + '" }')
+        }
+        var identJson = " \"identifiersList\": [" + identArray.join(", ") + "]";
+
+
+        var jsonRequest = '{ "titleName": "' + name + '", "packageId": ' + packageId + ', "pubType": "' + pubType + '", ' + dateRangeJson + ', ' + contribJson + ', ' + identJson + ' }';
 
         console.log('new title json', jsonRequest);
 
@@ -955,7 +981,7 @@ function HoldingsIQ() {
             '            <div name="titleContrib" class="two fields">\n' +
             '                <div class="field">\n' +
             '                   <div id="customTitleContribDropdown" class="ui selection dropdown">\n' +
-            '                       <input id="customTitleContrib" type="hidden" name="contributorType">\n' +
+            '                       <input id="contributorType" type="hidden" name="contributorType">\n' +
             '                       <i class="dropdown icon"></i>\n' +
             '                       <div class="default text">Select the contributor type...</div>\n' +
             '                       <div class="menu">\n' +
@@ -966,7 +992,7 @@ function HoldingsIQ() {
             '                   </div>\n' +
             '               </div>\n' +
             '               <div class="field">\n' +
-            '                   <input id="customTitleContribName" name="customTitleContribName" type="text" placeholder="Enter name here...">\n' +
+            '                   <input id="customTitleContribName" name="contributorName" type="text" placeholder="Enter name here...">\n' +
             '               </div>\n' +
             '              <div class="circular ui icon button" onclick="$(this).parent().parent().remove();"><i class="trash alternate outline icon"></i></div>\n' +
             '              </div>\n' +
@@ -981,19 +1007,19 @@ function HoldingsIQ() {
             '            <div name="titleIdent" class="two fields">\n' +
             '                <div class="field">\n' +
             '                   <div id="customTitleIdentDropdown" class="ui selection dropdown">\n' +
-            '                       <input id="customTitleIdent" type="hidden" name="identifierType">\n' +
+            '                       <input id="identifierType" type="hidden" name="identifierType">\n' +
             '                       <i class="dropdown icon"></i>\n' +
             '                       <div class="default text">Select the identifier type...</div>\n' +
             '                       <div class="menu">\n' +
-            '                           <div class="item" data-value="0">ISSN (Online)</div>\n' +
-            '                           <div class="item" data-value="1">ISSN (Print)</div>\n' +
-            '                           <div class="item" data-value="2">ISBN (Online)</div>\n' +
-            '                           <div class="item" data-value="3">ISBN (Print)</div>\n' +
+            '                           <div class="item" data-value="ISSN-Online">ISSN-Online</div>\n' +
+            '                           <div class="item" data-value="ISSN-Print">ISSN-Print</div>\n' +
+            '                           <div class="item" data-value="ISBN-Online">ISBN-Online</div>\n' +
+            '                           <div class="item" data-value="ISBN-Print">ISBN-Print</div>\n' +
             '                       </div>\n' +
             '                   </div>\n' +
             '               </div>\n' +
             '               <div class="field">\n' +
-            '                   <input id="customTitleIdentifierValue" name="customTitleIdentifierValue" type="text" placeholder="Enter identifier here...">\n' +
+            '                   <input id="identifierValue" name="identifierValue" type="text" placeholder="Enter identifier here...">\n' +
             '               </div>\n' +
             '              <div class="circular ui icon button" onclick="$(this).parent().parent().remove();"><i class="trash alternate outline icon"></i></div>\n' +
             '              </div>\n' +

@@ -33,6 +33,29 @@ foreach ($dateRanges as $range) {
 }
 $body->setCustomCoverageList($customCoverageList);
 
+// set contributors
+$contribList = [];
+$contribs = $json->{'contributorsList'};
+foreach ($contribs as $contrib) {
+    $contribId = new \Swagger\Client\Model\ContributorID();
+    $contribId->setType($contrib->{'type'});
+    $contribId->setContributor($contrib->{'contributor'});
+    array_push($contribList, $contribId);
+}
+$body->setContributorsList($contribList);
+
+// set identifiers
+$identList = [];
+$idents = $json->{'identifiersList'};
+foreach ($idents as $ident) {
+    $identifier = new \Swagger\Client\Model\Identifier();
+    $identifier->setType($ident->{'type'});
+    $identifier->setSubtype($ident->{'subtype'});
+    $identifier->setId($ident->{'id'});
+    array_push($identList, $identifier);
+}
+$body->setIdentifiersList($identList);
+
 try {
     $result = $apiInstance->custidVendorsVendoridPackagesPackageidTitlesPost($custid, $vendorid, $packageid, $x_api_key, $body);
     header('Access-Control-Allow-Origin: *');
