@@ -32,7 +32,7 @@
             <!-- description -->
             <div class="field">
                 <label>Description</label>
-                <textarea rid="customTitleDescription" name="customTitleDescription" rows="2"></textarea>
+                <textarea id="customTitleDescription" name="customTitleDescription" rows="2"></textarea>
             </div>
 
             <!-- publication type -->

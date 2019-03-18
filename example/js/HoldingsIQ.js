@@ -679,7 +679,7 @@ function HoldingsIQ() {
 
         $("#titleSearchForm").show();
         $("#titleResults").show();
-        $("#titleDetails").show();
+        $("#titleDetailsColumn").show();
         $("#titleResultsHeading").show();
         $("#titleDetailsHeading").show();
     };
@@ -923,15 +923,26 @@ function HoldingsIQ() {
                     self.getTitleDetails(data.titleId);
                     // remove form, loading, show success message
                     $("#newCustomTitle").removeClass("loading");
-                    // todo: self.resetCustomTitleForm();
+                    self.resetCustomTitleForm();
                     $("#newCustomTitleSuccess").show();
                 });
         })();
     };
 
+    HoldingsIQ.prototype.resetCustomTitleForm = function() {
+        $("#customTitleName").val('');
+        $("#customTitleEdition").val('');
+        $("#customTitlePublisher").val('');
+        $("#customTitleDescription").val('');
+        $("#customTitlePublicationTypeDropdown").dropdown('clear');
+        $("#customTitlePackageDropdown").dropdown('clear');
+        $("#customTitleIsPeerReviewed").prop('checked', false);
+        $(".customTitleField").remove();
+    };
+
     HoldingsIQ.prototype.addNewCustomTitleDateRange = function() {
         var rangeInput =
-            '           <div style="margin-top: 12px;" class="field">\n' +
+            '           <div style="margin-top: 12px;" class="customTitleField field">\n' +
             '            <div name="titleDateRange" class="two fields">\n' +
             '                <div class="field">\n' +
             '                    <div class="ui calendar" id="rangestart">\n' +
@@ -969,7 +980,7 @@ function HoldingsIQ() {
 
     HoldingsIQ.prototype.addNewCustomTitleContrib = function() {
         var contribInput =
-            '           <div style="margin-top: 12px;" class="field">\n' +
+            '           <div style="margin-top: 12px;" class="customTitleField field">\n' +
             '            <div name="titleContrib" class="two fields">\n' +
             '                <div class="field">\n' +
             '                   <div id="customTitleContribDropdown" class="ui selection dropdown">\n' +
@@ -995,7 +1006,7 @@ function HoldingsIQ() {
 
     HoldingsIQ.prototype.addNewCustomTitleIdent = function() {
         var identInput =
-            '           <div style="margin-top: 12px;" class="field">\n' +
+            '           <div style="margin-top: 12px;" class="customTitleField field">\n' +
             '            <div name="titleIdent" class="two fields">\n' +
             '                <div class="field">\n' +
             '                   <div id="customTitleIdentDropdown" class="ui selection dropdown">\n' +
