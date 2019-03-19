@@ -63,6 +63,14 @@ if ($json->{'identifiersList'}) {
     $body->setIdentifiersList($identList);
 }
 
+// set embargo period
+if ($json->{'embargoPeriod'}) {
+    $embargo = new \Swagger\Client\Model\EmbargoPeriod();
+    $embargo->setEmbargoUnit($json->{'embargoPeriod'}->{'embargoUnit'});
+    $embargo->setEmbargoValue($json->{'embargoPeriod'}->{'embargoValue'});
+    $body->setCustomEmbargoPeriod($embargo);
+}
+
 // set publisher name
 if ($json->{'publisherName'}) {
     $body->setPublisherName($json->{'publisherName'});
@@ -81,6 +89,11 @@ if ($json->{'description'}) {
 // peer reviewed
 if ($json->{'peerReviewed'}) {
     $body->setIsPeerReviewed($json->{'peerReviewed'});
+}
+
+// url
+if ($json->{'url'}) {
+    $body->setUrl($json->{'url'});
 }
 
 try {

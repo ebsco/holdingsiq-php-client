@@ -35,6 +35,12 @@
                 <textarea id="customTitleDescription" name="customTitleDescription" rows="2"></textarea>
             </div>
 
+            <!-- url -->
+            <div class="field">
+                <label>URL</label>
+                <input id="customTitleUrl" name="customTitleUrl" type="text" placeholder="Enter URL here...">
+            </div>
+
             <!-- publication type -->
             <div class="field required">
                 <label>Publication type</label>
@@ -104,6 +110,12 @@
                 <div class="ui basic button" onclick="hiq.addNewCustomTitleIdent();">+ Add identifier</div>
             </div>
 
+            <!-- embargo -->
+            <div class="field">
+                <label>Embargo period</label>
+                <div id="titleEmbargo"></div>
+                <div id="titleEmbargoButton" class="ui basic button" onclick="hiq.addNewCustomTitleEmbargo();">+ Add embargo period</div>
+            </div>
 
             <div class="content">
                 <div class="ui divider"></div>

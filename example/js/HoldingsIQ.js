@@ -942,6 +942,7 @@ function HoldingsIQ() {
         var publisherName = $("#customTitlePublisher").val() || null;
         var edition = $("#customTitleEdition").val() || null;
         var description = $("#customTitleDescription").val() || null;
+        var titleUrl = $("#customTitleUrl").val() || null;
         var isPeerReviewed = $("#customTitleIsPeerReviewed").prop('checked') || false;
 
         // COVERAGE DATES
@@ -951,7 +952,9 @@ function HoldingsIQ() {
             var range = dateRanges[i];
             var start = range.querySelectorAll('[name=customTitleStartDate]')[0].value;
             var end = range.querySelectorAll('[name=customTitleEndDate]')[0].value;
-            dateRangeArray.push('{ "beginCoverage": "' + start + '", "endCoverage": "' + end + '" }')
+            if (start !== "" &&  end !== "") {
+                dateRangeArray.push('{ "beginCoverage": "' + start + '", "endCoverage": "' + end + '" }')
+            }
         }
         var dateRangeJson = " \"customCoverageList\": [" + dateRangeArray.join(", ") + "]";
 
@@ -962,7 +965,9 @@ function HoldingsIQ() {
             var contrib = contribs[i];
             var contribType = contrib.querySelectorAll('[name=contributorType]')[0].value;
             var contribName = contrib.querySelectorAll('[name=contributorName]')[0].value;
-            contribArray.push('{ "type": "' + contribType + '", "contributor": "' + contribName + '" }')
+            if (contribType !== "" && contribName !== "") {
+                contribArray.push('{ "type": "' + contribType + '", "contributor": "' + contribName + '" }')
+            }
         }
         var contribJson = " \"contributorsList\": [" + contribArray.join(", ") + "]";
 
@@ -975,9 +980,22 @@ function HoldingsIQ() {
             var type = identTypeCombined.split('-')[0];
             var subtype = identTypeCombined.split('-')[1];
             var identValue = ident.querySelectorAll('[name=identifierValue]')[0].value;
-            identArray.push('{ "type": "' + type + '", "subtype": "' + subtype + '", "id": "' + identValue + '" }')
+            if (type !== "" && subtype !== "" && identValue !== "") {
+                identArray.push('{ "type": "' + type + '", "subtype": "' + subtype + '", "id": "' + identValue + '" }')
+            }
         }
         var identJson = " \"identifiersList\": [" + identArray.join(", ") + "]";
+
+        // EMBARGO PERIOD
+        var embargos = $('div[name="titleEmbargo"]');
+        var embargoArray = [];
+        for (var i=0; i < embargos.length; i++) {
+            var embargo = embargos[i];
+            var embargoUnit = embargo.querySelectorAll('[name=embargoUnit]')[0].value;
+            var embargoValue = embargo.querySelectorAll('[name=embargoValue]')[0].value;
+            embargoArray.push('{ "embargoUnit": "' + embargoUnit + '", "embargoValue": "' + embargoValue + '" }')
+        }
+        var embargoJson = " \"embargoPeriod\": " + embargoArray[0];
 
         var jsonRequest = '{ "titleName": "' + escape(name) +
             '", "packageId": ' + packageId +
@@ -985,8 +1003,12 @@ function HoldingsIQ() {
             '", "publisherName": "' + escape(publisherName) +
             '", "edition": "' + escape(edition) +
             '", "description": "' + escape(description) +
+            '", "url": "' + escape(titleUrl) +
             '", "peerReviewed": ' + isPeerReviewed +
-            ', ' + dateRangeJson + ', ' + contribJson + ', ' + identJson + ' }';
+            ', ' + embargoJson +
+            ', ' + dateRangeJson +
+            ', ' + contribJson +
+            ', ' + identJson + ' }';
 
         console.log('new title request', jsonRequest);
         var requestBody = encodeURIComponent(jsonRequest);
@@ -1012,6 +1034,7 @@ function HoldingsIQ() {
         $("#customTitleEdition").val('');
         $("#customTitlePublisher").val('');
         $("#customTitleDescription").val('');
+        $("#customTitleUrl").val('');
         $("#customTitlePublicationTypeDropdown").dropdown('clear');
         $("#customTitlePackageDropdown").dropdown('clear');
         $("#customTitleIsPeerReviewed").prop('checked', false);
@@ -1107,7 +1130,37 @@ function HoldingsIQ() {
             '            </div>';
         $("#titleIdentList").append(identInput);
         $('.ui.dropdown').dropdown();
+    };
 
+    HoldingsIQ.prototype.addNewCustomTitleEmbargo = function() {
+        var embargoInput =
+            '           <div style="margin-top: 12px;" class="customTitleField field">\n' +
+            '            <div name="titleEmbargo" class="two fields">\n' +
+            '                <div class="field">\n' +
+            '                   <div id="customTitleEmbargoDropdown" class="ui selection dropdown">\n' +
+            '                       <input id="embargoUnit" type="hidden" name="embargoUnit">\n' +
+            '                       <i class="dropdown icon"></i>\n' +
+            '                       <div class="default text">Select the embargo unit...</div>\n' +
+            '                       <div class="menu">\n' +
+            '                           <div class="item" data-value="Days">Days</div>\n' +
+            '                           <div class="item" data-value="Weeks">Weeks</div>\n' +
+            '                           <div class="item" data-value="Months">Months</div>\n' +
+            '                           <div class="item" data-value="Years">Years</div>\n' +
+            '                       </div>\n' +
+            '                   </div>\n' +
+            '               </div>\n' +
+            '               <div class="field">\n' +
+            '                   <input id="embargoValue" name="embargoValue" type="text" placeholder="Enter value here...">\n' +
+            '               </div>\n' +
+            '              <div class="circular ui icon button" ' +
+            '                      onclick="$(this).parent().parent().remove(); $(\'#titleEmbargoButton\').show();">' +
+            '                   <i class="trash alternate outline icon"></i>' +
+            '              </div>\n' +
+            '              </div>\n' +
+            '            </div>';
+        $("#titleEmbargo").append(embargoInput);
+        $("#titleEmbargoButton").hide();
+        $('.ui.dropdown').dropdown();
     };
 
     // UTILS
