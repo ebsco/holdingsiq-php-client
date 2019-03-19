@@ -25,6 +25,15 @@
             </div>
             <div class="active title">
                 <i class="dropdown icon"></i>
+                Coverage settings
+            </div>
+            <div class="active content">
+                <div style="margin-left: 25px;" id="titleDetailCoverage" class="ui relaxed divided list">
+                    <!-- packages will go here... -->
+                </div>
+            </div>
+            <div class="active title">
+                <i class="dropdown icon"></i>
                 Packages
             </div>
             <div class="active content">

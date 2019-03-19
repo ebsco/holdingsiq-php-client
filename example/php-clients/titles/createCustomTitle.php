@@ -63,6 +63,26 @@ if ($json->{'identifiersList'}) {
     $body->setIdentifiersList($identList);
 }
 
+// set publisher name
+if ($json->{'publisherName'}) {
+    $body->setPublisherName($json->{'publisherName'});
+}
+
+// set edition
+if ($json->{'edition'}) {
+    $body->setEdition($json->{'edition'});
+}
+
+// set description
+if ($json->{'description'}) {
+    $body->setDescription($json->{'description'});
+}
+
+// peer reviewed
+if ($json->{'peerReviewed'}) {
+    $body->setIsPeerReviewed($json->{'peerReviewed'});
+}
+
 try {
     $result = $apiInstance->custidVendorsVendoridPackagesPackageidTitlesPost($custid, $vendorid, $packageid, $x_api_key, $body);
     header('Access-Control-Allow-Origin: *');

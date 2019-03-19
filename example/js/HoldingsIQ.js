@@ -760,6 +760,19 @@ function HoldingsIQ() {
                     $("#titleDetailName").text(data.titleName);
 
                     $("#titleInfo").empty();
+
+                    // description
+                    if (data.description) {
+                        var description =
+                            "<div class=\"item left aligned\">\n" +
+                            "   <div class=\"content\">\n" +
+                            "       <div>Description: <strong>" + data.description + "</strong></div>\n" +
+                            "   </div>\n" +
+                            "</div>";
+                        $("#titleInfo").append(description);
+                    }
+
+                    // publisher
                     var publisher =
                         "<div class=\"item left aligned\">\n" +
                         "   <div class=\"content\">\n" +
@@ -767,6 +780,8 @@ function HoldingsIQ() {
                         "   </div>\n" +
                         "</div>";
                     $("#titleInfo").append(publisher);
+
+                    // pub type
                     var pub_type =
                         "<div class=\"item left aligned\">\n" +
                         "   <div class=\"content\">\n" +
@@ -774,6 +789,19 @@ function HoldingsIQ() {
                         "   </div>\n" +
                         "</div>";
                     $("#titleInfo").append(pub_type);
+
+                    // edition
+                    if (data.edition) {
+                        var edition =
+                            "<div class=\"item left aligned\">\n" +
+                            "   <div class=\"content\">\n" +
+                            "       <div>Edition: <strong>" + data.edition + "</strong></div>\n" +
+                            "   </div>\n" +
+                            "</div>";
+                        $("#titleInfo").append(edition);
+                    }
+
+                    // peer review
                     var peer_review_text = data.isPeerReviewed ? "Yes" : "No";
                     var peer_review =
                         "<div class=\"item left aligned\">\n" +
@@ -821,6 +849,42 @@ function HoldingsIQ() {
                             "   </div>\n" +
                             "</div>";
                         $("#titleInfo").append(isbn_online);
+                    }
+
+                    // custom coverage
+                    $("#titleDetailCoverage").empty();
+                    var no_custom_coverage =
+                        "<div class=\"item left aligned\">\n" +
+                        "   <div class=\"content\">\n" +
+                        "       <div>No custom coverage dates set.</div>\n" +
+                        "   </div>\n" +
+                        "</div>";
+                    if (data.coverageDates) {
+                        if (data.coverageDates.beginCoverage !== "" || data.coverageDates.endCoverage !== "") {
+                            var custom_begin_coverage =
+                                "<div class=\"item left aligned\">\n" +
+                                "   <div class=\"content\">\n" +
+                                "       <div>Custom begin coverage: <strong>" + data.coverageDates.beginCoverage + "</strong></div>\n" +
+                                "   </div>\n" +
+                                "</div>";
+                            var custom_end_coverage =
+                                "<div class=\"item left aligned\">\n" +
+                                "   <div class=\"content\">\n" +
+                                "       <div>Custom end coverage: <strong>" + data.coverageDates.endCoverage + "</strong></div>\n" +
+                                "   </div>\n" +
+                                "</div>";
+                            $("#titleDetailCoverage").append(custom_begin_coverage);
+                            $("#titleDetailCoverage").append(custom_end_coverage);
+
+                            // set edit form values
+                            // $("#editCustomPackageStartDate").val(data.customCoverage.beginCoverage);
+                            // $("#editCustomPackageEndDate").val(data.customCoverage.endCoverage);
+
+                        } else {
+                            $("#titleDetailCoverage").append(no_custom_coverage);
+                        }
+                    } else {
+                        $("#titleDetailCoverage").append(no_custom_coverage);
                     }
 
                     // PACKAGES
@@ -875,6 +939,10 @@ function HoldingsIQ() {
         var name = $("#customTitleName").val() || null;
         var packageId = $("#customTitlePackage").val() || null;
         var pubType = $("#customTitlePublicationType").val() || null;
+        var publisherName = $("#customTitlePublisher").val() || null;
+        var edition = $("#customTitleEdition").val() || null;
+        var description = $("#customTitleDescription").val() || null;
+        var isPeerReviewed = $("#customTitleIsPeerReviewed").prop('checked') || false;
 
         // COVERAGE DATES
         var dateRanges = $('div[name="titleDateRange"]');
@@ -910,9 +978,19 @@ function HoldingsIQ() {
             identArray.push('{ "type": "' + type + '", "subtype": "' + subtype + '", "id": "' + identValue + '" }')
         }
         var identJson = " \"identifiersList\": [" + identArray.join(", ") + "]";
-        var jsonRequest = '{ "titleName": "' + name + '", "packageId": ' + packageId + ', "pubType": "' + pubType + '", ' + dateRangeJson + ', ' + contribJson + ', ' + identJson + ' }';
 
+        var jsonRequest = '{ "titleName": "' + escape(name) +
+            '", "packageId": ' + packageId +
+            ', "pubType": "' + pubType +
+            '", "publisherName": "' + escape(publisherName) +
+            '", "edition": "' + escape(edition) +
+            '", "description": "' + escape(description) +
+            '", "peerReviewed": ' + isPeerReviewed +
+            ', ' + dateRangeJson + ', ' + contribJson + ', ' + identJson + ' }';
+
+        console.log('new title request', jsonRequest);
         var requestBody = encodeURIComponent(jsonRequest);
+
         $("#newCustomTitle").addClass("loading");
         var url = `php-clients/titles/createCustomTitle.php?body=${requestBody}`;
         var self = this;
@@ -1037,5 +1115,19 @@ function HoldingsIQ() {
     // function to add commas to long numbers
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function escape (val) {
+        if (typeof(val)!="string") return val;
+        return val
+            .replace(/[\\]/g, '\\\\')
+            .replace(/[\/]/g, '\\/')
+            .replace(/[\b]/g, '\\b')
+            .replace(/[\f]/g, '\\f')
+            .replace(/[\n]/g, '\\n')
+            .replace(/[\r]/g, '\\r')
+            .replace(/[\t]/g, '\\t')
+            .replace(/[\"]/g, '\\"')
+            .replace(/\\'/g, "\\'");
     }
 }
