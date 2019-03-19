@@ -48,11 +48,12 @@ try {
         $index = $key+1;
         $optional_publisher = "";
         if (isset ($value->publisherName)) { $optional_publisher = $value->publisherName; }
-        array_push($titles, "[\"<a onclick='hiq.getTitleDetails(" . $value->titleId . ");' style='cursor: pointer;'>" .$value->titleName . "</a>\", \"" . $value->pubType . "\", \"" . $optional_publisher . "\"]");
-    }
-    echo "{ \"recordsTotal\": ". $obj->totalResults . ", \"recordsFiltered\": " . $obj->totalResults . ", \"data\": [" . join(',', $titles) . "] }";
-
-
+        $col1 = "<a onclick='hiq.getTitleDetails(" . $value->titleId . ");' style='cursor: pointer;'>" . $value->titleName . "</a>";
+        $col2 = $value->pubType;
+        $col3 = $optional_publisher;
+        array_push($titles, array($col1, $col2, $col3));
+   }
+    echo "{ \"recordsTotal\": ". $obj->totalResults . ", \"recordsFiltered\": " . $obj->totalResults . ", \"data\": " . json_encode($titles,JSON_HEX_QUOT)  . " }";
 } catch (Exception $e) {
     echo 'Exception when calling TitleResourcesApi->custidTitlesGet: ', $e->getMessage(), PHP_EOL;
 }

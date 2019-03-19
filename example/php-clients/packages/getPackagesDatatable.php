@@ -34,22 +34,18 @@ try {
     $result = $apiInstance->custidPackagesGet($custid, $search, $orderby, $count, $offset, $x_api_key, $selection, $contenttype);
     header('Access-Control-Allow-Origin: *');
     header('Content-type: application/json');
-
     $obj = json_decode($result);
-
-    $datatables_json = '{ "data": [ ] }';
 
     $titles = [];
     foreach ($obj->packagesList as $key=>$value) {
-        $index = $key+1;
         $selected_text ="No";
         if ($value->isSelected) { $selected_text = "Yes"; }
-        array_push($titles, "[\"<a onclick='hiq.getPackageDetails(" . $value->vendorId . "," . $value->packageId . ");' style='cursor: pointer;'>" .$value->packageName . "</a>\", \"" . $value->vendorName . "\", \"" . $selected_text . "\"]");
+        $col1 = "<a onclick='hiq.getPackageDetails(" . $value->vendorId . "," . $value->packageId . ");' style='cursor: pointer;'>" .$value->packageName . "</a>";
+        $col2 = $value->vendorName;
+        $col3 = $selected_text;
+        array_push($titles, array($col1, $col2, $col3));
     }
-    echo "{ \"recordsTotal\": ". $obj->totalResults . ", \"recordsFiltered\": " . $obj->totalResults . ", \"data\": [" . join(',', $titles) . "] }";
-
-
+    echo "{ \"recordsTotal\": ". $obj->totalResults . ", \"recordsFiltered\": " . $obj->totalResults . ", \"data\": " . json_encode($titles, JSON_HEX_QUOT) . " }";
 } catch (Exception $e) {
     echo 'Exception when calling PackageResourcesApi->custidTitlesGet: ', $e->getMessage(), PHP_EOL;
 }
-?>
