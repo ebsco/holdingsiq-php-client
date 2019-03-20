@@ -435,7 +435,7 @@ function HoldingsIQ() {
                     if (data.totalResults > 0) {
                         $.each( data.titles, function( i, title ) {
                             var selectedText = "Not selected";
-                            if (title.isSelected) { selectedText = "Selected"; }
+                            if (title.customerResourcesList[0].isSelected) { selectedText = "Selected"; }
                             var result_item =
                                 "<div class=\"item left aligned\">\n" +
                                 "   <div class=\"content\">\n" +
@@ -851,54 +851,80 @@ function HoldingsIQ() {
                         $("#titleInfo").append(isbn_online);
                     }
 
-                    // custom coverage
-                    $("#titleDetailCoverage").empty();
-                    var no_custom_coverage =
-                        "<div class=\"item left aligned\">\n" +
-                        "   <div class=\"content\">\n" +
-                        "       <div>No custom coverage dates set.</div>\n" +
-                        "   </div>\n" +
-                        "</div>";
-                    if (data.coverageDates) {
-                        if (data.coverageDates.beginCoverage !== "" || data.coverageDates.endCoverage !== "") {
-                            var custom_begin_coverage =
-                                "<div class=\"item left aligned\">\n" +
-                                "   <div class=\"content\">\n" +
-                                "       <div>Custom begin coverage: <strong>" + data.coverageDates.beginCoverage + "</strong></div>\n" +
-                                "   </div>\n" +
-                                "</div>";
-                            var custom_end_coverage =
-                                "<div class=\"item left aligned\">\n" +
-                                "   <div class=\"content\">\n" +
-                                "       <div>Custom end coverage: <strong>" + data.coverageDates.endCoverage + "</strong></div>\n" +
-                                "   </div>\n" +
-                                "</div>";
-                            $("#titleDetailCoverage").append(custom_begin_coverage);
-                            $("#titleDetailCoverage").append(custom_end_coverage);
-
-                            // set edit form values
-                            // $("#editCustomPackageStartDate").val(data.customCoverage.beginCoverage);
-                            // $("#editCustomPackageEndDate").val(data.customCoverage.endCoverage);
-
-                        } else {
-                            $("#titleDetailCoverage").append(no_custom_coverage);
-                        }
-                    } else {
-                        $("#titleDetailCoverage").append(no_custom_coverage);
+                    // display add to custom package button
+                    if (!data.isSelected) {
+                        var addTitle = "<button id=\"addTitleToCustomPackage\"\n" +
+                            "                        onclick=\"hiq.showAddTitleToCustomPackage('" + tid + "', '" + data.titleName + "', '" + data.pubType + "');\"\n" +
+                            "                        style=\"margin-top: 10px\" class=\"mini ui blue button\">\n" +
+                            "                    <i class=\"plus icon\"></i>\n" +
+                            "                    Add to custom package\n" +
+                            "                </button>\n";
+                        $("#titleInfo").append(addTitle);
                     }
 
-                    // PACKAGES
+                    // this belongs in each package section apparently
+                    // // custom coverage
+                    // $("#titleDetailCoverage").empty();
+                    // var no_custom_coverage =
+                    //     "<div class=\"item left aligned\">\n" +
+                    //     "   <div class=\"content\">\n" +
+                    //     "       <div>No custom coverage dates set.</div>\n" +
+                    //     "   </div>\n" +
+                    //     "</div>";
+                    // if (data.coverageDates) {
+                    //     if (data.coverageDates.beginCoverage !== "" || data.coverageDates.endCoverage !== "") {
+                    //         var custom_begin_coverage =
+                    //             "<div class=\"item left aligned\">\n" +
+                    //             "   <div class=\"content\">\n" +
+                    //             "       <div>Custom begin coverage: <strong>" + data.coverageDates.beginCoverage + "</strong></div>\n" +
+                    //             "   </div>\n" +
+                    //             "</div>";
+                    //         var custom_end_coverage =
+                    //             "<div class=\"item left aligned\">\n" +
+                    //             "   <div class=\"content\">\n" +
+                    //             "       <div>Custom end coverage: <strong>" + data.coverageDates.endCoverage + "</strong></div>\n" +
+                    //             "   </div>\n" +
+                    //             "</div>";
+                    //         $("#titleDetailCoverage").append(custom_begin_coverage);
+                    //         $("#titleDetailCoverage").append(custom_end_coverage);
+                    //
+                    //         // set edit form values
+                    //         // $("#editCustomPackageStartDate").val(data.customCoverage.beginCoverage);
+                    //         // $("#editCustomPackageEndDate").val(data.customCoverage.endCoverage);
+                    //
+                    //     } else {
+                    //         $("#titleDetailCoverage").append(no_custom_coverage);
+                    //     }
+                    // } else {
+                    //     $("#titleDetailCoverage").append(no_custom_coverage);
+                    // }
+
+                    // IN SELECTED CUSTOM PACKAGES
+                    $("#titleSelectedPackages").empty();
                     $.each(data.customerResourcesList, function(i, resource) {
-                        var selectedText = "Not selected";
-                        if (resource.isSelected) { selectedText = "Selected"; }
-                        var package_resource =
-                            "<div class=\"item left aligned\">\n" +
-                            "   <div class=\"content\">\n" +
-                            "       <a onclick='' class=\"header\">" + resource.packageName + "</a>\n" +
-                            "       <div class=\"description\">" + selectedText + "</div>\n" +
-                            "   </div>\n" +
-                            "</div>";
-                        $("#titlePackages").append(package_resource);
+                        if (resource.isSelected) {
+                            var package_resource =
+                                "<div class=\"item left aligned\">\n" +
+                                "   <div class=\"content\">\n" +
+                                "       <a onclick='' class=\"header\">" + resource.packageName + "</a>\n" +
+                                "   </div>\n" +
+                                "</div>";
+                            $("#titleSelectedPackages").append(package_resource);
+                        }
+                    });
+
+                    // IN UNSELECTED PACKAGES
+                    $("#titleUnselectedPackages").empty();
+                    $.each(data.customerResourcesList, function(i, resource) {
+                        if (!resource.isSelected) {
+                            var package_resource =
+                                "<div class=\"item left aligned\">\n" +
+                                "   <div class=\"content\">\n" +
+                                "       <a onclick='' class=\"header\">" + resource.packageName + "</a>\n" +
+                                "   </div>\n" +
+                                "</div>";
+                            $("#titleUnselectedPackages").append(package_resource);
+                        }
                     });
 
                     $("#detailsLoader").removeClass("active");
@@ -995,7 +1021,12 @@ function HoldingsIQ() {
             var embargoValue = embargo.querySelectorAll('[name=embargoValue]')[0].value;
             embargoArray.push('{ "embargoUnit": "' + embargoUnit + '", "embargoValue": "' + embargoValue + '" }')
         }
-        var embargoJson = " \"embargoPeriod\": " + embargoArray[0];
+        var embargoJson = " \"embargoPeriod\": ";
+        if (typeof embargoArray[0] !== 'undefined') {
+            embargoJson += embargoArray[0];
+        } else {
+            embargoJson += '[]';
+        }
 
         var jsonRequest = '{ "titleName": "' + escape(name) +
             '", "packageId": ' + packageId +
@@ -1163,6 +1194,62 @@ function HoldingsIQ() {
         $('.ui.dropdown').dropdown();
     };
 
+    HoldingsIQ.prototype.showAddTitleToCustomPackage = function(tid, name, type) {
+
+        $("#addTitleToCustomPackageModal").modal('show');
+        $("#addTitleToCustomPackageForm").addClass("loading");
+
+        // set hidden input for title id
+        $("#addCustomTitleId").val(tid);
+        $("#addCustomTitleName").val(name);
+        $("#addCustomTitlePubType").val(type);
+
+        // populate list of packages
+        var url = `php-clients/vendors/getVendorPackages.php`;
+        (function() {
+            $.getJSON(url)
+                .done(function( data ) {
+                    $("#addCustomTitlePackageDropdownSelect").empty();
+                    $.each(data.packagesList, function(i, package) {
+                        $("#addCustomTitlePackageDropdownSelect").append('<div class="item" data-value="' + package.packageId + '">' + package.packageName + '</div>');
+                    });
+                    $("#addTitleToCustomPackageForm").removeClass("loading");
+                });
+        })();
+    };
+
+    HoldingsIQ.prototype.submitAddTitleToCustomPackage = function() {
+
+        var packageId = $("#addCustomTitlePackage").val() || null;
+        var titleId = $("#addCustomTitleId").val();
+        var titleName = $("#addCustomTitleName").val();
+        titleName = encodeURIComponent(titleName);
+        var titlePubType = $("#addCustomTitlePubType").val();
+        var url = `php-clients/titles/addTitleToCustomPackage.php?packageId=${packageId}&titleId=${titleId}&titleName=${titleName}&pubType=${titlePubType}`;
+
+        $("#detailsLoader").addClass("active");
+
+        var self = this;
+        (function() {
+            $.getJSON(url)
+                .done(function( data ) {
+                    console.log('add title to custom package result', data);
+                    // show details of new title
+                    self.getTitleDetails(data.titleId);
+                    // remove form, loading, show success message
+                    $("#detailsLoader").removeClass("loading");
+                    //self.resetCustomTitleForm();
+                    $("#addCustomTitleSuccess").show();
+                });
+        })();
+    };
+
+    HoldingsIQ.prototype.cancelAddTitleToCustomPackage = function() {
+        this.resetCustomPackageForm();
+        $("#addTitleToCustomPackageForm").removeClass("loading");
+        $("#addTitleToCustomPackageModal").modal('hide');
+    };
+
     // UTILS
 
     // function to add commas to long numbers
@@ -1171,7 +1258,7 @@ function HoldingsIQ() {
     }
 
     function escape (val) {
-        if (typeof(val)!="string") return val;
+        if (typeof(val)!="string") return "";
         return val
             .replace(/[\\]/g, '\\\\')
             .replace(/[\/]/g, '\\/')
