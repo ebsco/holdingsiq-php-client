@@ -2,9 +2,8 @@
 
 <div id="titleDetailsColumn">
 
-    <!-- modals -->
     <?php
-    include('addTitleToCustomPackageModal.php');
+    include('customTitleFormModal.php');
     ?>
 
     <!-- TITLE DETAILS -->

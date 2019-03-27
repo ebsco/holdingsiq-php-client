@@ -84,16 +84,17 @@
         <!-- TITLE -->
         <?php
         include('php-includes/titleResults.php');
-        ?><?php
-        include('php-includes/newCustomTitle.php');
         ?>
+
 
     </div>
 
     <!-- DETAILS -->
     <div class="column">
         <h3 class="ui top attached center aligned header">
+
             <span id="vendorDetailsHeading">Provider Details</span>
+
             <span id="packageDetailsHeading" style="display: none">
                 <span id="packageDetailsText">Package Details</span>
                 <button id="deleteCustomPackageButton"
@@ -111,8 +112,20 @@
                     Edit
                 </button>
              </span>
-            <span id="titleDetailsHeading" style="display: none">Title Details</span>
+
+            <span id="titleDetailsHeading" style="display: none">
+                <span id="titleDetailsText" >Title Details</span>
+                 <button id="editCustomTitleButton"
+                         style="display: none; margin-top: -3px;"
+                         onclick="hiq.showCustomTitleFormModal();"
+                         class="mini ui right floated blue button">
+                    <i class="pencil alternate icon"></i>
+                    Edit
+                </button>
+            </span>
+
         </h3>
+
         <div id="detailsLoader" class="ui loader"></div>
         <!-- PROVIDER -->
         <?php

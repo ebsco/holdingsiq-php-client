@@ -75,7 +75,7 @@
                     <input id="customTitlePackage" type="hidden" name="customTitlePackage">
                     <i class="dropdown icon"></i>
                     <div class="default text">Select a package...</div>
-                    <div id="customTitlePackageDropdownSelect" class="menu">
+                    <div id="customTitlePackageDropdownSelect1" class="menu">
 
                     </div>
                 </div>

@@ -746,18 +746,23 @@ function HoldingsIQ() {
                 });
         })();
 
-
     };
 
     HoldingsIQ.prototype.getTitleDetails = function(tid) {
         // fetch and display vendor details
         $("#titleDetails").hide();
+        $("#titleDetailsHeading").show();
         $("#detailsLoader").addClass("active");
+        var self = this;
         (function () {
             $.getJSON("php-clients/titles/getTitleDetails.php?tid=" + tid)
                 .done(function (data) {
 
+                    $('#customTitleForm')[0].reset(); // reset form
+
+                    // title header
                     $("#titleDetailName").text(data.titleName);
+                    $("#customTitleName").val(data.titleName); // form
 
                     $("#titleInfo").empty();
 
@@ -770,16 +775,20 @@ function HoldingsIQ() {
                             "   </div>\n" +
                             "</div>";
                         $("#titleInfo").append(description);
+                        $("#customTitleDescription").val(data.description); // form
                     }
 
                     // publisher
-                    var publisher =
-                        "<div class=\"item left aligned\">\n" +
-                        "   <div class=\"content\">\n" +
-                        "       <div>Publisher: <strong>" + data.publisherName + "</strong></div>\n" +
-                        "   </div>\n" +
-                        "</div>";
-                    $("#titleInfo").append(publisher);
+                    if (data.publisherName) {
+                        var publisher =
+                            "<div class=\"item left aligned\">\n" +
+                            "   <div class=\"content\">\n" +
+                            "       <div>Publisher: <strong>" + data.publisherName + "</strong></div>\n" +
+                            "   </div>\n" +
+                            "</div>";
+                        $("#titleInfo").append(publisher);
+                        $("#customTitlePublisher").val(data.publisherName); // form
+                    }
 
                     // pub type
                     var pub_type =
@@ -789,6 +798,7 @@ function HoldingsIQ() {
                         "   </div>\n" +
                         "</div>";
                     $("#titleInfo").append(pub_type);
+                    $("#customTitlePublicationTypeDropdown").dropdown('set selected', data.pubType.toLowerCase()); // form
 
                     // edition
                     if (data.edition) {
@@ -799,6 +809,7 @@ function HoldingsIQ() {
                             "   </div>\n" +
                             "</div>";
                         $("#titleInfo").append(edition);
+                        $("#customTitleEdition").val(data.edition); // form
                     }
 
                     // peer review
@@ -810,6 +821,14 @@ function HoldingsIQ() {
                         "   </div>\n" +
                         "</div>";
                     $("#titleInfo").append(peer_review);
+                    $("#customTitleIsPeerReviewed").prop('checked', data.isPeerReviewed); // form
+
+                    // custom?
+                    if (data.isTitleCustom) {
+                        $("#editCustomTitleButton").show();
+                    } else {
+                        $("#editCustomTitleButton").hide();
+                    }
                     var custom_title_text = data.isTitleCustom ? "Yes" : "No";
                     var custom_title =
                         "<div class=\"item left aligned\">\n" +
@@ -819,6 +838,17 @@ function HoldingsIQ() {
                         "</div>";
                     $("#titleInfo").append(custom_title);
 
+                    // url
+                    if (data.customerResourcesList[0].url) {
+                        var urlDiv =
+                            "<div class=\"item left aligned\">\n" +
+                            "   <div class=\"content\">\n" +
+                            "       <div>URL: <strong>" + data.customerResourcesList[0].url + "</strong></div>\n" +
+                            "   </div>\n" +
+                            "</div>";
+                        $("#titleInfo").append(urlDiv);
+                        $("#customTitleUrl").val(data.customerResourcesList[0].url); // form
+                    }
 
                     // ISBNs
                     var isbn_print_list = [];
@@ -862,45 +892,9 @@ function HoldingsIQ() {
                         $("#titleInfo").append(addTitle);
                     }
 
-                    // this belongs in each package section apparently
-                    // // custom coverage
-                    // $("#titleDetailCoverage").empty();
-                    // var no_custom_coverage =
-                    //     "<div class=\"item left aligned\">\n" +
-                    //     "   <div class=\"content\">\n" +
-                    //     "       <div>No custom coverage dates set.</div>\n" +
-                    //     "   </div>\n" +
-                    //     "</div>";
-                    // if (data.coverageDates) {
-                    //     if (data.coverageDates.beginCoverage !== "" || data.coverageDates.endCoverage !== "") {
-                    //         var custom_begin_coverage =
-                    //             "<div class=\"item left aligned\">\n" +
-                    //             "   <div class=\"content\">\n" +
-                    //             "       <div>Custom begin coverage: <strong>" + data.coverageDates.beginCoverage + "</strong></div>\n" +
-                    //             "   </div>\n" +
-                    //             "</div>";
-                    //         var custom_end_coverage =
-                    //             "<div class=\"item left aligned\">\n" +
-                    //             "   <div class=\"content\">\n" +
-                    //             "       <div>Custom end coverage: <strong>" + data.coverageDates.endCoverage + "</strong></div>\n" +
-                    //             "   </div>\n" +
-                    //             "</div>";
-                    //         $("#titleDetailCoverage").append(custom_begin_coverage);
-                    //         $("#titleDetailCoverage").append(custom_end_coverage);
-                    //
-                    //         // set edit form values
-                    //         // $("#editCustomPackageStartDate").val(data.customCoverage.beginCoverage);
-                    //         // $("#editCustomPackageEndDate").val(data.customCoverage.endCoverage);
-                    //
-                    //     } else {
-                    //         $("#titleDetailCoverage").append(no_custom_coverage);
-                    //     }
-                    // } else {
-                    //     $("#titleDetailCoverage").append(no_custom_coverage);
-                    // }
-
                     // IN SELECTED CUSTOM PACKAGES
                     $("#titleSelectedPackages").empty();
+                    var skipPackageIdList = [];
                     $.each(data.customerResourcesList, function(i, resource) {
                         if (resource.isSelected) {
                             var package_resource =
@@ -910,8 +904,18 @@ function HoldingsIQ() {
                                 "   </div>\n" +
                                 "</div>";
                             $("#titleSelectedPackages").append(package_resource);
+                            if (resource.isPackageCustom) {
+                                skipPackageIdList.push(resource.packageId);
+                            }
                         }
                     });
+                    // todo: populate package list in edit form with everything except skip list
+                    self.getAvailableCustomPackages(skipPackageIdList).done(function(packageList) {
+                        $.each(packageList, function(i, p) {
+                            $("#customTitlePackageDropdownSelect").append('<div class="item" data-value="' + p.packageId + '">' + p.packageName + '</div>');
+                        });
+                    });
+
 
                     // IN UNSELECTED PACKAGES
                     $("#titleUnselectedPackages").empty();
@@ -936,22 +940,33 @@ function HoldingsIQ() {
     };
 
     HoldingsIQ.prototype.showNewCustomTitle = function() {
+        $("#customTitleFormModal").modal('show');
+        $("#customTitleForm").addClass("loading");
+        $("#customTitlePackageDropdownSelect").empty();
+        this.getAvailableCustomPackages().done(function(packageList) {
+            $.each(packageList, function(i, p) {
+                $("#customTitlePackageDropdownSelect").append('<div class="item" data-value="' + p.packageId + '">' + p.packageName + '</div>');
+            });
+            $("#customTitleForm").removeClass("loading");
+        });
+    };
 
-        $("#newCustomTitleModal").modal('show');
-        $("#newCustomTitle").addClass("loading");
-        // populate list of packages
-        // note: only applies to custom packages created by customer, so don't pass a vendor id (no vendor id = customer)
+    // populate list of packages
+    // note: only applies to custom packages created by customer, so don't pass a vendor id (no vendor id = customer)
+    HoldingsIQ.prototype.getAvailableCustomPackages = function (skip = []) {
+        var def = $.Deferred();
+        var plist = [];
         var url = `php-clients/vendors/getVendorPackages.php`;
-        (function() {
-            $.getJSON(url)
-                .done(function( data ) {
-                    $("#customTitlePackageDropdownSelect").empty();
-                    $.each(data.packagesList, function(i, package) {
-                        $("#customTitlePackageDropdownSelect").append('<div class="item" data-value="' + package.packageId + '">' + package.packageName + '</div>');
-                    });
-                    $("#newCustomTitle").removeClass("loading");
+        $.getJSON(url)
+            .done(function( data ) {
+                $.each(data.packagesList, function(i, package) {
+                    if (!skip.includes(package.packageId)) {
+                        plist.push(package);
+                    }
                 });
-        })();
+                def.resolve(plist);
+            });
+        return def;
     };
 
     HoldingsIQ.prototype.cancelNewCustomTitle = function() {
@@ -960,7 +975,7 @@ function HoldingsIQ() {
         $("#newCustomTitleModal").modal('hide');
     };
 
-    HoldingsIQ.prototype.submitNewCustomTitle = function() {
+    HoldingsIQ.prototype.submitCustomTitleForm = function() {
 
         var name = $("#customTitleName").val() || null;
         var packageId = $("#customTitlePackage").val() || null;
@@ -1136,7 +1151,10 @@ function HoldingsIQ() {
         $('.ui.dropdown').dropdown();
     };
 
-    HoldingsIQ.prototype.addNewCustomTitleIdent = function() {
+    HoldingsIQ.prototype.addNewCustomTitleIdent = function(options) {
+        var options = options || {};
+        var type = (options.type  && options.subtype) ? options.type + '-' + options.subtype : null;
+        var value = options.value || null;
         var identInput =
             '           <div style="margin-top: 12px;" class="customTitleField field">\n' +
             '            <div name="titleIdent" class="two fields">\n' +
@@ -1216,6 +1234,11 @@ function HoldingsIQ() {
                     $("#addTitleToCustomPackageForm").removeClass("loading");
                 });
         })();
+    };
+
+    HoldingsIQ.prototype.showCustomTitleFormModal = function() {
+        $("#customTitleFormModal").modal('show');
+
     };
 
     HoldingsIQ.prototype.submitAddTitleToCustomPackage = function() {
