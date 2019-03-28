@@ -162,10 +162,10 @@ class EmbargoPeriod implements ModelInterface, ArrayAccess
 const EMBARGO_UNIT_WEEKS = 'Weeks';
 const EMBARGO_UNIT_MONTHS = 'Months';
 const EMBARGO_UNIT_YEARS = 'Years';
-const EMBARGO_UNIT_DAYS = 'days';
-const EMBARGO_UNIT_WEEKS = 'weeks';
-const EMBARGO_UNIT_MONTHS = 'months';
-const EMBARGO_UNIT_YEARS = 'years';
+const EMBARGO_UNIT_DAYS_LC = 'days';
+const EMBARGO_UNIT_WEEKS_LC = 'weeks';
+const EMBARGO_UNIT_MONTHS_LC = 'months';
+const EMBARGO_UNIT_YEARS_LC = 'years';
 
     /**
      * Gets allowable values of the enum
@@ -179,10 +179,10 @@ const EMBARGO_UNIT_YEARS = 'years';
 self::EMBARGO_UNIT_WEEKS,
 self::EMBARGO_UNIT_MONTHS,
 self::EMBARGO_UNIT_YEARS,
-self::EMBARGO_UNIT_DAYS,
-self::EMBARGO_UNIT_WEEKS,
-self::EMBARGO_UNIT_MONTHS,
-self::EMBARGO_UNIT_YEARS,        ];
+self::EMBARGO_UNIT_DAYS_LC,
+self::EMBARGO_UNIT_WEEKS_LC,
+self::EMBARGO_UNIT_MONTHS_LC,
+self::EMBARGO_UNIT_YEARS_LC,        ];
     }
 
     /**
