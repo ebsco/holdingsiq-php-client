@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **is_selected** | **bool** | Indicates if selected in a customer&#x27;s account. | [optional] 
 **is_token_needed** | **bool** | Field to indicate if a token is needed | [optional] 
 **visibility_data** | [**\Swagger\Client\Model\VisibilityInfo**](VisibilityInfo.md) |  | [optional] 
-**managed_coverage_list** | [**\Swagger\Client\Model\NItem[]**](NItem.md) | Custom Coverage List | [optional] 
+**managed_coverage_list** | [**\Swagger\Client\Model\CoverageDates[]**](CoverageDates.md) | Custom Coverage List | [optional] 
 **custom_coverage_list** | [**\Swagger\Client\Model\CoverageDates[]**](CoverageDates.md) | Custom Coverage List | [optional] 
 **coverage_statement** | **string** | Coverage Statement | [optional] 
 **managed_embargo_period** | **object** | Null Managed Embargo Period | [optional] 

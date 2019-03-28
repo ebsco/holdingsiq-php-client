@@ -45,10 +45,6 @@ if ($json->{'contributorsList'}) {
         $contribId->setContributor($contrib->{'contributor'});
         array_push($contribList, $contribId);
     }
-//    $testContrib = new \Swagger\Client\Model\ContributorID();
-//    $testContrib->setType('Editor');
-//    $testContrib->setContributor('John Doe');
-//    array_push($contribList, $testContrib);
     $body->setContributorsList($contribList);
 }
 

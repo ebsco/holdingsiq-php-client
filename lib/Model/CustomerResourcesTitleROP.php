@@ -69,7 +69,7 @@ class CustomerResourcesTitleROP implements ModelInterface, ArrayAccess
 'is_token_needed' => 'bool',
 'visibility_data' => '\Swagger\Client\Model\VisibilityInfo',
 'managed_coverage_list' => '\Swagger\Client\Model\CoverageDates[]',
-'custom_coverage_list' => '\Swagger\Client\Model\NItem[]',
+'custom_coverage_list' => '\Swagger\Client\Model\CoverageDates[]',
 'coverage_statement' => 'string',
 'managed_embargo_period' => '\Swagger\Client\Model\EmbargoPeriod',
 'custom_embargo_period' => '\Swagger\Client\Model\EmbargoPeriod',
@@ -633,7 +633,7 @@ class CustomerResourcesTitleROP implements ModelInterface, ArrayAccess
     /**
      * Gets custom_coverage_list
      *
-     * @return \Swagger\Client\Model\NItem[]
+     * @return \Swagger\Client\Model\CoverageDates[]
      */
     public function getCustomCoverageList()
     {
@@ -643,7 +643,7 @@ class CustomerResourcesTitleROP implements ModelInterface, ArrayAccess
     /**
      * Sets custom_coverage_list
      *
-     * @param \Swagger\Client\Model\NItem[] $custom_coverage_list Custom Coverage List
+     * @param \Swagger\Client\Model\CoverageDates[] $custom_coverage_list Custom Coverage List
      *
      * @return $this
      */

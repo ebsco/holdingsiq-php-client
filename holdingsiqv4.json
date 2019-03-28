@@ -2319,7 +2319,7 @@
           "type":"array",
           "description":"Custom Coverage List",
           "items":{
-            "$ref":"#/definitions/nItem"
+            "$ref":"#/definitions/coverageDates"
           }
         },
         "coverageStatement":{
@@ -2437,7 +2437,7 @@
           "type":"array",
           "description":"Custom Coverage List",
           "items":{
-            "$ref":"#/definitions/nItem"
+            "$ref":"#/definitions/coverageDates"
           }
         },
         "customCoverageList":{
@@ -2564,7 +2564,7 @@
           "type":"array",
           "description":"Custom Coverage List",
           "items":{
-            "$ref":"#/definitions/nItem"
+            "$ref":"#/definitions/coverageDates"
           }
         },
         "coverageStatement":{
