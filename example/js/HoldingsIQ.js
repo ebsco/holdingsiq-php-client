@@ -897,6 +897,8 @@ function HoldingsIQ() {
                     var skipPackageIdList = [];
                     $.each(data.customerResourcesList, function(i, resource) {
                         if (resource.isSelected) {
+
+                            // package name
                             var package_resource =
                                 "<div class=\"item left aligned\">\n" +
                                 "   <div class=\"content\">\n" +
@@ -904,6 +906,17 @@ function HoldingsIQ() {
                                 "   </div>\n" +
                                 "</div>";
                             $("#titleSelectedPackages").append(package_resource);
+
+                            // vendor name
+                            var vendor_name =
+                                "<div class=\"item left aligned\">\n" +
+                                "   <div class=\"content\">\n" +
+                                "       <div>Provider: <strong>" + resource.vendorName + "</strong></div>\n" +
+                                "   </div>\n" +
+                                "</div>";
+                            $("#titleSelectedPackages").append(vendor_name);
+
+
                             if (resource.isPackageCustom) {
                                 skipPackageIdList.push(resource.packageId);
                             }

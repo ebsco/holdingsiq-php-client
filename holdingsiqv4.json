@@ -2719,7 +2719,11 @@
             "Days",
             "Weeks",
             "Months",
-            "Years"
+            "Years",
+            "days",
+            "weeks",
+            "months",
+            "years"
           ]
         },
         "embargoValue":{
