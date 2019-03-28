@@ -159,13 +159,9 @@ class EmbargoPeriod implements ModelInterface, ArrayAccess
     }
 
     const EMBARGO_UNIT_DAYS = 'Days';
-    const EMBARGO_UNIT_WEEKS = 'Weeks';
-    const EMBARGO_UNIT_MONTHS = 'Months';
-    const EMBARGO_UNIT_YEARS = 'Years';
-    const EMBARGO_UNIT_DAYS_LC = 'days';
-    const EMBARGO_UNIT_WEEKS_LC = 'weeks';
-    const EMBARGO_UNIT_MONTHS_LC = 'months';
-    const EMBARGO_UNIT_YEARS_LC = 'years';
+const EMBARGO_UNIT_WEEKS = 'Weeks';
+const EMBARGO_UNIT_MONTHS = 'Months';
+const EMBARGO_UNIT_YEARS = 'Years';
 
     /**
      * Gets allowable values of the enum
@@ -176,14 +172,9 @@ class EmbargoPeriod implements ModelInterface, ArrayAccess
     {
         return [
             self::EMBARGO_UNIT_DAYS,
-            self::EMBARGO_UNIT_WEEKS,
-            self::EMBARGO_UNIT_MONTHS,
-            self::EMBARGO_UNIT_YEARS,
-            self::EMBARGO_UNIT_DAYS_LC,
-            self::EMBARGO_UNIT_WEEKS_LC,
-            self::EMBARGO_UNIT_MONTHS_LC,
-            self::EMBARGO_UNIT_YEARS_LC,
-        ];
+self::EMBARGO_UNIT_WEEKS,
+self::EMBARGO_UNIT_MONTHS,
+self::EMBARGO_UNIT_YEARS,        ];
     }
 
     /**
@@ -220,8 +211,8 @@ class EmbargoPeriod implements ModelInterface, ArrayAccess
         $allowedValues = $this->getEmbargoUnitAllowableValues();
         if (!in_array($this->container['embargo_unit'], $allowedValues)) {
             $invalidProperties[] = sprintf(
-                "invalid value for 'embargo_unit', must be one of '%s' (%s)",
-                implode("', '", $allowedValues, $this->container['embargo_unit'])
+                "invalid value for 'embargo_unit', must be one of '%s'",
+                implode("', '", $allowedValues)
             );
         }
 
@@ -267,7 +258,7 @@ class EmbargoPeriod implements ModelInterface, ArrayAccess
     /**
      * Sets embargo_unit
      *
-     * @param string $embargo_unit The unit of time to use for the embargo - Days, Weeks, Months or Years.
+     * @param string $embargo_unit The unit of time to use for the embargo - days, weeks, months or years.
      *
      * @return $this
      */
@@ -277,8 +268,8 @@ class EmbargoPeriod implements ModelInterface, ArrayAccess
         if (!in_array($embargo_unit, $allowedValues)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value for 'embargo_unit', must be one of '%s' (%s)",
-                    implode("', '", $allowedValues), $embargo_unit
+                    "Invalid value for 'embargo_unit', must be one of '%s'",
+                    implode("', '", $allowedValues)
                 )
             );
         }

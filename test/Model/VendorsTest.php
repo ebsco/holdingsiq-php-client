@@ -76,9 +76,9 @@ class VendorsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "vendor_list"
+     * Test attribute "vendors"
      */
-    public function testPropertyVendorList()
+    public function testPropertyVendors()
     {
     }
 

@@ -1962,9 +1962,9 @@
         },
         "contributorsList":{
           "type":"array",
-          "description":"Contributors List",
+          "description":"Contributor ID List",
           "items":{
-            "$ref":"#/definitions/nItem"
+            "$ref":"#/definitions/contributorID"
           }
         },
         "titleId":{
@@ -2041,7 +2041,7 @@
         },
         "contributorsList":{
           "type":"array",
-          "description":"Contributors List",
+          "description":"Contributor ID List",
           "items":{
             "$ref":"#/definitions/contributorID"
           }

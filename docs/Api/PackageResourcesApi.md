@@ -73,7 +73,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../temp/SwaggerClient-php/README.md)
 
 # **custidVendorsVendoridPackagesPackageidGet**
 > \Swagger\Client\Model\PackageIdDetails custidVendorsVendoridPackagesPackageidGet($vendorid, $packageid, $custid, $x_api_key)
@@ -128,7 +128,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../temp/SwaggerClient-php/README.md)
 
 # **custidVendorsVendoridPackagesPackageidPut**
 > custidVendorsVendoridPackagesPackageidPut($custid, $vendorid, $packageid, $x_api_key, $body)
@@ -184,7 +184,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../temp/SwaggerClient-php/README.md)
 
 # **custidVendorsVendoridPackagesPackageidTitlesGet**
 > \Swagger\Client\Model\TitlesPackageId custidVendorsVendoridPackagesPackageidTitlesGet($vendorid, $packageid, $custid, $searchfield, $orderby, $count, $offset, $x_api_key, $search, $selection, $resourcetype)
@@ -253,7 +253,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../temp/SwaggerClient-php/README.md)
 
 # **custidVendorsVendoridPackagesPackageidTitlesKbidGet**
 > \Swagger\Client\Model\TitleManaged custidVendorsVendoridPackagesPackageidTitlesKbidGet($vendorid, $packageid, $kbid, $custid, $x_api_key)
@@ -310,7 +310,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../temp/SwaggerClient-php/README.md)
 
 # **custidVendorsVendoridPackagesPackageidTitlesKbidPut**
 > custidVendorsVendoridPackagesPackageidTitlesKbidPut($vendorid, $packageid, $kbid, $custid, $x_api_key, $body)
@@ -368,7 +368,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../temp/SwaggerClient-php/README.md)
 
 # **custidVendorsVendoridPackagesPost**
 > \Swagger\Client\Model\CustomPackageResponse custidVendorsVendoridPackagesPost($custid, $vendorid, $x_api_key, $body)
@@ -423,5 +423,5 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../temp/SwaggerClient-php/README.md)
 

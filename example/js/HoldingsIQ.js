@@ -940,8 +940,15 @@ function HoldingsIQ() {
     };
 
     HoldingsIQ.prototype.showNewCustomTitle = function() {
+
+        // hide fields not applicable to creating a new title
+        $("#customTitleIsSelectedField").hide();
+        $("#customTitleIsHiddenField").hide();
+
         $("#customTitleFormModal").modal('show');
         $("#customTitleForm").addClass("loading");
+
+        // dynamically load the available custom packages for customer
         $("#customTitlePackageDropdownSelect").empty();
         this.getAvailableCustomPackages().done(function(packageList) {
             $.each(packageList, function(i, p) {
@@ -983,6 +990,7 @@ function HoldingsIQ() {
         var publisherName = $("#customTitlePublisher").val() || null;
         var edition = $("#customTitleEdition").val() || null;
         var description = $("#customTitleDescription").val() || null;
+        var coverageStatement = $("#customTitleCoverageStatement").val() || null;
         var titleUrl = $("#customTitleUrl").val() || null;
         var isPeerReviewed = $("#customTitleIsPeerReviewed").prop('checked') || false;
 
@@ -1049,6 +1057,7 @@ function HoldingsIQ() {
             '", "publisherName": "' + escape(publisherName) +
             '", "edition": "' + escape(edition) +
             '", "description": "' + escape(description) +
+            '", "coverageStatement": "' + escape(coverageStatement) +
             '", "url": "' + escape(titleUrl) +
             '", "peerReviewed": ' + isPeerReviewed +
             ', ' + embargoJson +
@@ -1135,9 +1144,9 @@ function HoldingsIQ() {
             '                       <i class="dropdown icon"></i>\n' +
             '                       <div class="default text">Select the contributor type...</div>\n' +
             '                       <div class="menu">\n' +
-            '                           <div class="item" data-value="author">Author</div>\n' +
-            '                           <div class="item" data-value="editor">Editor</div>\n' +
-            '                           <div class="item" data-value="illustrator">Illustrator</div>\n' +
+            '                           <div class="item" data-value="Author">Author</div>\n' +
+            '                           <div class="item" data-value="Editor">Editor</div>\n' +
+            '                           <div class="item" data-value="Illustrator">Illustrator</div>\n' +
             '                       </div>\n' +
             '                   </div>\n' +
             '               </div>\n' +

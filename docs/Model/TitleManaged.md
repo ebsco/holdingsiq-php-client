@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 **description** | **string** | Title Description | [optional] 
 **edition** | **string** | Title Edition | [optional] 
 **is_peer_reviewed** | **bool** | Is this title peer reviewed. | [optional] 
-**contributors_list** | [**\Swagger\Client\Model\NItem[]**](NItem.md) | Contributors List | [optional] 
+**contributors_list** | [**\Swagger\Client\Model\ContributorID[]**](ContributorID.md) | Contributor ID List | [optional] 
 **title_id** | **int** | Title ID | 
 **title_name** | **string** | Title Name | 
 **publisher_name** | **string** | Publisher Name | [optional] 

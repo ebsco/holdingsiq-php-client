@@ -60,7 +60,7 @@ class TitleManaged implements ModelInterface, ArrayAccess
         'description' => 'string',
 'edition' => 'string',
 'is_peer_reviewed' => 'bool',
-'contributors_list' => '\Swagger\Client\Model\NItem[]',
+'contributors_list' => '\Swagger\Client\Model\ContributorID[]',
 'title_id' => 'int',
 'title_name' => 'string',
 'publisher_name' => 'string',
@@ -357,7 +357,7 @@ class TitleManaged implements ModelInterface, ArrayAccess
     /**
      * Gets contributors_list
      *
-     * @return \Swagger\Client\Model\NItem[]
+     * @return \Swagger\Client\Model\ContributorID[]
      */
     public function getContributorsList()
     {
@@ -367,7 +367,7 @@ class TitleManaged implements ModelInterface, ArrayAccess
     /**
      * Sets contributors_list
      *
-     * @param \Swagger\Client\Model\NItem[] $contributors_list Contributors List
+     * @param \Swagger\Client\Model\ContributorID[] $contributors_list Contributor ID List
      *
      * @return $this
      */

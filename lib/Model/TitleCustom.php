@@ -367,7 +367,7 @@ class TitleCustom implements ModelInterface, ArrayAccess
     /**
      * Sets contributors_list
      *
-     * @param \Swagger\Client\Model\ContributorID[] $contributors_list Contributors List
+     * @param \Swagger\Client\Model\ContributorID[] $contributors_list Contributor ID List
      *
      * @return $this
      */

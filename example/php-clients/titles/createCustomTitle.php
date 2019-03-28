@@ -35,7 +35,6 @@ if ($json->{'customCoverageList'}) {
     $body->setCustomCoverageList($customCoverageList);
 }
 
-
 // set contributors
 if ($json->{'contributorsList'}) {
     $contribList = [];
@@ -46,6 +45,10 @@ if ($json->{'contributorsList'}) {
         $contribId->setContributor($contrib->{'contributor'});
         array_push($contribList, $contribId);
     }
+//    $testContrib = new \Swagger\Client\Model\ContributorID();
+//    $testContrib->setType('Editor');
+//    $testContrib->setContributor('John Doe');
+//    array_push($contribList, $testContrib);
     $body->setContributorsList($contribList);
 }
 
@@ -84,6 +87,11 @@ if ($json->{'edition'}) {
 // set description
 if ($json->{'description'}) {
     $body->setDescription($json->{'description'});
+}
+
+// set coverage statement
+if ($json->{'coverageStatement'}) {
+    $body->setCoverageStatement($json->{'coverageStatement'});
 }
 
 // peer reviewed
