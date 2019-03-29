@@ -778,6 +778,19 @@ function HoldingsIQ() {
                         $("#customTitleDescription").val(data.description); // form
                     }
 
+                    // contributors
+                    if (data.contributorsList.length > 1) {
+                        $.each(data.contributorsList, function(i, contrib) {
+                            var contrib_div =
+                                "<div class=\"item left aligned\">\n" +
+                                "   <div class=\"content\">\n" +
+                                "       <div>" + contrib.type + ": <strong>" + contrib.contributor + "</strong></div>\n" +
+                                "   </div>\n" +
+                                "</div>";
+                            $("#titleInfo").append(contrib_div);
+                        });
+                    }
+
                     // publisher
                     if (data.publisherName) {
                         var publisher =
@@ -838,17 +851,6 @@ function HoldingsIQ() {
                         "</div>";
                     $("#titleInfo").append(custom_title);
 
-                    // url
-                    if (data.customerResourcesList[0].url) {
-                        var urlDiv =
-                            "<div class=\"item left aligned\">\n" +
-                            "   <div class=\"content\">\n" +
-                            "       <div>URL: <strong>" + data.customerResourcesList[0].url + "</strong></div>\n" +
-                            "   </div>\n" +
-                            "</div>";
-                        $("#titleInfo").append(urlDiv);
-                        $("#customTitleUrl").val(data.customerResourcesList[0].url); // form
-                    }
 
                     // ISBNs
                     var isbn_print_list = [];
@@ -916,19 +918,98 @@ function HoldingsIQ() {
                                 "</div>";
                             $("#titleSelectedPackages").append(vendor_name);
 
+                            // visibility
+                            var visibility_text = resource.visibilityData.isHidden ? "Yes" : "No";
+                            var visibility =
+                                "<div class=\"item left aligned\">\n" +
+                                "   <div class=\"content\">\n" +
+                                "       <div>Visible to patrons: <strong>" + visibility_text + "</strong></div>\n" +
+                                "   </div>\n" +
+                                "</div>";
+                            $("#titleSelectedPackages").append(visibility);
 
+                            // url
+                            if (resource.url) {
+                                var title_url =
+                                    "<div class=\"item left aligned\">\n" +
+                                    "   <div class=\"content\">\n" +
+                                    "       <div>URL: <strong>" + resource.url + "</strong></div>\n" +
+                                    "   </div>\n" +
+                                    "</div>";
+                                $("#titleSelectedPackages").append(title_url);
+                            }
+
+                            // add to skip list for package dropdown form
                             if (resource.isPackageCustom) {
                                 skipPackageIdList.push(resource.packageId);
                             }
-                        }
+
+                            // coverage statement
+                            if (resource.coverageStatement) {
+                                var coverage_statement =
+                                    "<div class=\"item left aligned\">\n" +
+                                    "   <div class=\"content\">\n" +
+                                    "       <div>Coverage Statement: <strong>" + resource.coverageStatement + "</strong></div>\n" +
+                                    "   </div>\n" +
+                                    "</div>";
+                                $("#titleSelectedPackages").append(coverage_statement);
+                            }
+
+                            // custom coverage
+                            if (resource.customCoverageList) {
+
+                                $.each(resource.customCoverageList, function(i, coverage) {
+                                    var custom_begin_coverage =
+                                        "<div class=\"item left aligned\">\n" +
+                                        "   <div class=\"content\">\n" +
+                                        "       <div>Custom begin coverage: <strong>" + coverage.beginCoverage + "</strong></div>\n" +
+                                        "   </div>\n" +
+                                        "</div>";
+                                    var custom_end_coverage =
+                                        "<div class=\"item left aligned\">\n" +
+                                        "   <div class=\"content\">\n" +
+                                        "       <div>Custom end coverage: <strong>" + coverage.endCoverage + "</strong></div>\n" +
+                                        "   </div>\n" +
+                                        "</div>";
+                                    $("#titleSelectedPackages").append(custom_begin_coverage);
+                                    $("#titleSelectedPackages").append(custom_end_coverage);
+
+                                    // set edit form values
+                                    //$("#editCustomPackageStartDate").val(data.customCoverage.beginCoverage);
+                                    //$("#editCustomPackageEndDate").val(data.customCoverage.endCoverage);
+
+                                });
+
+                            } else {
+                                var no_custom_coverage =
+                                    "<div class=\"item left aligned\">\n" +
+                                    "   <div class=\"content\">\n" +
+                                    "       <div>No custom coverage dates set.</div>\n" +
+                                    "   </div>\n" +
+                                    "</div>";
+                                $("#titleSelectedPackages").append(no_custom_coverage);
+                            }
+
+                            // embargo
+                            if (resource.customEmbargoPeriod) {
+                                var embargo_div =
+                                    "<div class=\"item left aligned\">\n" +
+                                    "   <div class=\"content\">\n" +
+                                    "       <div>Embargo: <strong>" + resource.customEmbargoPeriod.embargoValue + " " + resource.customEmbargoPeriod.embargoUnit + "</strong></div>\n" +
+                                    "   </div>\n" +
+                                    "</div>";
+                                $("#titleSelectedPackages").append(embargo_div);
+                            }
+
+                        } // end selected packages
                     });
-                    // todo: populate package list in edit form with everything except skip list
+
+                    // populate package list in edit form with everything except skip list
                     self.getAvailableCustomPackages(skipPackageIdList).done(function(packageList) {
                         $.each(packageList, function(i, p) {
                             $("#customTitlePackageDropdownSelect").append('<div class="item" data-value="' + p.packageId + '">' + p.packageName + '</div>');
                         });
                     });
-
 
                     // IN UNSELECTED PACKAGES
                     $("#titleUnselectedPackages").empty();
